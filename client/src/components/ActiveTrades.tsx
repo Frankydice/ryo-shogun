@@ -20,121 +20,139 @@ export const ActiveTrades: React.FC<ActiveTradesProps> = ({
   const totalPnl = (portfolio?.realizedPnlUsd || 0) + (portfolio?.unrealizedPnlUsd || 0);
 
   return (
-    <section className="rounded-2xl border border-shogun-border bg-shogun-surface/80 p-5 flex flex-col gap-4">
-      {/* Portfolio Header Stats */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.06] pb-4">
-        <div className="flex items-center gap-2">
-          <span className="p-1 rounded bg-shogun-gold/10 text-shogun-gold border border-shogun-gold/30">
-            <Wallet size={16} />
+    <section className="glass-panel rounded-3xl p-6 flex flex-col gap-5">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
+        <div className="flex items-center gap-3">
+          <span className="p-2 rounded-xl bg-shogun-gold/15 border border-shogun-gold/30 text-shogun-gold">
+            <Wallet size={18} />
           </span>
           <div>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
+            <h2 className="text-base font-display font-bold text-white">
               Dojo Treasury & Paper Ledger · 模擬取引
             </h2>
-            <p className="text-xs text-shogun-muted">Simulated practice trades with risk guardrails</p>
+            <p className="text-xs text-shogun-muted font-mono">Zero real funds at risk · Mathematical risk discipline</p>
           </div>
         </div>
 
-        {/* Aggregate Metrics */}
-        <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
-          <div>
-            <span className="text-shogun-muted block">Equity:</span>
-            <span className="font-bold text-sm text-white">
-              ${portfolio?.equityUsd?.toLocaleString() || '10,000.00'}
-            </span>
-          </div>
+        <span className="text-xs font-mono px-3 py-1 rounded-full border border-shogun-accent/30 bg-shogun-accent/10 text-shogun-accent font-bold">
+          Simulated Treasury
+        </span>
+      </div>
 
-          <div>
-            <span className="text-shogun-muted block">Net PnL:</span>
-            <span
-              className={`font-bold text-sm flex items-center gap-0.5 ${
-                totalPnl >= 0 ? 'text-shogun-accent' : 'text-shogun-crimson'
-              }`}
-            >
-              {totalPnl >= 0 ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
-              {totalPnl >= 0 ? `+$${totalPnl.toFixed(2)}` : `-$${Math.abs(totalPnl).toFixed(2)}`}
-            </span>
-          </div>
+      {/* Aggregate Financial Metrics */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="glass-card rounded-2xl p-3.5 flex flex-col">
+          <span className="text-[10px] font-mono text-shogun-muted uppercase">Total Equity</span>
+          <span className="font-extrabold text-lg text-white font-mono mt-1">
+            ${portfolio?.equityUsd?.toLocaleString() || '10,000.00'}
+          </span>
+        </div>
 
-          <div>
-            <span className="text-shogun-muted block">Win Rate:</span>
-            <span className="font-bold text-sm text-shogun-gold">
-              {portfolio?.winRatePct || 100}%
-            </span>
-          </div>
+        <div className="glass-card rounded-2xl p-3.5 flex flex-col">
+          <span className="text-[10px] font-mono text-shogun-muted uppercase">Net Realized PnL</span>
+          <span
+            className={`font-extrabold text-lg font-mono mt-1 flex items-center gap-1 ${
+              totalPnl >= 0 ? 'text-shogun-accent' : 'text-shogun-crimson'
+            }`}
+          >
+            {totalPnl >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+            {totalPnl >= 0 ? `+$${totalPnl.toFixed(2)}` : `-$${Math.abs(totalPnl).toFixed(2)}`}
+          </span>
+        </div>
+
+        <div className="glass-card rounded-2xl p-3.5 flex flex-col">
+          <span className="text-[10px] font-mono text-shogun-muted uppercase">Win Rate</span>
+          <span className="font-extrabold text-lg text-shogun-gold font-mono mt-1">
+            {portfolio?.winRatePct || 100}%
+          </span>
         </div>
       </div>
 
       {/* Open Positions List */}
       <div>
-        <h3 className="text-xs font-mono uppercase text-shogun-muted mb-2.5 flex items-center gap-1.5">
-          <Flame size={12} className="text-shogun-accent" />
-          <span>Active Open Deployments ({openTrades.length})</span>
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-white flex items-center gap-2">
+            <Flame size={14} className="text-shogun-accent" />
+            <span>Active Deployments ({openTrades.length})</span>
+          </h3>
+          <span className="text-[10px] font-mono text-shogun-muted">15% Max Position Cap</span>
+        </div>
 
         {openTrades.length === 0 ? (
-          <div className="border border-dashed border-white/10 rounded-xl p-6 text-center text-xs font-mono text-shogun-muted">
+          <div className="border border-dashed border-white/10 rounded-2xl p-8 text-center text-xs font-mono text-shogun-muted bg-black/20">
             No active positions open. The Shogun Council is stalking the market.
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-2.5">
+          <div className="grid grid-cols-1 gap-3">
             {openTrades.map((t) => {
               const isProfit = t.pnl_usd >= 0;
+
+              // Compute where current price sits between SL and TP
+              const totalDistance = t.take_profit - t.stop_loss;
+              const currentDistance = Math.max(0, Math.min(totalDistance, t.current_price - t.stop_loss));
+              const progressPct = totalDistance > 0 ? (currentDistance / totalDistance) * 100 : 50;
 
               return (
                 <div
                   key={t.id}
-                  className="rounded-xl border border-white/10 bg-shogun-card p-3.5 flex flex-wrap items-center justify-between gap-3"
+                  className="rounded-2xl border border-white/10 bg-gradient-to-b from-[#0c1611] to-[#080e0b] p-4 flex flex-col gap-3 shadow-lg"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center font-bold text-sm text-white font-mono">
-                      {t.symbol}
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-shogun-accent/15 border border-shogun-accent/30 flex items-center justify-center font-bold text-base text-shogun-accent font-mono shadow-inner">
+                        {t.symbol}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-extrabold text-base text-white font-mono">{t.symbol}</span>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-shogun-gold font-medium">
+                            {t.commander}
+                          </span>
+                        </div>
+                        <p className="text-xs font-mono text-shogun-muted">
+                          Entry: ${t.entry_price} → Current: <span className="text-white font-bold">${t.current_price}</span>
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-sm text-white">{t.symbol}</span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-shogun-muted">
-                          {t.commander}
+
+                    {/* PnL & Action */}
+                    <div className="flex items-center gap-3">
+                      <div className="text-right font-mono">
+                        <span className={`text-base font-extrabold block ${isProfit ? 'text-shogun-accent' : 'text-shogun-crimson'}`}>
+                          {isProfit ? `+$${t.pnl_usd.toFixed(2)}` : `-$${Math.abs(t.pnl_usd).toFixed(2)}`}
+                        </span>
+                        <span className={`text-[11px] font-bold block ${isProfit ? 'text-shogun-accent/80' : 'text-shogun-crimson/80'}`}>
+                          {isProfit ? `+${t.pnl_pct.toFixed(2)}%` : `${t.pnl_pct.toFixed(2)}%`}
                         </span>
                       </div>
-                      <p className="text-xs font-mono text-shogun-muted">
-                        Entry: ${t.entry_price} → Current: ${t.current_price}
-                      </p>
+
+                      <button
+                        onClick={() => onCloseTrade(t.id)}
+                        disabled={isClosing}
+                        className="px-3 py-2 rounded-xl border border-shogun-crimson/40 bg-shogun-crimson/10 hover:bg-shogun-crimson/25 text-shogun-crimson text-xs font-mono font-bold transition flex items-center gap-1.5 disabled:opacity-50 hover:scale-102 shadow-sm"
+                        title="Close trade and trigger Kaizen Post-Mortem Audit"
+                      >
+                        <XCircle size={14} />
+                        <span>Close & Audit</span>
+                      </button>
                     </div>
                   </div>
 
-                  {/* Targets & Levels */}
-                  <div className="hidden sm:flex items-center gap-4 text-xs font-mono">
-                    <div>
-                      <span className="text-shogun-muted block text-[10px]">Stop Loss</span>
-                      <span className="text-shogun-crimson font-medium">${t.stop_loss}</span>
-                    </div>
-                    <div>
-                      <span className="text-shogun-muted block text-[10px]">Take Profit</span>
-                      <span className="text-shogun-accent font-medium">${t.take_profit}</span>
-                    </div>
-                  </div>
-
-                  {/* PnL & Action */}
-                  <div className="flex items-center gap-3">
-                    <div className="text-right font-mono">
-                      <span className={`text-sm font-bold block ${isProfit ? 'text-shogun-accent' : 'text-shogun-crimson'}`}>
-                        {isProfit ? `+$${t.pnl_usd.toFixed(2)}` : `-$${Math.abs(t.pnl_usd).toFixed(2)}`}
-                      </span>
-                      <span className={`text-[10px] block ${isProfit ? 'text-shogun-accent/70' : 'text-shogun-crimson/70'}`}>
-                        {isProfit ? `+${t.pnl_pct.toFixed(2)}%` : `${t.pnl_pct.toFixed(2)}%`}
-                      </span>
+                  {/* Visual Distance Slider between SL and TP */}
+                  <div className="bg-black/50 border border-white/5 rounded-xl p-3 flex flex-col gap-2">
+                    <div className="flex items-center justify-between text-[11px] font-mono">
+                      <span className="text-shogun-crimson font-medium">SL: ${t.stop_loss}</span>
+                      <span className="text-shogun-muted text-[10px]">Position Target Corridor</span>
+                      <span className="text-shogun-accent font-medium">TP: ${t.take_profit}</span>
                     </div>
 
-                    <button
-                      onClick={() => onCloseTrade(t.id)}
-                      disabled={isClosing}
-                      className="px-2.5 py-1.5 rounded-lg border border-shogun-crimson/40 bg-shogun-crimson/10 hover:bg-shogun-crimson/20 text-shogun-crimson text-xs font-mono transition flex items-center gap-1 disabled:opacity-50"
-                      title="Close Trade and Trigger Kaizen Post-Mortem Audit"
-                    >
-                      <XCircle size={13} />
-                      <span className="hidden md:inline">Close & Audit</span>
-                    </button>
+                    <div className="relative w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                      <div
+                        className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-shogun-crimson via-shogun-gold to-shogun-accent rounded-full transition-all duration-300"
+                        style={{ width: `${progressPct}%` }}
+                      />
+                    </div>
                   </div>
                 </div>
               );
@@ -145,20 +163,20 @@ export const ActiveTrades: React.FC<ActiveTradesProps> = ({
 
       {/* Closed Positions Summary */}
       {closedTrades.length > 0 && (
-        <div className="mt-2 pt-3 border-t border-white/5">
-          <span className="text-xs font-mono text-shogun-muted block mb-2">
-            Recently Closed & Audited ({closedTrades.length})
+        <div className="pt-3 border-t border-white/[0.08]">
+          <span className="text-xs font-mono text-shogun-muted block mb-2.5">
+            Recently Audited Trades ({closedTrades.length})
           </span>
           <div className="flex flex-wrap gap-2">
             {closedTrades.slice(0, 4).map((ct) => (
               <span
                 key={ct.id}
-                className="text-xs font-mono px-2.5 py-1 rounded-lg border border-white/5 bg-black/30 flex items-center gap-1.5"
+                className="text-xs font-mono px-3 py-1.5 rounded-xl border border-white/10 bg-black/40 flex items-center gap-2"
               >
-                <CheckCircle size={11} className={ct.pnl_usd >= 0 ? 'text-shogun-accent' : 'text-shogun-crimson'} />
+                <CheckCircle size={13} className={ct.pnl_usd >= 0 ? 'text-shogun-accent' : 'text-shogun-crimson'} />
                 <span className="font-bold text-white">{ct.symbol}</span>
-                <span className={ct.pnl_usd >= 0 ? 'text-shogun-accent' : 'text-shogun-crimson'}>
-                  {ct.pnl_usd >= 0 ? `+$${ct.pnl_usd.toFixed(1)}` : `-$${Math.abs(ct.pnl_usd).toFixed(1)}`}
+                <span className={`font-semibold ${ct.pnl_usd >= 0 ? 'text-shogun-accent' : 'text-shogun-crimson'}`}>
+                  {ct.pnl_usd >= 0 ? `+$${ct.pnl_usd.toFixed(2)}` : `-$${Math.abs(ct.pnl_usd).toFixed(2)}`}
                 </span>
               </span>
             ))}

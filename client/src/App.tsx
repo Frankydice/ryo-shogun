@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header.js';
+import { HeroBanner } from './components/HeroBanner.js';
 import { MorningEdict } from './components/MorningEdict.js';
+import { TokenChart } from './components/TokenChart.js';
 import { HandoverCeremony } from './components/HandoverCeremony.js';
 import { CouncilChamber } from './components/CouncilChamber.js';
 import { ActiveTrades } from './components/ActiveTrades.js';
@@ -90,7 +92,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-shogun-bg text-shogun-ink flex flex-col font-display">
+    <div className="min-h-screen bg-shogun-bg text-shogun-ink flex flex-col font-display selection:bg-shogun-accent/30 selection:text-white">
       <Header
         state={state}
         onRefresh={() => handleConvene()}
@@ -100,11 +102,21 @@ export const App: React.FC = () => {
       />
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6 sm:px-6 flex flex-col gap-6">
-        {/* Section 1: The 30-Second Morning Edict (Track 2 Headline) */}
-        <MorningEdict
-          edict={state?.edict || null}
-          onOpenThesisModal={() => setIsThesisModalOpen(true)}
-        />
+        {/* Ambient Hero Banner (Hackathon Track 1 & 2 Positioning) */}
+        <HeroBanner state={state} />
+
+        {/* Section 1: The 30-Second Morning Edict & Live Execution Radar */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
+          <div className="xl:col-span-7 flex flex-col">
+            <MorningEdict
+              edict={state?.edict || null}
+              onOpenThesisModal={() => setIsThesisModalOpen(true)}
+            />
+          </div>
+          <div className="xl:col-span-5 flex flex-col">
+            <TokenChart edict={state?.edict || null} />
+          </div>
+        </div>
 
         {/* Section 2: Handover Ceremony (The Three Samurai Archetypes) */}
         <HandoverCeremony edict={state?.edict || null} />

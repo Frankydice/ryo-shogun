@@ -34,10 +34,10 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in">
-      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-shogun-surface p-6 shadow-2xl flex flex-col gap-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-4 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-md rounded-3xl border border-white/15 bg-[#0a110d]/95 p-6 shadow-2xl flex flex-col gap-4 backdrop-blur-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
           <div className="flex items-center gap-2">
             <span className="p-1 rounded bg-shogun-accent/10 text-shogun-accent">
               <Terminal size={16} />
