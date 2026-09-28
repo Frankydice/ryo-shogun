@@ -1,42 +1,41 @@
 import React from 'react';
-import { Sparkles, Trophy, MapPin, Zap } from 'lucide-react';
+import { Zap } from 'lucide-react';
 import { ShogunState } from '../types/index.js';
 
 interface HeroBannerProps {
   state: ShogunState | null;
+  onOpenStatusModal?: () => void;
 }
 
-export const HeroBanner: React.FC<HeroBannerProps> = ({ state }) => {
-  const regime = state?.marketOverview?.regime || 'rotation';
-  const fearGreed = state?.marketOverview?.fear_greed || 58;
-  const btcDom = state?.marketOverview?.btc_dominance || 56.4;
-  const gas = state?.marketOverview?.eth_gas_gwei || 18;
+export const HeroBanner: React.FC<HeroBannerProps> = ({ state, onOpenStatusModal }) => {
+  const regime = state?.marketOverview?.regime || 'fear_distribution';
+  const fearGreed = state?.marketOverview?.fear_greed || 32;
+  const btcDom = state?.marketOverview?.btc_dominance || 58.9;
+  const gas = state?.marketOverview?.eth_gas_gwei || 9;
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-black/40 p-6 sm:p-8 backdrop-blur-xl">
-      {/* Ambient background glow orbs */}
-      <div className="pointer-events-none absolute -top-24 left-1/4 h-72 w-96 rounded-full bg-shogun-accent/15 blur-[90px]" />
-      <div className="pointer-events-none absolute -top-20 right-1/4 h-64 w-80 rounded-full bg-shogun-gold/10 blur-[80px]" />
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-[#09150e]/80 via-[#060c09]/90 to-black/80 p-6 sm:p-8 backdrop-blur-2xl">
+      {/* Ambient background glow orbs & Japanese atmosphere */}
+      <div className="pointer-events-none absolute -top-24 left-1/4 h-80 w-[450px] rounded-full bg-shogun-accent/15 blur-[100px]" />
+      <div className="pointer-events-none absolute -bottom-20 right-1/4 h-72 w-96 rounded-full bg-emerald-900/20 blur-[100px]" />
 
-      <div className="relative z-10 flex flex-col gap-4">
-        {/* Top Tag & Tokyo Badge */}
+      <div className="relative z-10 flex flex-col gap-5">
+        {/* Top Tag & View System Status button */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-shogun-accent/40 bg-shogun-accent/10 px-3.5 py-1 text-xs font-mono text-shogun-accent">
-            <Sparkles size={13} className="animate-spin text-shogun-accent" style={{ animationDuration: '6s' }} />
-            <span className="font-bold tracking-wide uppercase">RYO-CHAN Hackathon 2026</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-shogun-accent/40 bg-shogun-accent/10 px-3.5 py-1 text-xs font-mono text-shogun-accent shadow-[0_0_15px_rgba(110,232,154,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-shogun-accent animate-ping" />
+            <span className="font-bold tracking-wide uppercase">RYO-CHAN HACKATHON 2026</span>
             <span className="text-white/30">•</span>
-            <span className="text-white/80">Agentic SocialFi Challenge</span>
+            <span className="text-white/80 font-normal">Agentic SocialFi Challenge</span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-shogun-gold">
-            <Trophy size={14} className="text-shogun-gold" />
-            <span className="font-bold">$15,000 Prize Pool</span>
-            <span className="text-white/30">•</span>
-            <span className="flex items-center gap-1 text-white/70">
-              <MapPin size={12} className="text-shogun-crimson" />
-              Grand Prize: Tokyo HQ
-            </span>
-          </div>
+          <button
+            onClick={onOpenStatusModal}
+            className="flex items-center gap-1.5 text-xs font-mono px-3.5 py-1.5 rounded-xl border border-shogun-accent/40 bg-shogun-accent/10 text-shogun-accent hover:bg-shogun-accent/20 transition-all shadow-[0_0_12px_rgba(110,232,154,0.15)]"
+          >
+            <span>View System Status</span>
+            <span>&rarr;</span>
+          </button>
         </div>
 
         {/* Hero Title & Value Proposition */}

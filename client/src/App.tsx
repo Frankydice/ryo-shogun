@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header.js';
 import { HeroBanner } from './components/HeroBanner.js';
-import { MorningEdict } from './components/MorningEdict.js';
+import { MetricsOverview } from './components/MetricsOverview.js';
+import { MarketIntelligence } from './components/MarketIntelligence.js';
 import { TokenChart } from './components/TokenChart.js';
+import { AgenticAnalyst } from './components/AgenticAnalyst.js';
+import { MorningEdict } from './components/MorningEdict.js';
 import { HandoverCeremony } from './components/HandoverCeremony.js';
 import { CouncilChamber } from './components/CouncilChamber.js';
 import { ActiveTrades } from './components/ActiveTrades.js';
 import { KaizenLedger } from './components/KaizenLedger.js';
+import { FeatureHighlights } from './components/FeatureHighlights.js';
 import { ThesisCardModal } from './components/ThesisCardModal.js';
 import { McpConfigModal } from './components/McpConfigModal.js';
 import { ManualScanModal } from './components/ManualScanModal.js';
+import { SystemStatusModal } from './components/SystemStatusModal.js';
 import { ShogunState } from './types/index.js';
 
 export const App: React.FC = () => {
@@ -17,17 +22,26 @@ export const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isClosingTrade, setIsClosingTrade] = useState(false);
 
+  // Active view states
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [circuitTripped, setCircuitTripped] = useState(false);
+  const [activeSymbol, setActiveSymbol] = useState('NVDAUSDT');
+
   // Modals
   const [isThesisModalOpen, setIsThesisModalOpen] = useState(false);
   const [isMcpModalOpen, setIsMcpModalOpen] = useState(false);
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
 
   const fetchState = async () => {
     try {
       const res = await fetch('/api/state');
       if (res.ok) {
-        const data = await res.json();
+        const data: ShogunState = await res.json();
         setState(data);
+        if (data.edict?.daimyo_veto_exercised) {
+          setCircuitTripped(true);
+        }
       }
     } catch (err) {
       console.error('Failed to fetch state:', err);
@@ -40,13 +54,32 @@ export const App: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    if (tabId === 'dashboard') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (tabId === 'debate') {
+      const el = document.getElementById('debate-section');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    } else if (tabId === 'safety') {
+      const el = document.getElementById('safety-section');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    } else if (tabId === 'backtest') {
+      const el = document.getElementById('kaizen-section');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    } else if (tabId === 'audit') {
+      const el = document.getElementById('audit-section');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleConvene = async (symbol?: string) => {
     try {
       setIsLoading(true);
       const res = await fetch('/api/council/convene', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ symbol })
+        body: JSON.stringify({ symbol: symbol || activeSymbol.replace('USDT', '') })
       });
       if (res.ok) {
         await fetchState();
@@ -56,6 +89,15 @@ export const App: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSelectToken = (symbol: string) => {
+    setActiveSymbol(symbol.includes('USDT') ? symbol : `${symbol}USDT`);
+    handleConvene(symbol);
+  };
+
+  const handleInjectCatalyst = async (_eventTitle: string) => {
+    await handleConvene(activeSymbol.replace('USDT', ''));
   };
 
   const handleCloseTrade = async (tradeId: string) => {
@@ -93,45 +135,82 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-shogun-bg text-shogun-ink flex flex-col font-display selection:bg-shogun-accent/30 selection:text-white">
+      {/* 1. Cleaner & More Organized Top Navigation and Status Bar */}
       <Header
         state={state}
+        activeTab={activeTab}
+        setActiveTab={handleTabChange}
+        circuitTripped={circuitTripped}
+        onToggleCircuit={() => setCircuitTripped((prev) => !prev)}
         onRefresh={() => handleConvene()}
         onOpenMcpModal={() => setIsMcpModalOpen(true)}
         onOpenScanModal={() => setIsScanModalOpen(true)}
         isLoading={isLoading}
       />
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6 sm:px-6 flex flex-col gap-6">
-        {/* Ambient Hero Banner (Hackathon Track 1 & 2 Positioning) */}
-        <HeroBanner state={state} />
+      <main className="flex-1 max-w-[1440px] mx-auto w-full px-4 py-6 sm:px-6 flex flex-col gap-6">
+        {/* 2. Spacious & Readable Hero Section with Clear Hierarchy */}
+        <HeroBanner
+          state={state}
+          onOpenStatusModal={() => setIsStatusModalOpen(true)}
+        />
 
-        {/* Section 1: The 30-Second Morning Edict & Live Execution Radar */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
-          <div className="xl:col-span-7 flex flex-col">
-            <MorningEdict
+        {/* 3. Executive Metrics Grid (6 Cards with Sparklines) */}
+        <MetricsOverview
+          state={state}
+          onReviewApprovals={() => setIsThesisModalOpen(true)}
+        />
+
+        {/* 4. Live Market Intelligence & Active Event Catalyst Simulator */}
+        <MarketIntelligence
+          selectedSymbol={activeSymbol}
+          onSelectToken={handleSelectToken}
+          onInjectCatalyst={handleInjectCatalyst}
+          isLoading={isLoading}
+        />
+
+        {/* 5. Deep Candlestick Trading Chart & Agentic Analyst (Dual Column) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          {/* Left: Candlestick & Volume Execution Chart (8 cols) */}
+          <div className="lg:col-span-8 flex flex-col">
+            <TokenChart
               edict={state?.edict || null}
-              onOpenThesisModal={() => setIsThesisModalOpen(true)}
+              activeSymbol={activeSymbol}
+              onOpenPlaybook={() => setIsThesisModalOpen(true)}
             />
           </div>
-          <div className="xl:col-span-5 flex flex-col">
-            <TokenChart edict={state?.edict || null} />
+
+          {/* Right: Agentic Analyst Panel (4 cols) */}
+          <div className="lg:col-span-4 flex flex-col">
+            <AgenticAnalyst state={state} />
           </div>
         </div>
 
-        {/* Section 2: Handover Ceremony (The Three Samurai Archetypes) */}
-        <HandoverCeremony edict={state?.edict || null} />
+        {/* 6. The 30-Second Morning Edict (Verdict Command Center) */}
+        <div id="safety-section">
+          <MorningEdict
+            edict={state?.edict || null}
+            onOpenThesisModal={() => setIsThesisModalOpen(true)}
+          />
+        </div>
 
-        {/* Section 3: Dual Column - The Debate Chamber & Active Trades */}
+        {/* 7. Handover Ceremony (The Three Samurai Archetypes) */}
+        <div id="debate-section">
+          <HandoverCeremony edict={state?.edict || null} />
+        </div>
+
+        {/* 8. Dual Column: The Debate Chamber & Active Trades */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Debate Chamber (Track 1 Reasoning Trail) */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
+          {/* Left Column: Debate Chamber & Kaizen Forensic Ledger */}
+          <div className="lg:col-span-7 flex flex-col gap-6" id="audit-section">
             <CouncilChamber
               opinions={state?.opinions || []}
               edict={state?.edict || null}
             />
 
-            {/* Kaizen Forensic Ledger */}
-            <KaizenLedger postMortems={state?.postMortems || []} />
+            <div id="kaizen-section">
+              <KaizenLedger postMortems={state?.postMortems || []} />
+            </div>
           </div>
 
           {/* Right Column: Dojo Treasury & Paper Ledger */}
@@ -143,13 +222,18 @@ export const App: React.FC = () => {
             />
           </div>
         </div>
+
+        {/* 9. Bottom Feature Highlights (4 Value Pillars from Screenshot) */}
+        <div className="pt-2">
+          <FeatureHighlights />
+        </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-shogun-border bg-shogun-surface/60 py-4 px-6 text-center text-xs font-mono text-shogun-muted">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <footer className="border-t border-shogun-border bg-shogun-surface/60 py-5 px-6 text-center text-xs font-mono text-shogun-muted">
+        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>RYO Shogun (将軍) · Built for RYO-CHAN Hackathon 2026</span>
-          <span className="text-shogun-accent">Grand Prize Target: Tokyo HQ</span>
+          <span className="text-shogun-accent">Grand Prize Target: Tokyo HQ · Dual Track Submissions</span>
         </div>
       </footer>
 
@@ -173,7 +257,15 @@ export const App: React.FC = () => {
         onConvene={handleConvene}
         isLoading={isLoading}
       />
+
+      <SystemStatusModal
+        isOpen={isStatusModalOpen}
+        onClose={() => setIsStatusModalOpen(false)}
+        state={state}
+        circuitTripped={circuitTripped}
+      />
     </div>
   );
 };
+
 export default App;

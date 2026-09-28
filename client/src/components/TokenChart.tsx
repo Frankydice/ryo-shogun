@@ -1,84 +1,183 @@
 import React, { useState } from 'react';
-import { TrendingUp } from 'lucide-react';
+import { Code } from 'lucide-react';
 import { ShogunEdict } from '../types/index.js';
 
 interface TokenChartProps {
   edict: ShogunEdict | null;
+  activeSymbol?: string;
+  onOpenPlaybook?: () => void;
 }
 
-export const TokenChart: React.FC<TokenChartProps> = ({ edict }) => {
-  const [timeframe, setTimeframe] = useState<'15M' | '1H' | '4H' | '1D'>('1H');
-  const symbol = edict?.target_symbol || 'INJ';
-  const entry = edict?.entry_price || 24.85;
-  const sl = edict?.stop_loss || Number((entry * 0.94).toFixed(2));
-  const tp = edict?.take_profit || Number((entry * 1.15).toFixed(2));
+interface Candle {
+  time: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
 
-  // Generate simulated candle data points based on entry and levels
-  const basePrice = entry * 0.96;
-  const points = [
-    { x: 0, y: basePrice },
-    { x: 50, y: basePrice * 1.01 },
-    { x: 100, y: basePrice * 0.99 },
-    { x: 150, y: basePrice * 1.025 },
-    { x: 200, y: basePrice * 1.015 },
-    { x: 250, y: basePrice * 1.035 },
-    { x: 300, y: basePrice * 1.02 },
-    { x: 350, y: basePrice * 1.045 },
-    { x: 400, y: entry }
+export const TokenChart: React.FC<TokenChartProps> = ({
+  edict,
+  activeSymbol,
+  onOpenPlaybook
+}) => {
+  const [timeframe, setTimeframe] = useState<'15m' | '1h' | '4h' | '1D'>('1h');
+
+  // Determine current active symbol and pricing
+  const rawSymbol = activeSymbol || edict?.target_symbol || 'NVDAUSDT';
+  const displaySymbol = rawSymbol.includes('USDT') ? rawSymbol : `${rawSymbol}USDT`;
+  const isDefaultNvda = displaySymbol.startsWith('NVDA');
+
+  const currentPrice = isDefaultNvda ? 128.45 : (edict?.entry_price || 24.85);
+  const changePct = isDefaultNvda ? 3.42 : 4.15;
+  const entryPrice = edict?.entry_price || (isDefaultNvda ? 128.40 : currentPrice);
+  const tpPrice = edict?.take_profit || Number((entryPrice * 1.037).toFixed(2));
+  const slPrice = edict?.stop_loss || Number((entryPrice * 0.982).toFixed(2));
+
+  // Synthesize realistic candlesticks around entry
+  const candles: Candle[] = [
+    { time: '12:00', open: entryPrice * 0.985, high: entryPrice * 0.992, low: entryPrice * 0.982, close: entryPrice * 0.990, volume: 42 },
+    { time: '13:00', open: entryPrice * 0.990, high: entryPrice * 0.994, low: entryPrice * 0.986, close: entryPrice * 0.988, volume: 38 },
+    { time: '14:00', open: entryPrice * 0.988, high: entryPrice * 0.995, low: entryPrice * 0.987, close: entryPrice * 0.993, volume: 55 },
+    { time: '15:00', open: entryPrice * 0.993, high: entryPrice * 0.998, low: entryPrice * 0.991, close: entryPrice * 0.997, volume: 62 },
+    { time: '16:00', open: entryPrice * 0.997, high: entryPrice * 1.002, low: entryPrice * 0.994, close: entryPrice * 1.000, volume: 78 },
+    { time: '17:00', open: entryPrice * 1.000, high: entryPrice * 1.004, low: entryPrice * 0.998, close: entryPrice * 1.001, volume: 49 },
+    { time: '18:00', open: entryPrice * 1.001, high: entryPrice * 1.003, low: entryPrice * 0.996, close: entryPrice * 0.998, volume: 40 },
+    { time: '19:00', open: entryPrice * 0.998, high: entryPrice * 1.001, low: entryPrice * 0.995, close: entryPrice * 0.996, volume: 34 },
+    { time: '20:00', open: entryPrice * 0.996, high: entryPrice * 1.005, low: entryPrice * 0.995, close: entryPrice * 1.003, volume: 84 },
+    { time: '21:00', open: entryPrice * 1.003, high: entryPrice * 1.008, low: entryPrice * 1.001, close: entryPrice * 1.007, volume: 92 },
+    { time: '22:00', open: entryPrice * 1.007, high: entryPrice * 1.010, low: entryPrice * 1.004, close: entryPrice * 1.005, volume: 60 },
+    { time: '23:00', open: entryPrice * 1.005, high: entryPrice * 1.009, low: entryPrice * 1.002, close: entryPrice * 1.003, volume: 45 },
+    { time: '00:00', open: entryPrice * 1.003, high: entryPrice * 1.006, low: entryPrice * 0.999, close: entryPrice * 1.001, volume: 51 },
+    { time: '01:00', open: entryPrice * 1.001, high: entryPrice * 1.007, low: entryPrice * 1.000, close: entryPrice * 1.006, volume: 72 },
+    { time: '02:00', open: entryPrice * 1.006, high: entryPrice * 1.011, low: entryPrice * 1.004, close: entryPrice * 1.009, volume: 88 },
+    { time: '03:00', open: entryPrice * 1.009, high: entryPrice * 1.014, low: entryPrice * 1.007, close: entryPrice * 1.012, volume: 95 },
+    { time: '04:00', open: entryPrice * 1.012, high: entryPrice * 1.016, low: entryPrice * 1.010, close: entryPrice * 1.015, volume: 110 },
+    { time: '05:00', open: entryPrice * 1.015, high: entryPrice * 1.018, low: entryPrice * 1.011, close: entryPrice * 1.013, volume: 74 },
+    { time: '06:00', open: entryPrice * 1.013, high: entryPrice * 1.020, low: entryPrice * 1.012, close: entryPrice * 1.018, volume: 82 },
+    { time: '07:00', open: entryPrice * 1.018, high: entryPrice * 1.024, low: entryPrice * 1.016, close: entryPrice * 1.021, volume: 104 },
+    { time: '08:00', open: entryPrice * 1.021, high: entryPrice * 1.026, low: entryPrice * 1.019, close: currentPrice, volume: 130 }
   ];
 
-  const minPrice = Math.min(sl * 0.98, ...points.map((p) => p.y));
-  const maxPrice = Math.max(tp * 1.03, ...points.map((p) => p.y));
-  const priceRange = maxPrice - minPrice;
+  // Price boundaries
+  const allPrices = candles.flatMap((c) => [c.low, c.high]);
+  allPrices.push(slPrice, tpPrice, entryPrice);
+  const minP = Math.min(...allPrices) * 0.995;
+  const maxP = Math.max(...allPrices) * 1.005;
+  const pRange = maxP - minP;
 
-  const chartHeight = 220;
-  const chartWidth = 450;
+  // Chart dimensions
+  const chartW = 600;
+  const chartH = 210;
+  const maxVol = Math.max(...candles.map((c) => c.volume));
 
-  const getY = (val: number) => {
-    return chartHeight - ((val - minPrice) / priceRange) * chartHeight;
+  const getY = (price: number) => {
+    return chartH - ((price - minP) / pRange) * chartH;
   };
 
-  const pathData = points
-    .map((p, i) => `${i === 0 ? 'M' : 'L'} ${(p.x / 400) * chartWidth},${getY(p.y)}`)
-    .join(' ');
+  const tpY = getY(tpPrice);
+  const entryY = getY(entryPrice);
+  const slY = getY(slPrice);
 
-  const areaData = `${pathData} L ${chartWidth},${chartHeight} L 0,${chartHeight} Z`;
-
-  const entryY = getY(entry);
-  const slY = getY(sl);
-  const tpY = getY(tp);
+  const candleW = 14;
+  const spacing = chartW / candles.length;
 
   return (
-    <div className="glass-panel rounded-2xl p-5 flex flex-col gap-4 relative overflow-hidden">
-      {/* Chart Top Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] pb-3">
+    <div className="glass-panel rounded-3xl p-5 sm:p-6 flex flex-col gap-4 relative overflow-hidden">
+      {/* Top Token Info & Price Header */}
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-shogun-accent/10 border border-shogun-accent/30 flex items-center justify-center font-bold text-shogun-accent font-mono text-sm">
-            {symbol.slice(0, 3)}
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-shogun-accent/10 to-teal-500/20 border border-shogun-accent/40 flex items-center justify-center font-bold text-shogun-accent font-mono text-base shadow-[0_0_15px_rgba(110,232,154,0.2)]">
+            {displaySymbol.slice(0, 3)}
           </div>
+
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-base text-white font-mono">{symbol}/USD</span>
-              <span className="text-xs font-mono font-medium text-shogun-accent flex items-center gap-0.5">
-                <TrendingUp size={12} />
-                +4.2%
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono font-extrabold text-lg sm:text-xl text-white">
+                {displaySymbol}
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-emerald-400/40 text-emerald-300 bg-emerald-950/40 font-bold">
+                rToken
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-teal-500/30 text-teal-300 bg-teal-950/30">
+                24/7 TOKENIZED US EQUITY
               </span>
             </div>
-            <p className="text-xs font-mono text-shogun-muted">
-              Live Council Execution Radar · RYO Market Intelligence
+
+            <p className="text-xs text-shogun-muted font-sans mt-0.5">
+              {isDefaultNvda ? 'NVIDIA Tokenized Equity • Deep Liquidity Pool' : `${displaySymbol} • Verified Council Radar`}
             </p>
           </div>
         </div>
 
-        {/* Timeframe selector */}
-        <div className="flex items-center gap-1 bg-black/40 border border-white/5 p-1 rounded-lg text-xs font-mono">
-          {(['15M', '1H', '4H', '1D'] as const).map((tf) => (
+        {/* Price & Playbook button */}
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <span className="font-mono font-extrabold text-2xl sm:text-3xl text-white block">
+              ${currentPrice.toFixed(2)}
+            </span>
+            <span className="text-xs font-mono font-bold text-shogun-accent block">
+              +{changePct}% (24h)
+            </span>
+          </div>
+
+          <button
+            onClick={onOpenPlaybook}
+            className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl border border-shogun-accent/40 bg-shogun-accent/10 hover:bg-shogun-accent/20 text-shogun-accent text-xs font-mono font-bold transition shadow-[0_0_12px_rgba(110,232,154,0.15)]"
+          >
+            <Code size={13} />
+            <span>Playbook Code</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Quick Stats Strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-black/40 border border-white/[0.06] rounded-2xl p-3 text-xs font-mono">
+        <div>
+          <span className="text-[10px] text-shogun-muted uppercase block">Bid / Ask</span>
+          <span className="font-bold text-white mt-0.5 block">
+            ${(currentPrice * 0.9995).toFixed(2)} / ${(currentPrice * 1.0005).toFixed(2)}
+          </span>
+        </div>
+
+        <div className="sm:border-l sm:border-white/10 sm:pl-3">
+          <span className="text-[10px] text-shogun-muted uppercase block">Spread</span>
+          <span className="font-bold text-shogun-accent mt-0.5 block">0.11% (Tight)</span>
+        </div>
+
+        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-2 sm:pt-0 sm:pl-3">
+          <span className="text-[10px] text-shogun-muted uppercase block">Synthetic NAV Parity</span>
+          <span className="font-bold text-white mt-0.5 block">
+            ${(currentPrice * 0.9996).toFixed(2)} (+0.04%)
+          </span>
+        </div>
+
+        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-2 sm:pt-0 sm:pl-3">
+          <span className="text-[10px] text-shogun-muted uppercase block">24h Volume</span>
+          <span className="font-bold text-white mt-0.5 block">$62.03M USDT</span>
+        </div>
+
+        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-2 sm:pt-0 sm:pl-3">
+          <span className="text-[10px] text-shogun-muted uppercase block">Liquidity</span>
+          <span className="font-bold text-shogun-accent mt-0.5 block">$1.8M</span>
+        </div>
+      </div>
+
+      {/* Chart Timeframe Controls Bar */}
+      <div className="flex items-center justify-between pt-1">
+        <span className="text-xs font-mono text-shogun-muted font-bold tracking-wider uppercase">
+          24h Price Chart
+        </span>
+
+        <div className="flex items-center gap-1 bg-black/50 border border-white/[0.08] p-1 rounded-xl text-xs font-mono">
+          {(['15m', '1h', '4h', '1D'] as const).map((tf) => (
             <button
               key={tf}
               onClick={() => setTimeframe(tf)}
-              className={`px-2 py-0.5 rounded transition ${
+              className={`px-2.5 py-0.5 rounded-lg transition-all ${
                 timeframe === tf
-                  ? 'bg-shogun-accent/20 text-shogun-accent font-bold'
+                  ? 'bg-shogun-accent/20 text-shogun-accent font-bold border border-shogun-accent/40 shadow-[0_0_8px_rgba(110,232,154,0.2)]'
                   : 'text-shogun-muted hover:text-white'
               }`}
             >
@@ -88,91 +187,206 @@ export const TokenChart: React.FC<TokenChartProps> = ({ edict }) => {
         </div>
       </div>
 
-      {/* SVG Interactive Chart */}
-      <div className="relative w-full h-[230px] flex items-center justify-center">
+      {/* Interactive Candlestick SVG Chart with Volume and Target Overlays */}
+      <div className="relative w-full h-[250px] bg-black/30 rounded-2xl border border-white/[0.05] p-3 flex flex-col justify-between">
         <svg
-          viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+          viewBox={`0 0 ${chartW} ${chartH}`}
           className="w-full h-full overflow-visible"
           preserveAspectRatio="none"
         >
-          <defs>
-            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#6EE89A" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#6EE89A" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
+          {/* Horizontal Grid lines */}
+          <line x1="0" y1={chartH * 0.2} x2={chartW} y2={chartH * 0.2} stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+          <line x1="0" y1={chartH * 0.5} x2={chartW} y2={chartH * 0.5} stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+          <line x1="0" y1={chartH * 0.8} x2={chartW} y2={chartH * 0.8} stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
 
-          {/* Grid lines */}
-          <line x1="0" y1={chartHeight * 0.25} x2={chartWidth} y2={chartHeight * 0.25} stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
-          <line x1="0" y1={chartHeight * 0.5} x2={chartWidth} y2={chartHeight * 0.5} stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
-          <line x1="0" y1={chartHeight * 0.75} x2={chartWidth} y2={chartHeight * 0.75} stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+          {/* Volume bars (bottom 25% height) */}
+          {candles.map((c, i) => {
+            const x = i * spacing + spacing / 2;
+            const isBull = c.close >= c.open;
+            const barH = (c.volume / maxVol) * 45;
+            const y = chartH - barH;
 
-          {/* Area Fill */}
-          <path d={areaData} fill="url(#chartGradient)" />
+            return (
+              <rect
+                key={`vol-${i}`}
+                x={x - candleW / 2}
+                y={y}
+                width={candleW}
+                height={barH}
+                fill={isBull ? '#6EE89A' : '#FF4D4D'}
+                opacity="0.22"
+                rx="2"
+              />
+            );
+          })}
 
-          {/* Price Line */}
-          <path d={pathData} fill="none" stroke="#6EE89A" strokeWidth="2.5" />
+          {/* Candlestick Wicks and Bodies */}
+          {candles.map((c, i) => {
+            const x = i * spacing + spacing / 2;
+            const isBull = c.close >= c.open;
+            const highY = getY(c.high);
+            const lowY = getY(c.low);
+            const openY = getY(c.open);
+            const closeY = getY(c.close);
 
-          {/* Take Profit Target Line (Neon Emerald) */}
-          {tpY >= 0 && tpY <= chartHeight && (
+            const bodyTop = Math.min(openY, closeY);
+            const bodyH = Math.max(Math.abs(closeY - openY), 2.5);
+
+            return (
+              <g key={`candle-${i}`}>
+                {/* Wick */}
+                <line
+                  x1={x}
+                  y1={highY}
+                  x2={x}
+                  y2={lowY}
+                  stroke={isBull ? '#6EE89A' : '#FF4D4D'}
+                  strokeWidth="1.5"
+                />
+
+                {/* Candle Body */}
+                <rect
+                  x={x - candleW / 2}
+                  y={bodyTop}
+                  width={candleW}
+                  height={bodyH}
+                  fill={isBull ? '#6EE89A' : '#FF4D4D'}
+                  rx="1.5"
+                />
+              </g>
+            );
+          })}
+
+          {/* Take Profit Target Overlay (Neon Emerald Dashed Line) */}
+          {tpY >= 0 && tpY <= chartH && (
             <g>
-              <line x1="0" y1={tpY} x2={chartWidth} y2={tpY} stroke="#6EE89A" strokeWidth="1.5" strokeDasharray="4 4" />
-              <text x={chartWidth - 5} y={tpY - 5} fill="#6EE89A" fontSize="10" fontFamily="monospace" textAnchor="end">
-                TP: ${tp} (+{(((tp - entry) / entry) * 100).toFixed(1)}%)
+              <line
+                x1="0"
+                y1={tpY}
+                x2={chartW}
+                y2={tpY}
+                stroke="#6EE89A"
+                strokeWidth="1.8"
+                strokeDasharray="4 4"
+              />
+              <rect
+                x={chartW - 75}
+                y={tpY - 10}
+                width="72"
+                height="18"
+                rx="4"
+                fill="#07190f"
+                stroke="#6EE89A"
+                strokeWidth="1"
+              />
+              <text
+                x={chartW - 39}
+                y={tpY + 3}
+                fill="#6EE89A"
+                fontSize="10"
+                fontFamily="monospace"
+                fontWeight="bold"
+                textAnchor="middle"
+              >
+                TP ${tpPrice.toFixed(2)}
               </text>
             </g>
           )}
 
-          {/* Entry Price Line (Gold) */}
-          {entryY >= 0 && entryY <= chartHeight && (
+          {/* Council Entry Target Overlay (Cyan / Light Blue Solid Line) */}
+          {entryY >= 0 && entryY <= chartH && (
             <g>
-              <line x1="0" y1={entryY} x2={chartWidth} y2={entryY} stroke="#E5C07B" strokeWidth="1.5" strokeDasharray="2 2" />
-              <text x={chartWidth - 5} y={entryY - 5} fill="#E5C07B" fontSize="10" fontFamily="monospace" textAnchor="end">
-                ENTRY: ${entry}
+              <line
+                x1="0"
+                y1={entryY}
+                x2={chartW}
+                y2={entryY}
+                stroke="#38BDF8"
+                strokeWidth="1.8"
+              />
+              <rect
+                x={chartW - 88}
+                y={entryY - 10}
+                width="85"
+                height="18"
+                rx="4"
+                fill="#081726"
+                stroke="#38BDF8"
+                strokeWidth="1"
+              />
+              <text
+                x={chartW - 45}
+                y={entryY + 3}
+                fill="#38BDF8"
+                fontSize="10"
+                fontFamily="monospace"
+                fontWeight="bold"
+                textAnchor="middle"
+              >
+                Entry ${entryPrice.toFixed(2)}
               </text>
             </g>
           )}
 
-          {/* Stop Loss Target Line (Crimson) */}
-          {slY >= 0 && slY <= chartHeight && (
+          {/* Stop Loss Target Overlay (Crimson Dashed Line) */}
+          {slY >= 0 && slY <= chartH && (
             <g>
-              <line x1="0" y1={slY} x2={chartWidth} y2={slY} stroke="#FF4D4D" strokeWidth="1.5" strokeDasharray="4 4" />
-              <text x={chartWidth - 5} y={slY + 12} fill="#FF4D4D" fontSize="10" fontFamily="monospace" textAnchor="end">
-                SL: ${sl} ({(((sl - entry) / entry) * 100).toFixed(1)}%)
+              <line
+                x1="0"
+                y1={slY}
+                x2={chartW}
+                y2={slY}
+                stroke="#FF4D4D"
+                strokeWidth="1.8"
+                strokeDasharray="4 4"
+              />
+              <rect
+                x={chartW - 75}
+                y={slY - 10}
+                width="72"
+                height="18"
+                rx="4"
+                fill="#200a0a"
+                stroke="#FF4D4D"
+                strokeWidth="1"
+              />
+              <text
+                x={chartW - 39}
+                y={slY + 3}
+                fill="#FF4D4D"
+                fontSize="10"
+                fontFamily="monospace"
+                fontWeight="bold"
+                textAnchor="middle"
+              >
+                SL ${slPrice.toFixed(2)}
               </text>
             </g>
           )}
 
-          {/* Current Live Pulse Dot */}
-          <circle cx={chartWidth} cy={entryY} r="5" fill="#6EE89A" className="animate-ping" />
-          <circle cx={chartWidth} cy={entryY} r="4" fill="#6EE89A" />
+          {/* Right Y-Axis Price Labels */}
+          <text x={chartW - 2} y={chartH * 0.15} fill="rgba(255,255,255,0.4)" fontSize="9" fontFamily="monospace" textAnchor="end">
+            132.00
+          </text>
+          <text x={chartW - 2} y={chartH * 0.45} fill="#6EE89A" fontSize="9" fontFamily="monospace" fontWeight="bold" textAnchor="end">
+            {currentPrice.toFixed(2)}
+          </text>
+          <text x={chartW - 2} y={chartH * 0.72} fill="rgba(255,255,255,0.4)" fontSize="9" fontFamily="monospace" textAnchor="end">
+            124.00
+          </text>
+          <text x={chartW - 2} y={chartH * 0.95} fill="rgba(255,255,255,0.4)" fontSize="9" fontFamily="monospace" textAnchor="end">
+            120.00
+          </text>
         </svg>
-      </div>
 
-      {/* Level Summary Legend */}
-      <div className="grid grid-cols-3 gap-2 pt-2 border-t border-white/[0.06] text-xs font-mono">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-shogun-crimson"></span>
-          <div>
-            <span className="text-shogun-muted block text-[10px]">Stop Loss</span>
-            <span className="text-shogun-crimson font-bold">${sl}</span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 border-x border-white/5 px-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-shogun-gold"></span>
-          <div>
-            <span className="text-shogun-muted block text-[10px]">Council Entry</span>
-            <span className="text-shogun-gold font-bold">${entry}</span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 text-right justify-end">
-          <span className="w-2.5 h-2.5 rounded-full bg-shogun-accent"></span>
-          <div>
-            <span className="text-shogun-muted block text-[10px]">Take Profit</span>
-            <span className="text-shogun-accent font-bold">${tp}</span>
-          </div>
+        {/* Bottom Time Axis Ticks */}
+        <div className="flex items-center justify-between text-[10px] font-mono text-shogun-muted pt-2 border-t border-white/[0.05]">
+          <span>12:00</span>
+          <span>16:00</span>
+          <span>20:00</span>
+          <span>00:00</span>
+          <span>04:00</span>
+          <span>08:00</span>
         </div>
       </div>
     </div>
