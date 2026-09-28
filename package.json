@@ -1,0 +1,29 @@
+{
+  "name": "ryo-shogun",
+  "version": "1.0.0",
+  "description": "RYO Shogun (将軍) — Regime-Adaptive Autonomous Trading Council & Dojo Terminal for RYO-CHAN Hackathon 2026",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run dev:server\" \"npm run dev:client\"",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "build": "npm run build:server && npm run build:client",
+    "start": "cd server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "keywords": [
+    "ryo-chan",
+    "hackathon",
+    "mcp",
+    "autonomous-agent",
+    "trading",
+    "defai",
+    "socialfi"
+  ],
+  "author": "Bushido Labs",
+  "license": "MIT"
+}

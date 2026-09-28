@@ -1,0 +1,141 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { RyoMcpClient } from './mcp/client.js';
+import { ShogunCouncil } from './agents/council.js';
+import { KaizenAuditor } from './simulation/kaizen.js';
+import { PaperTradingEngine } from './simulation/paperTrading.js';
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+const RYO_MCP_ENDPOINT = process.env.RYO_MCP_ENDPOINT || 'https://app-ryochan.com/api/mcp';
+const RYO_MCP_KEY = process.env.RYO_MCP_KEY || '';
+
+app.use(cors());
+app.use(express.json());
+
+// Initialize core components
+const mcpClient = new RyoMcpClient(RYO_MCP_ENDPOINT, RYO_MCP_KEY);
+const council = new ShogunCouncil(mcpClient);
+const kaizenAuditor = new KaizenAuditor();
+const paperTrading = new PaperTradingEngine(kaizenAuditor, Number(process.env.SIMULATED_STARTING_BALANCE_USD) || 10000);
+
+let lastOpinions: any[] = [];
+let lastMarketOverview: any = null;
+
+// Initial council run
+async function initSession() {
+  try {
+    const session = await council.conveneCouncil();
+    lastOpinions = session.opinions;
+    lastMarketOverview = session.marketOverview;
+    paperTrading.executeEdict(session.edict);
+  } catch (e) {
+    console.error('Initial council convene error:', e);
+  }
+}
+initSession();
+
+// Periodic background council & price simulation tick
+const intervalMs = Number(process.env.SCAN_INTERVAL_MS) || 30000;
+setInterval(async () => {
+  try {
+    // 1. Tick simulated prices
+    const simulatedPriceVariations: Record<string, number> = {
+      INJ: Number((24.85 + (Math.random() * 0.8 - 0.35)).toFixed(2)),
+      PENDLE: Number((4.62 + (Math.random() * 0.2 - 0.08)).toFixed(2)),
+      AAVE: Number((182.40 + (Math.random() * 3.0 - 1.2)).toFixed(2))
+    };
+    paperTrading.tickPrices(simulatedPriceVariations);
+
+    // 2. Convene council cycle
+    const session = await council.conveneCouncil();
+    lastOpinions = session.opinions;
+    lastMarketOverview = session.marketOverview;
+    paperTrading.executeEdict(session.edict);
+  } catch (err) {
+    console.error('Background council loop error:', err);
+  }
+}, intervalMs);
+
+// REST API Endpoints
+app.get('/api/status', (req, res) => {
+  res.json({
+    status: 'ACTIVE',
+    server_time: new Date().toISOString(),
+    mcp: mcpClient.getStatus()
+  });
+});
+
+app.get('/api/state', (req, res) => {
+  const edict = council.getLastEdict();
+  const portfolio = paperTrading.getPortfolio();
+  const postMortems = kaizenAuditor.getPostMortems();
+
+  res.json({
+    edict,
+    opinions: lastOpinions,
+    marketOverview: lastMarketOverview,
+    portfolio,
+    postMortems,
+    mcpStatus: mcpClient.getStatus()
+  });
+});
+
+app.post('/api/council/convene', async (req, res) => {
+  try {
+    const { symbol } = req.body;
+    const session = await council.conveneCouncil(symbol);
+    lastOpinions = session.opinions;
+    lastMarketOverview = session.marketOverview;
+    
+    // Execute trade if edict was issued
+    const newTrade = paperTrading.executeEdict(session.edict);
+
+    res.json({
+      success: true,
+      edict: session.edict,
+      opinions: session.opinions,
+      marketOverview: session.marketOverview,
+      newTrade
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/trades/close', (req, res) => {
+  const { tradeId } = req.body;
+  if (!tradeId) {
+    return res.status(400).json({ error: 'Missing tradeId parameter' });
+  }
+
+  const closed = paperTrading.manuallyCloseTrade(tradeId);
+  if (!closed) {
+    return res.status(404).json({ error: 'Trade not found or already closed' });
+  }
+
+  res.json({
+    success: true,
+    closedTrade: closed,
+    portfolio: paperTrading.getPortfolio(),
+    postMortems: kaizenAuditor.getPostMortems()
+  });
+});
+
+app.post('/api/mcp/configure', (req, res) => {
+  const { apiKey } = req.body;
+  if (apiKey) {
+    mcpClient.setApiKey(apiKey);
+  }
+  res.json({ success: true, mcp: mcpClient.getStatus() });
+});
+
+app.listen(PORT, () => {
+  console.log(`[RYO Shogun] Dojo Server running on http://localhost:${PORT}`);
+  console.log(`[RYO Shogun] MCP Endpoint configured to: ${RYO_MCP_ENDPOINT}`);
+});
