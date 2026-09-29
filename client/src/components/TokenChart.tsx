@@ -84,89 +84,89 @@ export const TokenChart: React.FC<TokenChartProps> = ({
   const spacing = chartW / candles.length;
 
   return (
-    <div className="glass-panel rounded-3xl p-5 sm:p-6 flex flex-col gap-4 relative overflow-hidden">
+    <div className="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col gap-3.5 sm:gap-4 relative overflow-hidden">
       {/* Top Token Info & Price Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-shogun-accent/10 to-teal-500/20 border border-shogun-accent/40 flex items-center justify-center font-bold text-shogun-accent font-mono text-base shadow-[0_0_15px_rgba(110,232,154,0.2)]">
+      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 border-b border-white/[0.08] pb-3.5 sm:pb-4">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500/20 via-shogun-accent/10 to-teal-500/20 border border-shogun-accent/40 flex items-center justify-center font-bold text-shogun-accent font-mono text-sm sm:text-base shadow-[0_0_15px_rgba(110,232,154,0.2)] shrink-0">
             {displaySymbol.slice(0, 3)}
           </div>
 
           <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono font-extrabold text-lg sm:text-xl text-white">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span className="font-mono font-extrabold text-base sm:text-xl text-white">
                 {displaySymbol}
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-emerald-400/40 text-emerald-300 bg-emerald-950/40 font-bold">
+              <span className="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded border border-emerald-400/40 text-emerald-300 bg-emerald-950/40 font-bold">
                 rToken
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-teal-500/30 text-teal-300 bg-teal-950/30">
-                24/7 TOKENIZED US EQUITY
+              <span className="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded border border-teal-500/30 text-teal-300 bg-teal-950/30 hidden xs:inline">
+                24/7 EQUITY
               </span>
             </div>
 
-            <p className="text-xs text-shogun-muted font-sans mt-0.5">
-              {isDefaultNvda ? 'NVIDIA Tokenized Equity • Deep Liquidity Pool' : `${displaySymbol} • Verified Council Radar`}
+            <p className="text-[11px] sm:text-xs text-shogun-muted font-sans mt-0.5">
+              {isDefaultNvda ? 'NVIDIA Tokenized Equity • Deep Liquidity' : `${displaySymbol} • Verified Council Radar`}
             </p>
           </div>
         </div>
 
         {/* Price & Playbook button */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-4 ml-auto">
           <div className="text-right">
-            <span className="font-mono font-extrabold text-2xl sm:text-3xl text-white block">
+            <span className="font-mono font-extrabold text-xl sm:text-3xl text-white block">
               ${currentPrice.toFixed(2)}
             </span>
-            <span className="text-xs font-mono font-bold text-shogun-accent block">
+            <span className="text-[11px] sm:text-xs font-mono font-bold text-shogun-accent block">
               +{changePct}% (24h)
             </span>
           </div>
 
           <button
             onClick={onOpenPlaybook}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl border border-shogun-accent/40 bg-shogun-accent/10 hover:bg-shogun-accent/20 text-shogun-accent text-xs font-mono font-bold transition shadow-[0_0_12px_rgba(110,232,154,0.15)]"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-shogun-accent/40 bg-shogun-accent/10 hover:bg-shogun-accent/20 text-shogun-accent text-[11px] sm:text-xs font-mono font-bold transition shadow-[0_0_12px_rgba(110,232,154,0.15)]"
           >
             <Code size={13} />
-            <span>Playbook Code</span>
+            <span className="hidden xs:inline">Playbook</span>
           </button>
         </div>
       </div>
 
       {/* Quick Stats Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-black/40 border border-white/[0.06] rounded-2xl p-3 text-xs font-mono">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-black/40 border border-white/[0.06] rounded-2xl p-2.5 sm:p-3 text-xs font-mono">
         <div>
-          <span className="text-[10px] text-shogun-muted uppercase block">Bid / Ask</span>
-          <span className="font-bold text-white mt-0.5 block">
+          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Bid / Ask</span>
+          <span className="font-bold text-white text-[11px] sm:text-xs mt-0.5 block truncate">
             ${(currentPrice * 0.9995).toFixed(2)} / ${(currentPrice * 1.0005).toFixed(2)}
           </span>
         </div>
 
-        <div className="sm:border-l sm:border-white/10 sm:pl-3">
-          <span className="text-[10px] text-shogun-muted uppercase block">Spread</span>
-          <span className="font-bold text-shogun-accent mt-0.5 block">0.11% (Tight)</span>
+        <div className="border-l border-white/10 pl-2 sm:pl-3">
+          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Spread</span>
+          <span className="font-bold text-shogun-accent text-[11px] sm:text-xs mt-0.5 block">0.11% (Tight)</span>
         </div>
 
-        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-2 sm:pt-0 sm:pl-3">
-          <span className="text-[10px] text-shogun-muted uppercase block">Synthetic NAV Parity</span>
-          <span className="font-bold text-white mt-0.5 block">
+        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-1.5 sm:pt-0 sm:pl-3">
+          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Synthetic NAV Parity</span>
+          <span className="font-bold text-white text-[11px] sm:text-xs mt-0.5 block truncate">
             ${(currentPrice * 0.9996).toFixed(2)} (+0.04%)
           </span>
         </div>
 
-        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-2 sm:pt-0 sm:pl-3">
-          <span className="text-[10px] text-shogun-muted uppercase block">24h Volume</span>
-          <span className="font-bold text-white mt-0.5 block">$62.03M USDT</span>
+        <div className="border-t sm:border-t-0 border-l border-white/10 pt-1.5 sm:pt-0 pl-2 sm:pl-3">
+          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">24h Volume</span>
+          <span className="font-bold text-white text-[11px] sm:text-xs mt-0.5 block">$62.03M</span>
         </div>
 
-        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-2 sm:pt-0 sm:pl-3">
-          <span className="text-[10px] text-shogun-muted uppercase block">Liquidity</span>
-          <span className="font-bold text-shogun-accent mt-0.5 block">$1.8M</span>
+        <div className="col-span-2 sm:col-span-1 border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-1.5 sm:pt-0 sm:pl-3">
+          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Liquidity</span>
+          <span className="font-bold text-shogun-accent text-[11px] sm:text-xs mt-0.5 block">$1.8M</span>
         </div>
       </div>
 
       {/* Chart Timeframe Controls Bar */}
       <div className="flex items-center justify-between pt-1">
-        <span className="text-xs font-mono text-shogun-muted font-bold tracking-wider uppercase">
+        <span className="text-[11px] sm:text-xs font-mono text-shogun-muted font-bold tracking-wider uppercase">
           24h Price Chart
         </span>
 
@@ -175,7 +175,7 @@ export const TokenChart: React.FC<TokenChartProps> = ({
             <button
               key={tf}
               onClick={() => setTimeframe(tf)}
-              className={`px-2.5 py-0.5 rounded-lg transition-all ${
+              className={`px-2 sm:px-2.5 py-0.5 rounded-lg text-[10px] sm:text-xs transition-all ${
                 timeframe === tf
                   ? 'bg-shogun-accent/20 text-shogun-accent font-bold border border-shogun-accent/40 shadow-[0_0_8px_rgba(110,232,154,0.2)]'
                   : 'text-shogun-muted hover:text-white'
@@ -188,7 +188,33 @@ export const TokenChart: React.FC<TokenChartProps> = ({
       </div>
 
       {/* Interactive Candlestick SVG Chart with Volume and Target Overlays */}
-      <div className="relative w-full h-[250px] bg-black/30 rounded-2xl border border-white/[0.05] p-3 flex flex-col justify-between">
+      <div className="relative w-full h-[220px] sm:h-[250px] bg-black/30 rounded-2xl border border-white/[0.05] p-2 sm:p-3 flex flex-col justify-between overflow-hidden">
+        {/* Crisp HTML Target Badges that never stretch on mobile */}
+        {tpY >= 0 && tpY <= chartH && (
+          <div
+            className="absolute right-2 px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold border border-shogun-accent/60 bg-[#07190f]/90 text-shogun-accent shadow-sm pointer-events-none -translate-y-1/2 z-10"
+            style={{ top: `${(tpY / chartH) * 80 + 10}%` }}
+          >
+            TP ${tpPrice.toFixed(2)}
+          </div>
+        )}
+        {entryY >= 0 && entryY <= chartH && (
+          <div
+            className="absolute right-2 px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold border border-sky-400/60 bg-[#081726]/90 text-sky-400 shadow-sm pointer-events-none -translate-y-1/2 z-10"
+            style={{ top: `${(entryY / chartH) * 80 + 10}%` }}
+          >
+            Entry ${entryPrice.toFixed(2)}
+          </div>
+        )}
+        {slY >= 0 && slY <= chartH && (
+          <div
+            className="absolute right-2 px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold border border-shogun-crimson/60 bg-[#200a0a]/90 text-shogun-crimson shadow-sm pointer-events-none -translate-y-1/2 z-10"
+            style={{ top: `${(slY / chartH) * 80 + 10}%` }}
+          >
+            SL ${slPrice.toFixed(2)}
+          </div>
+        )}
+
         <svg
           viewBox={`0 0 ${chartW} ${chartH}`}
           className="w-full h-full overflow-visible"
@@ -257,126 +283,43 @@ export const TokenChart: React.FC<TokenChartProps> = ({
             );
           })}
 
-          {/* Take Profit Target Overlay (Neon Emerald Dashed Line) */}
+          {/* Take Profit Target Line (Neon Emerald Dashed Line) */}
           {tpY >= 0 && tpY <= chartH && (
-            <g>
-              <line
-                x1="0"
-                y1={tpY}
-                x2={chartW}
-                y2={tpY}
-                stroke="#6EE89A"
-                strokeWidth="1.8"
-                strokeDasharray="4 4"
-              />
-              <rect
-                x={chartW - 75}
-                y={tpY - 10}
-                width="72"
-                height="18"
-                rx="4"
-                fill="#07190f"
-                stroke="#6EE89A"
-                strokeWidth="1"
-              />
-              <text
-                x={chartW - 39}
-                y={tpY + 3}
-                fill="#6EE89A"
-                fontSize="10"
-                fontFamily="monospace"
-                fontWeight="bold"
-                textAnchor="middle"
-              >
-                TP ${tpPrice.toFixed(2)}
-              </text>
-            </g>
+            <line
+              x1="0"
+              y1={tpY}
+              x2={chartW}
+              y2={tpY}
+              stroke="#6EE89A"
+              strokeWidth="1.8"
+              strokeDasharray="4 4"
+            />
           )}
 
-          {/* Council Entry Target Overlay (Cyan / Light Blue Solid Line) */}
+          {/* Council Entry Target Line (Cyan / Light Blue Solid Line) */}
           {entryY >= 0 && entryY <= chartH && (
-            <g>
-              <line
-                x1="0"
-                y1={entryY}
-                x2={chartW}
-                y2={entryY}
-                stroke="#38BDF8"
-                strokeWidth="1.8"
-              />
-              <rect
-                x={chartW - 88}
-                y={entryY - 10}
-                width="85"
-                height="18"
-                rx="4"
-                fill="#081726"
-                stroke="#38BDF8"
-                strokeWidth="1"
-              />
-              <text
-                x={chartW - 45}
-                y={entryY + 3}
-                fill="#38BDF8"
-                fontSize="10"
-                fontFamily="monospace"
-                fontWeight="bold"
-                textAnchor="middle"
-              >
-                Entry ${entryPrice.toFixed(2)}
-              </text>
-            </g>
+            <line
+              x1="0"
+              y1={entryY}
+              x2={chartW}
+              y2={entryY}
+              stroke="#38BDF8"
+              strokeWidth="1.8"
+            />
           )}
 
-          {/* Stop Loss Target Overlay (Crimson Dashed Line) */}
+          {/* Stop Loss Target Line (Crimson Dashed Line) */}
           {slY >= 0 && slY <= chartH && (
-            <g>
-              <line
-                x1="0"
-                y1={slY}
-                x2={chartW}
-                y2={slY}
-                stroke="#FF4D4D"
-                strokeWidth="1.8"
-                strokeDasharray="4 4"
-              />
-              <rect
-                x={chartW - 75}
-                y={slY - 10}
-                width="72"
-                height="18"
-                rx="4"
-                fill="#200a0a"
-                stroke="#FF4D4D"
-                strokeWidth="1"
-              />
-              <text
-                x={chartW - 39}
-                y={slY + 3}
-                fill="#FF4D4D"
-                fontSize="10"
-                fontFamily="monospace"
-                fontWeight="bold"
-                textAnchor="middle"
-              >
-                SL ${slPrice.toFixed(2)}
-              </text>
-            </g>
+            <line
+              x1="0"
+              y1={slY}
+              x2={chartW}
+              y2={slY}
+              stroke="#FF4D4D"
+              strokeWidth="1.8"
+              strokeDasharray="4 4"
+            />
           )}
-
-          {/* Right Y-Axis Price Labels */}
-          <text x={chartW - 2} y={chartH * 0.15} fill="rgba(255,255,255,0.4)" fontSize="9" fontFamily="monospace" textAnchor="end">
-            132.00
-          </text>
-          <text x={chartW - 2} y={chartH * 0.45} fill="#6EE89A" fontSize="9" fontFamily="monospace" fontWeight="bold" textAnchor="end">
-            {currentPrice.toFixed(2)}
-          </text>
-          <text x={chartW - 2} y={chartH * 0.72} fill="rgba(255,255,255,0.4)" fontSize="9" fontFamily="monospace" textAnchor="end">
-            124.00
-          </text>
-          <text x={chartW - 2} y={chartH * 0.95} fill="rgba(255,255,255,0.4)" fontSize="9" fontFamily="monospace" textAnchor="end">
-            120.00
-          </text>
         </svg>
 
         {/* Bottom Time Axis Ticks */}

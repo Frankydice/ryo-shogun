@@ -74,19 +74,19 @@ export const AccountModal: React.FC<AccountModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-3xl border border-white/15 bg-[#0a110d]/95 p-6 shadow-2xl flex flex-col gap-5 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto no-scrollbar rounded-2xl sm:rounded-3xl border border-white/15 bg-[#0a110d]/95 p-4 sm:p-6 shadow-2xl flex flex-col gap-4 sm:gap-5 backdrop-blur-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-          <div className="flex items-center gap-2.5">
-            <span className="p-1.5 rounded-xl bg-shogun-accent/15 text-shogun-accent border border-shogun-accent/30">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <span className="p-1.5 rounded-xl bg-shogun-accent/15 text-shogun-accent border border-shogun-accent/30 shrink-0">
               <User size={16} />
             </span>
             <div>
-              <span className="font-mono font-extrabold text-sm text-white uppercase tracking-wider block">
-                Sub-Account & Identity Center · 口座管理
+              <span className="font-mono font-extrabold text-xs sm:text-sm text-white uppercase tracking-wider block">
+                Sub-Account Center · 口座管理
               </span>
-              <span className="text-[10px] font-mono text-shogun-muted">
+              <span className="text-[9px] sm:text-[10px] font-mono text-shogun-muted">
                 Create, switch profiles, or connect Web3 identity
               </span>
             </div>
@@ -97,30 +97,30 @@ export const AccountModal: React.FC<AccountModalProps> = ({
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-1.5 bg-black/40 border border-white/[0.08] p-1 rounded-xl text-xs font-mono">
+        <div className="flex items-center gap-1 bg-black/40 border border-white/[0.08] p-1 rounded-xl text-xs font-mono">
           <button
             onClick={() => setActiveTab('switch')}
-            className={`flex-1 py-1.5 rounded-lg transition-all ${
+            className={`flex-1 py-1.5 rounded-lg text-[11px] sm:text-xs transition-all ${
               activeTab === 'switch'
                 ? 'bg-shogun-accent/15 text-shogun-accent font-bold border border-shogun-accent/40 shadow-[0_0_8px_rgba(110,232,154,0.2)]'
                 : 'text-shogun-muted hover:text-white'
             }`}
           >
-            Switch Account ({accounts.length})
+            Switch ({accounts.length})
           </button>
           <button
             onClick={() => setActiveTab('create')}
-            className={`flex-1 py-1.5 rounded-lg transition-all ${
+            className={`flex-1 py-1.5 rounded-lg text-[11px] sm:text-xs transition-all ${
               activeTab === 'create'
                 ? 'bg-shogun-accent/15 text-shogun-accent font-bold border border-shogun-accent/40 shadow-[0_0_8px_rgba(110,232,154,0.2)]'
                 : 'text-shogun-muted hover:text-white'
             }`}
           >
-            + Create Account
+            + Create
           </button>
           <button
             onClick={() => setActiveTab('wallet')}
-            className={`flex-1 py-1.5 rounded-lg transition-all ${
+            className={`flex-1 py-1.5 rounded-lg text-[11px] sm:text-xs transition-all ${
               activeTab === 'wallet'
                 ? 'bg-shogun-accent/15 text-shogun-accent font-bold border border-shogun-accent/40 shadow-[0_0_8px_rgba(110,232,154,0.2)]'
                 : 'text-shogun-muted hover:text-white'

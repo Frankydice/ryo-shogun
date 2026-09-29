@@ -21,8 +21,8 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
   const endpoint = state?.mcpStatus?.endpoint || 'https://app-ryochan.com/api/mcp';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-3xl border border-white/15 bg-[#0a110d]/95 p-6 shadow-2xl flex flex-col gap-5 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto no-scrollbar rounded-2xl sm:rounded-3xl border border-white/15 bg-[#0a110d]/95 p-4 sm:p-6 shadow-2xl flex flex-col gap-4 sm:gap-5 backdrop-blur-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
           <div className="flex items-center gap-2.5">

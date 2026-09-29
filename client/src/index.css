@@ -80,3 +80,12 @@ body {
 .text-glow-gold {
   text-shadow: 0 0 20px rgba(229, 192, 123, 0.5);
 }
+
+/* Hide scrollbar for Chrome, Safari, Edge and Opera while retaining smooth scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

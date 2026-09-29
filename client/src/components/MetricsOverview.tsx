@@ -87,36 +87,36 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3.5">
+    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2.5 sm:gap-3.5">
       {metrics.map((m) => (
         <div
           key={m.id}
-          className="glass-panel rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:border-white/20 hover:-translate-y-0.5 group"
+          className="glass-panel rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col justify-between transition-all duration-300 hover:border-white/20 hover:-translate-y-0.5 group"
         >
           {/* Header Row */}
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold tracking-wider text-shogun-muted uppercase block">
+          <div className="flex items-center justify-between gap-1">
+            <span className="text-[9px] sm:text-[10px] font-mono font-bold tracking-wider text-shogun-muted uppercase block truncate">
               {m.label}
             </span>
-            <div className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 ${m.iconBg}`}>
+            <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl border flex items-center justify-center shrink-0 ${m.iconBg}`}>
               {m.icon}
             </div>
           </div>
 
           {/* Value & Subtitle */}
-          <div className="my-2.5">
-            <span className="font-mono font-extrabold text-2xl sm:text-3xl text-white block tracking-tight">
+          <div className="my-1.5 sm:my-2.5">
+            <span className="font-mono font-extrabold text-xl sm:text-3xl text-white block tracking-tight">
               {m.value}
             </span>
-            <span className="text-xs text-shogun-muted font-sans mt-0.5 block truncate">
+            <span className="text-[11px] sm:text-xs text-shogun-muted font-sans mt-0.5 block truncate">
               {m.subtitle}
             </span>
           </div>
 
           {/* Footer Trend / Sparkline */}
-          <div className="pt-2 border-t border-white/[0.05] flex items-center justify-between min-h-[24px]">
+          <div className="pt-1.5 sm:pt-2 border-t border-white/[0.05] flex items-center justify-between gap-1 min-h-[22px] sm:min-h-[24px]">
             {m.trend && (
-              <span className={`text-[11px] font-mono font-semibold ${m.trendColor}`}>
+              <span className={`text-[10px] sm:text-[11px] font-mono font-semibold truncate ${m.trendColor}`}>
                 {m.trend}
               </span>
             )}
@@ -124,14 +124,14 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
             {m.action && (
               <button
                 onClick={onReviewApprovals}
-                className="text-[11px] font-mono font-bold text-shogun-gold hover:text-amber-300 hover:underline transition flex items-center gap-1"
+                className="text-[10px] sm:text-[11px] font-mono font-bold text-shogun-gold hover:text-amber-300 hover:underline transition flex items-center gap-0.5 shrink-0"
               >
                 {m.action}
               </button>
             )}
 
             {m.sparklinePath && (
-              <svg className="w-16 h-5 overflow-visible shrink-0 ml-1" viewBox="0 0 80 20">
+              <svg className="w-12 sm:w-16 h-4 sm:h-5 overflow-visible shrink-0 ml-auto" viewBox="0 0 80 20">
                 <path
                   d={m.sparklinePath}
                   fill="none"

@@ -98,11 +98,11 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
       {/* Left: Live Market Intelligence Token Grid (8 cols) */}
-      <div className="lg:col-span-8 glass-panel rounded-3xl p-5 flex flex-col justify-between">
+      <div className="lg:col-span-8 glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col justify-between">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
+        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3 sm:mb-4">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-shogun-accent/15 text-shogun-accent">
               <Radio size={16} />
@@ -114,15 +114,15 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
 
           <button
             onClick={() => onSelectToken('INJ')}
-            className="text-xs font-mono text-shogun-muted hover:text-shogun-accent transition flex items-center gap-1"
+            className="text-[11px] sm:text-xs font-mono text-shogun-muted hover:text-shogun-accent transition flex items-center gap-1"
           >
-            <span>View All Markets</span>
+            <span>View All</span>
             <ArrowUpRight size={13} />
           </button>
         </div>
 
         {/* 6 Token Cards Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2 sm:gap-3">
           {tokens.map((token) => {
             const isSelected = selectedSymbol.toUpperCase().includes(token.symbol.replace('USDT', ''));
             const isPositive = token.change24h >= 0;
@@ -131,7 +131,7 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
               <button
                 key={token.symbol}
                 onClick={() => onSelectToken(token.symbol.replace('USDT', ''))}
-                className={`glass-card rounded-2xl p-3 text-left transition-all duration-200 flex flex-col justify-between relative overflow-hidden group ${
+                className={`glass-card rounded-xl sm:rounded-2xl p-2.5 sm:p-3 text-left transition-all duration-200 flex flex-col justify-between relative overflow-hidden group ${
                   isSelected
                     ? 'border-shogun-accent/60 bg-shogun-accent/10 shadow-[0_0_15px_rgba(110,232,154,0.18)] -translate-y-0.5'
                     : 'hover:border-white/20 hover:bg-white/[0.04]'
@@ -184,7 +184,7 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
       </div>
 
       {/* Right: Active Event Simulation Card (4 cols) */}
-      <div className="lg:col-span-4 glass-panel rounded-3xl p-5 flex flex-col justify-between relative overflow-hidden">
+      <div className="lg:col-span-4 glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col justify-between relative overflow-hidden">
         {/* Subtle glow */}
         <div className="pointer-events-none absolute -top-12 -right-12 w-48 h-48 rounded-full bg-shogun-gold/10 blur-[60px]" />
 

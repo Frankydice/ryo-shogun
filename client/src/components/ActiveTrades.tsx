@@ -20,50 +20,50 @@ export const ActiveTrades: React.FC<ActiveTradesProps> = ({
   const totalPnl = (portfolio?.realizedPnlUsd || 0) + (portfolio?.unrealizedPnlUsd || 0);
 
   return (
-    <section className="glass-panel rounded-3xl p-6 flex flex-col gap-5">
+    <section className="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
-        <div className="flex items-center gap-3">
-          <span className="p-2 rounded-xl bg-shogun-gold/15 border border-shogun-gold/30 text-shogun-gold">
+      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 sm:pb-4">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <span className="p-1.5 sm:p-2 rounded-xl bg-shogun-gold/15 border border-shogun-gold/30 text-shogun-gold">
             <Wallet size={18} />
           </span>
           <div>
-            <h2 className="text-base font-display font-bold text-white">
+            <h2 className="text-sm sm:text-base font-display font-bold text-white">
               Dojo Treasury & Paper Ledger · 模擬取引
             </h2>
-            <p className="text-xs text-shogun-muted font-mono">Zero real funds at risk · Mathematical risk discipline</p>
+            <p className="text-[11px] sm:text-xs text-shogun-muted font-mono">Zero real funds at risk · Mathematical risk discipline</p>
           </div>
         </div>
 
-        <span className="text-xs font-mono px-3 py-1 rounded-full border border-shogun-accent/30 bg-shogun-accent/10 text-shogun-accent font-bold">
+        <span className="text-[10px] sm:text-xs font-mono px-2.5 sm:px-3 py-1 rounded-full border border-shogun-accent/30 bg-shogun-accent/10 text-shogun-accent font-bold shrink-0">
           Simulated Treasury
         </span>
       </div>
 
       {/* Aggregate Financial Metrics */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="glass-card rounded-2xl p-3.5 flex flex-col">
-          <span className="text-[10px] font-mono text-shogun-muted uppercase">Total Equity</span>
-          <span className="font-extrabold text-lg text-white font-mono mt-1">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        <div className="glass-card rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 flex flex-col">
+          <span className="text-[9px] sm:text-[10px] font-mono text-shogun-muted uppercase">Total Equity</span>
+          <span className="font-extrabold text-xs sm:text-lg text-white font-mono mt-0.5 sm:mt-1 truncate">
             ${portfolio?.equityUsd?.toLocaleString() || '10,000.00'}
           </span>
         </div>
 
-        <div className="glass-card rounded-2xl p-3.5 flex flex-col">
-          <span className="text-[10px] font-mono text-shogun-muted uppercase">Net Realized PnL</span>
+        <div className="glass-card rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 flex flex-col">
+          <span className="text-[9px] sm:text-[10px] font-mono text-shogun-muted uppercase truncate">Realized PnL</span>
           <span
-            className={`font-extrabold text-lg font-mono mt-1 flex items-center gap-1 ${
+            className={`font-extrabold text-xs sm:text-lg font-mono mt-0.5 sm:mt-1 flex items-center gap-0.5 sm:gap-1 truncate ${
               totalPnl >= 0 ? 'text-shogun-accent' : 'text-shogun-crimson'
             }`}
           >
-            {totalPnl >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-            {totalPnl >= 0 ? `+$${totalPnl.toFixed(2)}` : `-$${Math.abs(totalPnl).toFixed(2)}`}
+            {totalPnl >= 0 ? <TrendingUp size={12} className="shrink-0 sm:w-3.5 sm:h-3.5" /> : <TrendingDown size={12} className="shrink-0 sm:w-3.5 sm:h-3.5" />}
+            <span>{totalPnl >= 0 ? `+$${totalPnl.toFixed(2)}` : `-$${Math.abs(totalPnl).toFixed(2)}`}</span>
           </span>
         </div>
 
-        <div className="glass-card rounded-2xl p-3.5 flex flex-col">
-          <span className="text-[10px] font-mono text-shogun-muted uppercase">Win Rate</span>
-          <span className="font-extrabold text-lg text-shogun-gold font-mono mt-1">
+        <div className="glass-card rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 flex flex-col">
+          <span className="text-[9px] sm:text-[10px] font-mono text-shogun-muted uppercase">Win Rate</span>
+          <span className="font-extrabold text-xs sm:text-lg text-shogun-gold font-mono mt-0.5 sm:mt-1">
             {portfolio?.winRatePct || 100}%
           </span>
         </div>

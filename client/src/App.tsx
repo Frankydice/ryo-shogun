@@ -261,7 +261,7 @@ export const App: React.FC = () => {
         onOpenAccountModal={() => setIsAccountModalOpen(true)}
       />
 
-      <main className="flex-1 max-w-[1440px] mx-auto w-full px-4 py-6 sm:px-6 flex flex-col gap-6">
+      <main className="flex-1 max-w-[1440px] mx-auto w-full px-3 py-4 sm:px-6 sm:py-6 flex flex-col gap-4 sm:gap-6">
         {/* 2. Spacious & Readable Hero Section with Clear Hierarchy */}
         <HeroBanner
           state={state}
@@ -283,7 +283,7 @@ export const App: React.FC = () => {
         />
 
         {/* 5. Deep Candlestick Trading Chart & Agentic Analyst (Dual Column) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
           {/* Left: Candlestick & Volume Execution Chart (8 cols) */}
           <div className="lg:col-span-8 flex flex-col">
             <TokenChart
@@ -313,9 +313,9 @@ export const App: React.FC = () => {
         </div>
 
         {/* 8. Dual Column: The Debate Chamber & Active Trades */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="audit-section">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start" id="audit-section">
           {/* Left Column: Debate Chamber (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
+          <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-6">
             <CouncilChamber
               opinions={state?.opinions || []}
               edict={state?.edict || null}
@@ -323,7 +323,7 @@ export const App: React.FC = () => {
           </div>
 
           {/* Right Column: Dojo Treasury & Paper Ledger (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-6">
             <ActiveTrades
               portfolio={state?.portfolio || null}
               onCloseTrade={handleCloseTrade}
@@ -338,16 +338,18 @@ export const App: React.FC = () => {
         </div>
 
         {/* 10. Institutional Protocol Guarantees & System Telemetry */}
-        <div className="pt-2">
+        <div className="pt-1 sm:pt-2">
           <FeatureHighlights />
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-shogun-border bg-shogun-surface/60 py-5 px-6 text-center text-xs font-mono text-shogun-muted">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span>RYO Shogun (将軍) · Built for RYO-CHAN Hackathon 2026</span>
+      <footer className="border-t border-shogun-border bg-shogun-surface/60 py-4 sm:py-5 px-4 sm:px-6 text-xs font-mono text-shogun-muted">
+        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
+            <span>RYO Shogun (将軍)</span>
+            <span className="text-white/20">•</span>
+            <span>RYO-CHAN Hackathon 2026</span>
             <span className="text-white/20">•</span>
             <span className="text-shogun-gold font-bold">Track 1 & Track 2</span>
           </div>
@@ -356,7 +358,7 @@ export const App: React.FC = () => {
             href="https://github.com/Frankydice/ryo-shogun"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-shogun-accent/30 bg-shogun-accent/10 hover:bg-shogun-accent/20 text-shogun-accent transition shadow-[0_0_12px_rgba(110,232,154,0.15)] group"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-shogun-accent/30 bg-shogun-accent/10 hover:bg-shogun-accent/20 text-shogun-accent transition shadow-[0_0_12px_rgba(110,232,154,0.15)] group text-xs"
           >
             <Github size={14} className="group-hover:scale-110 transition-transform" />
             <span className="font-bold">Frankydice/ryo-shogun</span>

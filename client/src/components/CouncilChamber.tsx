@@ -11,33 +11,33 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
   const [showFullLogs, setShowFullLogs] = useState(false);
 
   return (
-    <section className="glass-panel rounded-3xl p-6 flex flex-col gap-5">
+    <section className="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
-        <div className="flex items-center gap-3">
-          <span className="p-2 rounded-xl bg-shogun-accent/10 border border-shogun-accent/30 text-shogun-accent">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 sm:pb-4">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <span className="p-1.5 sm:p-2 rounded-xl bg-shogun-accent/10 border border-shogun-accent/30 text-shogun-accent">
             <MessageSquareCode size={18} />
           </span>
           <div>
-            <h2 className="text-base font-display font-bold text-white">
+            <h2 className="text-sm sm:text-base font-display font-bold text-white">
               The Debate Chamber · 評定討論
             </h2>
-            <p className="text-xs text-shogun-muted font-mono">Verifiable multi-agent cause & effect audit trail</p>
+            <p className="text-[11px] sm:text-xs text-shogun-muted font-mono">Verifiable multi-agent cause & effect audit trail</p>
           </div>
         </div>
 
         <button
           onClick={() => setShowFullLogs(!showFullLogs)}
-          className="flex items-center gap-1.5 text-xs font-mono text-white/80 hover:text-white transition px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10"
+          className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-white/80 hover:text-white transition px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 ml-auto sm:ml-0"
         >
-          <Terminal size={13} className="text-shogun-accent" />
-          <span>{showFullLogs ? 'Hide Audit Trace' : 'Inspect Raw MCP Trail'}</span>
-          {showFullLogs ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          <Terminal size={12} className="text-shogun-accent" />
+          <span>{showFullLogs ? 'Hide Audit Trace' : 'Inspect Raw MCP'}</span>
+          {showFullLogs ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
         </button>
       </div>
 
       {/* Individual Council Stance Cards */}
-      <div className="grid grid-cols-1 gap-3.5">
+      <div className="grid grid-cols-1 gap-3 sm:gap-3.5">
         {opinions.map((op, idx) => {
           const isAccelerate = op.stance === 'ACCELERATE';
           const isVeto = op.stance === 'VETO_HOLD';
@@ -45,7 +45,7 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
           return (
             <div
               key={idx}
-              className={`rounded-2xl border transition-all p-4 sm:p-5 flex flex-col gap-3 ${
+              className={`rounded-xl sm:rounded-2xl border transition-all p-3.5 sm:p-5 flex flex-col gap-2.5 sm:gap-3 ${
                 isVeto
                   ? 'border-shogun-crimson/30 bg-[#16080a]/60'
                   : isAccelerate

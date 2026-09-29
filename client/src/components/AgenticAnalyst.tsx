@@ -123,10 +123,10 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
   const current = getTabContent();
 
   return (
-    <div className="glass-panel rounded-3xl p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden">
+    <div className="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col justify-between relative overflow-hidden">
       {/* Header */}
       <div>
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3.5">
+        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-shogun-accent/15 text-shogun-accent">
               <Users size={16} />
@@ -143,18 +143,18 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           <ChevronRight size={16} className="text-shogun-muted" />
         </div>
 
-        {/* Tab Row */}
-        <div className="flex flex-wrap items-center gap-1.5 mb-4">
+        {/* Tab Row (Horizontal Scroll on Mobile) */}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 mb-3.5 -mx-1 px-1 flex-nowrap">
           {tabs.map((tab) => {
             const isActive = activeTab === tab;
             return (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-3 py-1 text-xs font-mono rounded-lg transition-all ${
+                className={`shrink-0 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-mono rounded-lg transition-all ${
                   isActive
                     ? 'bg-shogun-accent/15 text-shogun-accent font-bold border border-shogun-accent/40 shadow-[0_0_10px_rgba(110,232,154,0.15)]'
-                    : 'text-shogun-muted hover:text-white hover:bg-white/[0.04]'
+                    : 'text-shogun-muted hover:text-white hover:bg-white/[0.04] bg-black/20'
                 }`}
               >
                 {tab}
@@ -164,7 +164,7 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
         </div>
 
         {/* Active Agent Card */}
-        <div className="glass-card rounded-2xl p-4 flex flex-col gap-3.5 border border-white/[0.08]">
+        <div className="glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex flex-col gap-3 sm:gap-3.5 border border-white/[0.08]">
           {/* Agent Header & Stance */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">

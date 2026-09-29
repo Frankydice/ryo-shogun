@@ -70,14 +70,14 @@ export const HandoverCeremony: React.FC<HandoverCeremonyProps> = ({ edict }) => 
         </div>
 
         {edict?.handover_rationale && (
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-shogun-gold/30 bg-shogun-gold/10 px-3.5 py-1 text-xs font-mono text-shogun-gold">
-            <Sparkles size={12} />
-            <span className="truncate max-w-md">{edict.handover_rationale}</span>
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-shogun-gold/30 bg-shogun-gold/10 px-3 py-1 text-[11px] sm:text-xs font-mono text-shogun-gold">
+            <Sparkles size={12} className="shrink-0" />
+            <span className="truncate max-w-[210px] sm:max-w-md">{edict.handover_rationale}</span>
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
         {archetypes.map((arch) => {
           const isActive = activeCommander === arch.id;
           const Icon = arch.icon;
@@ -85,9 +85,9 @@ export const HandoverCeremony: React.FC<HandoverCeremonyProps> = ({ edict }) => 
           return (
             <div
               key={arch.id}
-              className={`relative rounded-3xl border transition-all duration-300 p-6 flex flex-col justify-between ${
+              className={`relative rounded-2xl sm:rounded-3xl border transition-all duration-300 p-4 sm:p-6 flex flex-col justify-between ${
                 isActive
-                  ? `glass-panel ${arch.borderColor} ${arch.shadow} scale-[1.02] z-10 bg-gradient-to-b ${arch.bgGlow}`
+                  ? `glass-panel ${arch.borderColor} ${arch.shadow} md:scale-[1.02] z-10 bg-gradient-to-b ${arch.bgGlow}`
                   : 'glass-card opacity-65 hover:opacity-90 hover:border-white/20'
               }`}
             >

@@ -64,15 +64,15 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-3xl border border-white/15 bg-[#0a110d]/95 p-6 shadow-2xl flex flex-col gap-5 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto no-scrollbar rounded-2xl sm:rounded-3xl border border-white/15 bg-[#0a110d]/95 p-4 sm:p-6 shadow-2xl flex flex-col gap-4 sm:gap-5 backdrop-blur-xl">
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
           <div className="flex items-center gap-2">
             <span className="p-1 rounded bg-shogun-accent/10 text-shogun-accent">
               <Sparkles size={16} />
             </span>
-            <span className="font-mono font-bold text-sm text-white uppercase tracking-wider">
+            <span className="font-mono font-bold text-xs sm:text-sm text-white uppercase tracking-wider">
               Export Proof of Thesis · 布告証明
             </span>
           </div>
@@ -84,7 +84,7 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
         {/* The Aesthetic Card (Capture Target) */}
         <div
           ref={cardRef}
-          className="rounded-2xl border border-shogun-accent/30 bg-gradient-to-br from-[#07110c] via-[#0b1712] to-[#050806] p-6 shadow-2xl relative overflow-hidden"
+          className="rounded-xl sm:rounded-2xl border border-shogun-accent/30 bg-gradient-to-br from-[#07110c] via-[#0b1712] to-[#050806] p-4 sm:p-6 shadow-2xl relative overflow-hidden"
         >
           {/* Watermark */}
           <div className="absolute -right-4 -bottom-6 pointer-events-none select-none text-white/[0.04] text-9xl font-black font-jp">
