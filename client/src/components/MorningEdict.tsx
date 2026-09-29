@@ -21,17 +21,17 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
   const isTrade = edict.verdict === 'EXECUTE_TRADE';
 
   return (
-    <section className="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-sm relative overflow-hidden">
+    <section className="bg-white rounded-3xl p-5 sm:p-8 border border-zinc-200 shadow-sm relative overflow-hidden">
       <div className="flex flex-col gap-5 sm:gap-6 relative z-10">
         {/* Top Header Banner */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-zinc-100 text-black flex items-center justify-center shrink-0">
               <ScrollText size={20} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-700">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-600">
                   The Shogun's Decree · 朝の布告
                 </span>
                 <span className="text-slate-300">•</span>
@@ -39,7 +39,7 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
                   {new Date(edict.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                 </span>
               </div>
-              <h2 className="font-extrabold text-base sm:text-xl text-slate-900 tracking-tight">
+              <h2 className="font-extrabold text-base sm:text-xl text-black tracking-tight font-display">
                 30-Second Executive Market Verdict
               </h2>
             </div>
@@ -48,7 +48,7 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
           {/* Share to X / Export Proof Button */}
           <button
             onClick={onOpenThesisModal}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-semibold text-xs shadow-sm hover:shadow transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-mono font-semibold text-xs border border-black shadow-sm hover:shadow transition-all"
           >
             <Share2 size={14} />
             <span>Export Proof of Thesis</span>
@@ -56,7 +56,7 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
         </div>
 
         {/* 30-Second Executive Summary Quote Box */}
-        <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-6">
+        <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 sm:p-6">
           <p className="text-base sm:text-xl font-medium text-slate-800 leading-relaxed font-sans italic">
             "{edict.thirty_second_brief}"
           </p>
@@ -65,10 +65,10 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
         {/* High-Impact Stat Matrix (4 cols) */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Commander & Verdict */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+          <div className="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400">
               <span>Command Seal</span>
-              <Lock size={13} className="text-purple-600" />
+              <Lock size={13} className="text-zinc-700" />
             </div>
             <div className="mt-2.5">
               <span className="font-extrabold text-sm text-slate-900 block truncate">
@@ -86,13 +86,13 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
           </div>
 
           {/* Conviction Score */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+          <div className="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400">
               <span>Confidence Conviction</span>
-              <Award size={13} className="text-purple-600" />
+              <Award size={13} className="text-zinc-700" />
             </div>
             <div className="mt-2.5">
-              <div className="text-2xl font-mono font-extrabold text-purple-700">
+              <div className="text-2xl font-mono font-extrabold text-black">
                 {((edict.confidence_score || 0.88) * 100).toFixed(0)}%
               </div>
               <span className="text-[11px] font-mono text-slate-500 block truncate">
@@ -102,7 +102,7 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
           </div>
 
           {/* Risk / Reward Ratio */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+          <div className="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400">
               <span>Risk / Reward Ratio</span>
               <Target size={13} className="text-emerald-600" />
@@ -118,10 +118,10 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
           </div>
 
           {/* Execution Boundary */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+          <div className="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400">
               <span>Execution Boundary</span>
-              <ShieldCheck size={13} className="text-purple-600" />
+              <ShieldCheck size={13} className="text-zinc-700" />
             </div>
             <div className="mt-2.5">
               <span className="font-extrabold text-sm text-slate-900 block truncate">

@@ -28,7 +28,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
   const [emailOrWallet, setEmailOrWallet] = useState('');
   const [startingBalance, setStartingBalance] = useState<number>(25000);
   const [commander, setCommander] = useState<CommanderRole>('The Ronin (浪人)');
-  const [color, setColor] = useState<UserSubAccount['avatarColor']>('purple');
+  const [color, setColor] = useState<UserSubAccount['avatarColor']>('obsidian');
 
   if (!isOpen) return null;
 
@@ -54,7 +54,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
     onCreateAccount({
       name: `${activeAccount.name} (Web3 Linked)`,
       emailOrWallet: mockAddr,
-      avatarColor: 'purple',
+      avatarColor: 'obsidian',
       startingBalanceUsd: activeAccount.startingBalanceUsd,
       preferredCommander: activeAccount.preferredCommander
     });
@@ -62,11 +62,11 @@ export const AccountModal: React.FC<AccountModalProps> = ({
   };
 
   const colorStyles: Record<UserSubAccount['avatarColor'], { bg: string; border: string; text: string }> = {
-    purple: { bg: 'bg-purple-100', border: 'border-purple-300', text: 'text-purple-700' },
-    emerald: { bg: 'bg-emerald-100', border: 'border-emerald-300', text: 'text-emerald-700' },
-    gold: { bg: 'bg-amber-100', border: 'border-amber-300', text: 'text-amber-700' },
-    cyan: { bg: 'bg-cyan-100', border: 'border-cyan-300', text: 'text-cyan-700' },
-    crimson: { bg: 'bg-rose-100', border: 'border-rose-300', text: 'text-rose-700' }
+    obsidian: { bg: 'bg-zinc-900', border: 'border-zinc-700', text: 'text-white' },
+    emerald: { bg: 'bg-zinc-100', border: 'border-zinc-300', text: 'text-zinc-900' },
+    gold: { bg: 'bg-zinc-200', border: 'border-zinc-400', text: 'text-zinc-900' },
+    cyan: { bg: 'bg-zinc-100', border: 'border-zinc-300', text: 'text-zinc-800' },
+    crimson: { bg: 'bg-zinc-800', border: 'border-zinc-600', text: 'text-white' }
   };
 
   return (
@@ -75,7 +75,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0">
               <User size={20} />
             </div>
             <div>
@@ -97,7 +97,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
           <button
             onClick={() => setActiveTab('switch')}
             className={`flex-1 py-2 rounded-lg transition-all ${
-              activeTab === 'switch' ? 'bg-white text-purple-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'switch' ? 'bg-black text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             Profiles ({accounts.length})
@@ -105,7 +105,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
           <button
             onClick={() => setActiveTab('create')}
             className={`flex-1 py-2 rounded-lg transition-all ${
-              activeTab === 'create' ? 'bg-white text-purple-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'create' ? 'bg-black text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             + Create New
@@ -113,7 +113,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
           <button
             onClick={() => setActiveTab('wallet')}
             className={`flex-1 py-2 rounded-lg transition-all ${
-              activeTab === 'wallet' ? 'bg-white text-purple-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'wallet' ? 'bg-black text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             Web3 Wallet
@@ -126,7 +126,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
             <div className="space-y-2 max-h-60 overflow-y-auto no-scrollbar">
               {accounts.map((acc) => {
                 const isSelected = acc.id === activeAccount.id;
-                const cStyle = colorStyles[acc.avatarColor] || colorStyles.purple;
+                const cStyle = colorStyles[acc.avatarColor] || colorStyles.obsidian;
 
                 return (
                   <div
@@ -134,8 +134,8 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                     onClick={() => onSelectAccount(acc)}
                     className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-purple-50 border-purple-600 shadow-sm'
-                        : 'bg-slate-50 border-slate-200/80 hover:border-purple-300 hover:bg-white'
+                        ? 'bg-zinc-100 border-2 border-black shadow-sm'
+                        : 'bg-slate-50 border-slate-200/80 hover:border-black hover:bg-white'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -146,7 +146,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                         <div className="flex items-center gap-1.5">
                           <span className="font-extrabold text-sm text-slate-900">{acc.name}</span>
                           {isSelected && (
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-600 text-white font-bold">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black text-white font-bold">
                               ACTIVE
                             </span>
                           )}
@@ -181,7 +181,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
 
             <button
               onClick={() => setActiveTab('create')}
-              className="w-full py-2.5 rounded-xl border-2 border-dashed border-slate-200 hover:border-purple-300 text-xs font-mono font-bold text-purple-700 hover:bg-purple-50 transition-all flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 rounded-xl border-2 border-dashed border-slate-300 hover:border-black text-xs font-mono font-bold text-black hover:bg-zinc-100 transition-all flex items-center justify-center gap-1.5"
             >
               <Plus size={14} />
               <span>Add Another Sub-Account</span>
@@ -202,7 +202,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. DeFi Perps Desk, Alpha Fund"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-purple-600 focus:bg-white transition"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-black focus:bg-white transition"
               />
             </div>
 
@@ -215,7 +215,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                 value={emailOrWallet}
                 onChange={(e) => setEmailOrWallet(e.target.value)}
                 placeholder="0x... or user@domain.eth (optional)"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-purple-600 focus:bg-white transition"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-black focus:bg-white transition"
               />
             </div>
 
@@ -228,7 +228,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                   type="number"
                   value={startingBalance}
                   onChange={(e) => setStartingBalance(Number(e.target.value))}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-black focus:bg-white transition"
                 />
               </div>
 
@@ -239,7 +239,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                 <select
                   value={commander}
                   onChange={(e) => setCommander(e.target.value as CommanderRole)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-mono focus:outline-none focus:border-black focus:bg-white transition"
                 >
                   <option value="The Ronin (浪人)">The Ronin (Breakout)</option>
                   <option value="The Shinobi (忍)">The Shinobi (Accumulation)</option>
@@ -253,15 +253,15 @@ export const AccountModal: React.FC<AccountModalProps> = ({
                 Avatar Theme
               </label>
               <div className="flex gap-2">
-                {(['purple', 'emerald', 'cyan', 'gold', 'crimson'] as const).map((c) => (
+                {(['obsidian', 'emerald', 'cyan', 'gold', 'crimson'] as const).map((c) => (
                   <button
                     key={c}
                     type="button"
                     onClick={() => setColor(c)}
                     className={`w-7 h-7 rounded-lg border-2 transition ${
-                      color === c ? 'border-purple-600 ring-2 ring-purple-200 scale-105' : 'border-transparent opacity-70 hover:opacity-100'
+                      color === c ? 'border-black ring-2 ring-zinc-300 scale-105' : 'border-transparent opacity-70 hover:opacity-100'
                     } ${
-                      c === 'purple' ? 'bg-purple-600' : c === 'emerald' ? 'bg-emerald-600' : c === 'cyan' ? 'bg-cyan-600' : c === 'gold' ? 'bg-amber-500' : 'bg-rose-600'
+                      c === 'obsidian' ? 'bg-black' : c === 'emerald' ? 'bg-zinc-700' : c === 'cyan' ? 'bg-zinc-500' : c === 'gold' ? 'bg-zinc-400' : 'bg-zinc-800'
                     }`}
                   />
                 ))}
@@ -278,7 +278,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold text-xs shadow-sm transition"
+                className="px-5 py-2 rounded-xl bg-black hover:bg-zinc-800 text-white font-mono font-bold text-xs shadow-sm transition"
               >
                 Create Account
               </button>
@@ -289,7 +289,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
         {/* TAB 3: WEB3 WALLET CONNECT */}
         {activeTab === 'wallet' && (
           <div className="flex flex-col gap-4 text-center py-2">
-            <div className="w-16 h-16 rounded-3xl bg-purple-100 text-purple-700 flex items-center justify-center mx-auto shadow-sm">
+            <div className="w-16 h-16 rounded-3xl bg-zinc-100 text-zinc-900 flex items-center justify-center mx-auto shadow-sm">
               <Wallet size={28} />
             </div>
 
@@ -305,7 +305,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({
             <div className="flex flex-col gap-2 pt-2">
               <button
                 onClick={handleSimulateWalletConnect}
-                className="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold text-xs shadow-sm flex items-center justify-center gap-2 transition"
+                className="w-full py-3 rounded-xl bg-black hover:bg-zinc-800 text-white font-mono font-bold text-xs shadow-sm flex items-center justify-center gap-2 transition"
               >
                 <Wallet size={16} />
                 <span>Connect MetaMask / Rabby</span>

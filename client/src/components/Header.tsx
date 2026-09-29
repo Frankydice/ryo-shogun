@@ -73,8 +73,8 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Left: Brand Identity */}
           <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleNavClick('dashboard')}>
-              {/* Olas Purple Samurai Seal */}
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-600 border border-purple-500 shadow-sm flex items-center justify-center font-bold text-white font-jp text-lg sm:text-xl transition-transform hover:scale-105">
+              {/* Obsidian Black Samurai Seal */}
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-black border border-zinc-800 shadow-sm flex items-center justify-center font-bold text-white font-jp text-lg sm:text-xl transition-transform hover:scale-105">
                 将
               </div>
 
@@ -83,8 +83,8 @@ export const Header: React.FC<HeaderProps> = ({
                   <span className="font-extrabold text-slate-900 tracking-tight text-lg sm:text-xl font-display">
                     RYO SHOGUN
                   </span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-bold border border-purple-200">
-                    OLAS-v2.1
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-900 font-bold border border-zinc-300">
+                    v2.1
                   </span>
                 </div>
                 <div className="flex items-center gap-2 mt-0.5">
@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Center: Desktop Navigation Tabs (Olas Style) */}
+          {/* Center: Desktop Navigation Tabs (Mature Monochrome) */}
           <nav className="hidden lg:flex items-center gap-1">
             {navTabs.map((tab) => {
               const isActive = activeTab === tab.id;
@@ -109,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onClick={() => handleNavClick(tab.id)}
                   className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-purple-50 text-purple-700 font-semibold'
+                      ? 'bg-black text-white font-semibold shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
@@ -119,7 +119,7 @@ export const Header: React.FC<HeaderProps> = ({
             })}
           </nav>
 
-          {/* Right: Sub-Account, Status, and Olas Purple CTA */}
+          {/* Right: Sub-Account, Status, and Solid Black CTA */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Sub-Account Selector */}
             <div className="relative">
@@ -127,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-all text-xs font-mono font-medium text-slate-700"
               >
-                <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                <div className="w-2 h-2 rounded-full bg-black"></div>
                 <span className="font-semibold max-w-[80px] sm:max-w-[110px] truncate">
                   {activeAccount.name}
                 </span>
@@ -146,13 +146,13 @@ export const Header: React.FC<HeaderProps> = ({
                         onSelectAccount(acc);
                         setIsDropdownOpen(false);
                       }}
-                      className="w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-purple-50 hover:text-purple-700 transition-colors"
+                      className="w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
                     >
                       <div className="flex items-center gap-2 truncate">
                         <User size={13} className="text-slate-400 shrink-0" />
                         <span className="font-medium text-slate-800">{acc.name}</span>
                       </div>
-                      {acc.id === activeAccount.id && <Check size={13} className="text-purple-600 shrink-0" />}
+                      {acc.id === activeAccount.id && <Check size={13} className="text-black shrink-0" />}
                     </button>
                   ))}
                   <div className="p-1 border-t border-slate-100">
@@ -161,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({
                         setIsDropdownOpen(false);
                         onOpenAccountModal();
                       }}
-                      className="w-full text-center py-1.5 text-xs font-semibold text-purple-700 hover:bg-purple-50 rounded-lg transition-colors"
+                      className="w-full text-center py-1.5 text-xs font-semibold text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors font-mono"
                     >
                       + Manage Accounts
                     </button>
@@ -183,21 +183,21 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Quick Status / MCP Config */}
             <button
               onClick={onOpenMcpConfig}
-              className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-colors"
+              className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:text-black hover:bg-zinc-100 transition-colors"
               title="MCP Configuration"
             >
               <Settings2 size={16} />
             </button>
 
-            {/* Primary Olas Royal Purple CTA */}
+            {/* Primary Solid Black CTA */}
             <button
               onClick={onConveneCouncil}
               disabled={isConvening}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-1.5 disabled:opacity-50"
+              className="bg-black hover:bg-zinc-800 text-white font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg border border-black shadow-sm hover:shadow transition-all flex items-center gap-1.5 disabled:opacity-50"
             >
               <Radio size={14} className={isConvening ? 'animate-spin' : ''} />
-              <span className="hidden sm:inline">Convene Council</span>
-              <span className="sm:hidden">Convene</span>
+              <span className="hidden sm:inline font-mono font-bold">Convene Council</span>
+              <span className="sm:hidden font-mono font-bold">Convene</span>
             </button>
 
             {/* Mobile Menu Button */}
@@ -218,7 +218,7 @@ export const Header: React.FC<HeaderProps> = ({
                 key={tab.id}
                 onClick={() => handleNavClick(tab.id)}
                 className={`text-left px-3 py-2 rounded-md text-sm font-medium ${
-                  activeTab === tab.id ? 'bg-purple-50 text-purple-700 font-semibold' : 'text-slate-700 hover:bg-slate-50'
+                  activeTab === tab.id ? 'bg-black text-white font-semibold' : 'text-slate-700 hover:bg-slate-50'
                 }`}
               >
                 {tab.label}
@@ -238,7 +238,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => handleNavClick(tab.id)}
               className={`shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-all ${
                 isActive
-                  ? 'bg-purple-600 text-white shadow-sm'
+                  ? 'bg-black text-white shadow-sm'
                   : 'bg-white border border-slate-200 text-slate-600'
               }`}
             >

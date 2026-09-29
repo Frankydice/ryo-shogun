@@ -11,15 +11,15 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
   const [showFullLogs, setShowFullLogs] = useState(false);
 
   return (
-    <section className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col gap-5" id="debate-section">
+    <section className="bg-white rounded-3xl p-5 sm:p-7 border border-zinc-200 shadow-sm flex flex-col gap-5" id="debate-section">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 pb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-purple-100 border border-purple-200 text-purple-700 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-zinc-100 border border-zinc-200 text-black flex items-center justify-center shrink-0">
             <MessageSquareCode size={20} />
           </div>
           <div>
-            <h2 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-base sm:text-lg font-extrabold text-black tracking-tight font-display">
               The Debate Chamber · 評定討論
             </h2>
             <p className="text-xs text-slate-500 font-mono">
@@ -30,15 +30,15 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
 
         <button
           onClick={() => setShowFullLogs(!showFullLogs)}
-          className="flex items-center gap-1.5 text-xs font-mono text-slate-600 hover:text-purple-700 transition px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-purple-50 border border-slate-200 ml-auto sm:ml-0"
+          className="flex items-center gap-1.5 text-xs font-mono text-slate-600 hover:text-black transition px-3 py-1.5 rounded-xl bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 ml-auto sm:ml-0"
         >
-          <Terminal size={13} className="text-purple-600" />
+          <Terminal size={13} className="text-black" />
           <span>{showFullLogs ? 'Hide Audit Trace' : 'Inspect Raw MCP Trace'}</span>
           {showFullLogs ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
       </div>
 
-      {/* Individual Council Stance Cards (Olas Mech Card Style) */}
+      {/* Individual Council Stance Cards */}
       <div className="grid grid-cols-1 gap-4">
         {opinions.map((op, idx) => {
           const isAccelerate = op.stance === 'ACCELERATE';
@@ -100,13 +100,13 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
               {/* Tools Queried & Provenance */}
               <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] font-mono text-slate-500">
                 <div className="flex items-center gap-1.5">
-                  <Cpu size={12} className="text-purple-600" />
+                  <Cpu size={12} className="text-black" />
                   <span>Queried:</span>
                   <div className="flex flex-wrap gap-1">
                     {op.toolsCalled.map((tool, tIdx) => (
                       <span
                         key={tIdx}
-                        className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-semibold"
+                        className="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 border border-zinc-200 font-semibold"
                       >
                         {tool}()
                       </span>
@@ -120,7 +120,7 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
                     <span className="text-slate-300">•</span>
                     <span>TP: ${op.suggestedAction.tp}</span>
                     <span className="text-slate-300">•</span>
-                    <span className="text-purple-700">R:R: {op.suggestedAction.rr}x</span>
+                    <span className="text-black font-bold">R:R: {op.suggestedAction.rr}x</span>
                   </div>
                 )}
               </div>
@@ -131,19 +131,19 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
 
       {/* Expandable Raw Audit Logs */}
       {showFullLogs && edict && (
-        <div className="rounded-2xl p-4 bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2 animate-in fade-in duration-200">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-purple-400 font-bold">
+        <div className="rounded-2xl p-4 bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-300 space-y-2 animate-in fade-in duration-200">
+          <div className="flex items-center justify-between pb-2 border-b border-zinc-800 text-zinc-200 font-bold">
             <span className="flex items-center gap-1.5">
-              <ShieldCheck size={14} />
+              <ShieldCheck size={14} className="text-emerald-500" />
               Immutable Shogun Decision Trail (SHA-256 Provenance)
             </span>
-            <span className="text-[10px] text-slate-500">{edict.timestamp}</span>
+            <span className="text-[10px] text-zinc-500">{edict.timestamp}</span>
           </div>
 
           <div className="space-y-1.5 overflow-x-auto">
             {edict.full_reasoning_trail.map((line, lIdx) => (
-              <div key={lIdx} className="leading-relaxed text-slate-300">
-                <span className="text-purple-400 mr-2">{'>'}</span>
+              <div key={lIdx} className="leading-relaxed text-zinc-300">
+                <span className="text-zinc-500 mr-2">{'>'}</span>
                 {line}
               </div>
             ))}

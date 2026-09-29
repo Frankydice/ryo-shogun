@@ -53,7 +53,7 @@ export const initialShogunState: ShogunState = {
     fear_greed: 73,
     btc_dominance: 56.0,
     eth_gas_gwei: 1.3,
-    trending_narratives: ['Autonomous AI Agents', 'Olas Agent Economies', 'DeFi Restaking & Perps', 'Layer-2 Liquidity Inflows'],
+    trending_narratives: ['Autonomous AI Agents', 'Autonomous Liquidity Networks', 'DeFi Restaking & Perps', 'Layer-2 Liquidity Inflows'],
     summary: 'Macro liquidity expanding across major ecosystems. Risk-on rotation favored for momentum breakouts.'
   },
   portfolio: {

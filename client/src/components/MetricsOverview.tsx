@@ -20,10 +20,10 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
       value: '6 Pairs',
       subtitle: 'Live Gate.io spot feed',
       trend: '100% Verified Live',
-      trendColor: 'text-purple-700',
-      icon: <ScanSearch size={18} className="text-purple-600" />,
-      iconBg: 'bg-purple-100 border-purple-200',
-      sparklineColor: '#7E22CE',
+      trendColor: 'text-zinc-900',
+      icon: <ScanSearch size={18} className="text-black" />,
+      iconBg: 'bg-zinc-100 border-zinc-200',
+      sparklineColor: '#18181B',
       sparklinePath: 'M0,15 Q10,5 20,12 T40,4 T60,8 T80,2'
     },
     {
@@ -32,10 +32,10 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
       value: '6 Tokens',
       subtitle: 'Council evaluations',
       trend: 'BTC, ETH, SOL, INJ...',
-      trendColor: 'text-purple-700',
-      icon: <Activity size={18} className="text-purple-600" />,
-      iconBg: 'bg-purple-100 border-purple-200',
-      sparklineColor: '#9333EA',
+      trendColor: 'text-zinc-900',
+      icon: <Activity size={18} className="text-black" />,
+      iconBg: 'bg-zinc-100 border-zinc-200',
+      sparklineColor: '#18181B',
       sparklinePath: 'M0,14 Q15,16 30,10 T50,12 T70,4 T80,3'
     },
     {
@@ -69,8 +69,8 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
       subtitle: 'Treasury deployment',
       trend: 'Safe corridor: 50 – 80%',
       trendColor: 'text-slate-500',
-      icon: <Wallet size={18} className="text-purple-600" />,
-      iconBg: 'bg-purple-100 border-purple-200',
+      icon: <Wallet size={18} className="text-black" />,
+      iconBg: 'bg-zinc-100 border-zinc-200',
       sparklineColor: null
     },
     {
@@ -79,9 +79,9 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
       value: String(openPositions),
       subtitle: 'Open paper trade',
       action: '→ View Treasury',
-      actionColor: 'text-purple-700',
-      icon: <FileText size={18} className="text-purple-600" />,
-      iconBg: 'bg-purple-100 border-purple-200',
+      actionColor: 'text-black',
+      icon: <FileText size={18} className="text-black" />,
+      iconBg: 'bg-zinc-100 border-zinc-200',
       sparklineColor: null
     }
   ];
@@ -91,7 +91,7 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
       {metrics.map((m) => (
         <div
           key={m.id}
-          className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between transition-all duration-200 hover:border-purple-300 hover:shadow-md group"
+          className="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm flex flex-col justify-between transition-all duration-200 hover:border-black hover:shadow-md group"
         >
           {/* Header Row */}
           <div className="flex items-center justify-between gap-1">
@@ -105,10 +105,10 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({ state, onRevie
 
           {/* Metric Value */}
           <div className="my-2.5">
-            <div className="text-xl sm:text-2xl font-mono font-extrabold text-slate-900 group-hover:text-purple-700 transition-colors truncate">
+            <div className="text-xl sm:text-2xl font-mono font-extrabold text-black group-hover:text-zinc-700 transition-colors truncate">
               {m.value}
             </div>
-            <div className="text-[11px] text-slate-500 truncate mt-0.5">
+            <div className="text-[11px] text-slate-500 truncate mt-0.5 font-mono">
               {m.subtitle}
             </div>
           </div>

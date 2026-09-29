@@ -39,7 +39,7 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
+            <span className="p-1.5 rounded-lg bg-zinc-100 text-zinc-900">
               <Terminal size={16} />
             </span>
             <span className="font-mono font-bold text-sm text-slate-900 uppercase tracking-wider">
@@ -63,7 +63,7 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
               value={tokenInput}
               onChange={(e) => setTokenInput(e.target.value)}
               autoFocus
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 font-mono focus:border-purple-600 focus:bg-white focus:outline-none uppercase transition"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 font-mono focus:border-black focus:bg-white focus:outline-none uppercase transition"
             />
           </div>
 
@@ -79,7 +79,7 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
                   className={`text-xs font-mono px-2.5 py-1 rounded-lg border transition ${
                     sym === 'MEME_RUG'
                       ? 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100'
-                      : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-purple-50 hover:text-purple-700 hover:border-purple-300'
+                      : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-zinc-100 hover:text-black hover:border-black'
                   }`}
                 >
                   {sym} {sym === 'MEME_RUG' && '(Test Veto)'}
@@ -99,7 +99,7 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold text-xs shadow-sm transition disabled:opacity-50"
+              className="px-5 py-2 rounded-xl bg-black hover:bg-zinc-800 text-white font-mono font-bold text-xs shadow-sm transition disabled:opacity-50"
             >
               {isLoading ? 'Convening...' : 'Evaluate Token'}
             </button>

@@ -4,7 +4,7 @@ const ECOSYSTEM_PARTNERS = [
   { name: 'Gate.io Spot', desc: 'Live Tickers & Candlesticks' },
   { name: 'DexScreener', desc: 'On-Chain Liquidity & Pools' },
   { name: 'Ethereum RPC', desc: 'Mainnet Gas & Execution' },
-  { name: 'Olas Network', desc: 'Agent Economics & Mechs' },
+  { name: 'Robinhood Chain', desc: 'Institutional DeFi & Perps' },
   { name: 'CoinPaprika', desc: 'Global BTC Dominance & Volume' },
   { name: 'Alternative.me', desc: 'Global Fear & Greed Index' },
   { name: 'Arbitrum One', desc: 'Layer-2 Low Latency' },
@@ -14,17 +14,17 @@ const ECOSYSTEM_PARTNERS = [
 
 export const EcosystemMarquee: React.FC = () => {
   return (
-    <div className="w-full py-10 sm:py-14 bg-white border-y border-slate-200/80 overflow-hidden">
-      {/* Olas Corner-Bracket Badge */}
+    <div className="w-full py-10 sm:py-14 bg-white border-y border-zinc-200 overflow-hidden">
+      {/* Corner-Bracket Badge */}
       <div className="flex justify-center w-full mb-8">
         <div className="relative inline-block">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute w-2 h-2 border-[#C084FC] top-0 left-0 border-t-2 border-l-2 z-20"></div>
-            <div className="absolute w-2 h-2 border-[#C084FC] top-0 right-0 border-t-2 border-r-2 z-20"></div>
-            <div className="absolute w-2 h-2 border-[#C084FC] bottom-0 left-0 border-b-2 border-l-2 z-20"></div>
-            <div className="absolute w-2 h-2 border-[#C084FC] bottom-0 right-0 border-b-2 border-r-2 z-20"></div>
+            <div className="absolute w-2 h-2 border-zinc-900 top-0 left-0 border-t-2 border-l-2 z-20"></div>
+            <div className="absolute w-2 h-2 border-zinc-900 top-0 right-0 border-t-2 border-r-2 z-20"></div>
+            <div className="absolute w-2 h-2 border-zinc-900 bottom-0 left-0 border-b-2 border-l-2 z-20"></div>
+            <div className="absolute w-2 h-2 border-zinc-900 bottom-0 right-0 border-b-2 border-r-2 z-20"></div>
           </div>
-          <div className="relative inline-flex items-center justify-center px-4 py-1.5 font-semibold text-xs tracking-wider uppercase rounded-md text-center bg-[#7E22CE0D] text-[#7E22CE] z-10 font-mono">
+          <div className="relative inline-flex items-center justify-center px-4 py-1.5 font-bold text-xs tracking-wider uppercase rounded-md text-center bg-zinc-100 text-zinc-900 border border-zinc-200 z-10 font-mono">
             Verified Live Oracles & Protocol Rails
           </div>
         </div>
@@ -41,14 +41,14 @@ export const EcosystemMarquee: React.FC = () => {
           {[...ECOSYSTEM_PARTNERS, ...ECOSYSTEM_PARTNERS, ...ECOSYSTEM_PARTNERS].map((partner, idx) => (
             <div
               key={`${partner.name}-${idx}`}
-              className="flex items-center gap-2.5 shrink-0 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200/60 hover:border-purple-300 hover:bg-purple-50/30 transition-all cursor-default group"
+              className="flex items-center gap-2.5 shrink-0 px-4 py-2 rounded-xl bg-zinc-50 border border-zinc-200 hover:border-zinc-900 hover:bg-zinc-100 transition-all cursor-default group"
             >
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
               <div>
-                <span className="font-extrabold text-sm sm:text-base text-slate-800 group-hover:text-purple-700 transition-colors">
+                <span className="font-extrabold text-sm sm:text-base text-zinc-800 group-hover:text-black transition-colors font-mono">
                   {partner.name}
                 </span>
-                <span className="block text-[10px] text-slate-400 font-mono">
+                <span className="block text-[10px] text-zinc-500 font-mono">
                   {partner.desc}
                 </span>
               </div>

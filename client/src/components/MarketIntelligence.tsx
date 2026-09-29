@@ -53,14 +53,14 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
 
   return (
     <div className="flex flex-col gap-4" id="market-intelligence">
-      {/* Header Bar with Olas Corner-Bracket */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200">
+      {/* Header Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-zinc-200">
         <div className="flex items-center gap-2.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-black animate-pulse"></div>
           <div>
-            <h2 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+            <h2 className="text-base sm:text-lg font-extrabold text-black tracking-tight flex items-center gap-2 font-display">
               <span>Live Market Intelligence</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-bold border border-purple-200">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-900 font-bold border border-zinc-300">
                 100% FACTUAL
               </span>
             </h2>
@@ -73,10 +73,10 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
         <button
           onClick={fetchLiveTokens}
           disabled={isRefreshing}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-mono text-slate-600 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 text-xs font-mono text-zinc-700 transition-colors"
           title="Refresh live feeds"
         >
-          <RefreshCw size={13} className={isRefreshing ? 'animate-spin text-purple-600' : ''} />
+          <RefreshCw size={13} className={isRefreshing ? 'animate-spin text-black' : ''} />
           <span>Sync Oracles</span>
         </button>
       </div>
@@ -93,23 +93,23 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
               onClick={() => onSelectToken(t.symbol)}
               className={`rounded-2xl p-4 cursor-pointer transition-all duration-200 flex flex-col justify-between ${
                 isSelected
-                  ? 'bg-purple-50/60 border-2 border-purple-600 shadow-md -translate-y-0.5'
-                  : 'bg-white border border-slate-200/90 shadow-sm hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5'
+                  ? 'bg-zinc-50 border-2 border-black shadow-md -translate-y-0.5'
+                  : 'bg-white border border-zinc-200 shadow-sm hover:border-black hover:shadow-md hover:-translate-y-0.5'
               }`}
             >
               {/* Card Top: Symbol & Badge */}
               <div className="flex items-center justify-between gap-1">
-                <span className="font-mono font-extrabold text-sm sm:text-base text-slate-900">
+                <span className="font-mono font-extrabold text-sm sm:text-base text-black">
                   {t.symbol}
                 </span>
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">
                   {t.badge}
                 </span>
               </div>
 
               {/* Price & 24h Change */}
               <div className="my-3">
-                <div className="text-base sm:text-lg font-mono font-extrabold text-slate-900">
+                <div className="text-base sm:text-lg font-mono font-extrabold text-black">
                   ${t.price >= 1000 ? t.price.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : t.price.toFixed(t.price < 1 ? 4 : 2)}
                 </div>
                 <div className={`flex items-center gap-1 text-xs font-mono font-bold mt-0.5 ${
@@ -121,7 +121,7 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
               </div>
 
               {/* Sparkline & Volume */}
-              <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+              <div className="pt-2 border-t border-zinc-100 flex items-center justify-between">
                 <div className="text-[10px] font-mono text-slate-400">
                   <span>Vol: </span>
                   <span className="font-semibold text-slate-700">{t.volumeUsd}</span>
@@ -142,22 +142,22 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
         })}
       </div>
 
-      {/* Active Catalyst Simulation Card (Olas Style) */}
-      <div className="rounded-2xl p-4 sm:p-5 bg-white border border-slate-200/90 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Active Catalyst Simulation Card */}
+      <div className="rounded-2xl p-4 sm:p-5 bg-white border border-zinc-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-zinc-100 text-black flex items-center justify-center shrink-0">
             <Radio size={20} className="animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-slate-900 text-sm">
+              <span className="font-extrabold text-black text-sm font-display">
                 Scenario Stress-Test Engine
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-200">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-900 font-bold border border-zinc-300">
                 WAR ROOM READY
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5 font-mono">
               Inject external macro shocks to test the Samurai Council's autonomous handover and Daimyo veto rules.
             </p>
           </div>
@@ -169,7 +169,7 @@ export const MarketIntelligence: React.FC<MarketIntelligenceProps> = ({
           className={`shrink-0 px-4 py-2.5 rounded-xl font-medium text-xs font-mono transition-all flex items-center justify-center gap-2 ${
             injected
               ? 'bg-emerald-600 text-white shadow-sm'
-              : 'bg-purple-600 hover:bg-purple-700 text-white shadow-sm hover:shadow'
+              : 'bg-black hover:bg-zinc-800 text-white border border-black shadow-sm hover:shadow'
           }`}
         >
           {injected ? (

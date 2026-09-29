@@ -37,7 +37,7 @@ export const McpConfigModal: React.FC<McpConfigModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
+            <span className="p-1.5 rounded-lg bg-zinc-100 text-zinc-900">
               <Key size={16} />
             </span>
             <span className="font-mono font-bold text-sm text-slate-900 uppercase tracking-wider">
@@ -53,7 +53,7 @@ export const McpConfigModal: React.FC<McpConfigModalProps> = ({
         <div className="text-xs text-slate-600 leading-relaxed flex flex-col gap-2.5">
           <p>
             RYO Shogun connects to the official RYO-CHAN Model Context Protocol endpoint at{' '}
-            <code className="text-purple-700 font-mono bg-purple-50 px-1.5 py-0.5 rounded">https://app-ryochan.com/api/mcp</code>.
+            <code className="text-black font-mono bg-zinc-100 border border-zinc-200 px-1.5 py-0.5 rounded">https://app-ryochan.com/api/mcp</code>.
           </p>
           <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl flex items-center justify-between">
             <span className="font-medium text-slate-600">Status:</span>
@@ -75,7 +75,7 @@ export const McpConfigModal: React.FC<McpConfigModalProps> = ({
               placeholder="ryo_mcp_..."
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 font-mono focus:border-purple-600 focus:bg-white focus:outline-none transition"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 font-mono focus:border-black focus:bg-white focus:outline-none transition"
             />
           </div>
 
@@ -84,7 +84,7 @@ export const McpConfigModal: React.FC<McpConfigModalProps> = ({
               href="https://discord.gg/qkWPjxzxtC"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-mono text-purple-700 hover:underline flex items-center gap-1 font-semibold"
+              className="text-xs font-mono text-zinc-800 hover:text-black hover:underline flex items-center gap-1 font-semibold"
             >
               <span>Request Key on Discord</span>
               <ExternalLink size={12} />
@@ -92,7 +92,7 @@ export const McpConfigModal: React.FC<McpConfigModalProps> = ({
 
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold text-xs shadow-sm transition"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-black hover:bg-zinc-800 text-white font-mono font-bold text-xs shadow-sm transition"
             >
               {saved ? <Check size={14} /> : null}
               <span>{saved ? 'Saved!' : 'Activate Key'}</span>

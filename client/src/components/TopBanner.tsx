@@ -12,40 +12,39 @@ export const TopBanner: React.FC<TopBannerProps> = ({ onOpenConnect }) => {
 
   return (
     <div
-      className="w-full text-black flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3 transition-opacity relative z-50 text-xs sm:text-sm font-medium border-b border-black/10"
-      style={{ background: '#CCFF00' }}
+      className="w-full bg-black text-white flex items-center justify-between px-3 sm:px-6 py-2 sm:py-2.5 transition-opacity relative z-50 text-xs sm:text-sm font-medium border-b border-zinc-800"
     >
       <div
         onClick={onOpenConnect}
         className="flex items-center justify-center gap-2 sm:gap-3.5 mx-auto cursor-pointer group"
       >
-        {/* Olas Starburst Badge SVG */}
+        {/* Starburst Badge SVG */}
         <svg
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           viewBox="0 0 40 40"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="shrink-0 animate-spin [animation-duration:12s]"
+          className="shrink-0 animate-spin [animation-duration:16s] text-zinc-300"
         >
           <path
             d="M19.448 0.33176C19.6831 -0.110587 20.3169 -0.110587 20.552 0.33176L22.1372 3.31456C22.3322 3.68162 22.8246 3.7596 23.1235 3.47078L25.5528 1.12381C25.9131 0.775759 26.5159 0.971631 26.6028 1.46497L27.1887 4.79163C27.2607 5.201 27.7049 5.4273 28.0784 5.245L31.1141 3.7636C31.5643 3.54391 32.0771 3.91648 32.0073 4.41252L31.5365 7.75739C31.4785 8.16901 31.831 8.52148 32.2426 8.46354L35.5875 7.99272C36.0835 7.92289 36.4561 8.4357 36.2364 8.88588L34.755 11.9216C34.5727 12.2951 34.799 12.7393 35.2084 12.8113L38.535 13.3972C39.0284 13.4841 39.2242 14.0869 38.8762 14.4472L36.5292 16.8765C36.2404 17.1754 36.3184 17.6678 36.6854 17.8628L39.6682 19.448C40.1106 19.6831 40.1106 20.3169 39.6682 20.552L36.6854 22.1372C36.3184 22.3322 36.2404 22.8246 36.5292 23.1235L38.8762 25.5528C39.2242 25.9131 39.0284 26.5159 38.535 26.6028L35.2084 27.1887C34.799 27.2607 34.5727 27.7049 34.755 28.0784L36.2364 31.1141C36.4561 31.5643 36.0835 32.0771 35.5875 32.0073L32.2426 31.5365C31.831 31.4785 31.4785 31.831 31.5365 32.2426L32.0073 35.5875C32.0771 36.0835 31.5643 36.4561 31.1141 36.2364L28.0784 34.755C27.7049 34.5727 27.2607 34.799 27.1887 35.2084L26.6028 38.535C26.5159 39.0284 25.9131 39.2242 25.5528 38.8762L23.1235 36.5292C22.8246 36.2404 22.3322 36.3184 22.1372 36.6854L20.552 39.6682C20.3169 40.1106 19.6831 40.1106 19.448 39.6682L17.8628 36.6854C17.6678 36.3184 17.1754 36.2404 16.8765 36.5292L14.4472 38.8762C14.0869 39.2242 13.4841 39.0284 13.3972 38.535L12.8113 35.2084C12.7393 34.799 12.2951 34.5727 11.9216 34.755L8.88588 36.2364C8.4357 36.4561 7.92289 36.0835 7.99272 35.5875L8.46354 32.2426C8.52148 31.831 8.16901 31.4785 7.75739 31.5365L4.41252 32.0073C3.91648 32.0771 3.54391 31.5643 3.7636 31.1141L5.245 28.0784C5.4273 27.7049 5.201 27.2607 4.79163 27.1887L1.46497 26.6028C0.971631 26.5159 0.775758 25.9131 1.12381 25.5528L3.47078 23.1235C3.7596 22.8246 3.68162 22.3322 3.31456 22.1372L0.33176 20.552C-0.110587 20.3169 -0.110587 19.6831 0.33176 19.448L3.31456 17.8628C3.68162 17.6678 3.7596 17.1754 3.47078 16.8765L1.12381 14.4472C0.775758 14.0869 0.971631 13.4841 1.46497 13.3972L4.79163 12.8113C5.201 12.7393 5.4273 12.2951 5.245 11.9216L3.7636 8.88588C3.54391 8.43569 3.91648 7.92289 4.41252 7.99272L7.75739 8.46354C8.16901 8.52148 8.52148 8.16901 8.46354 7.75739L7.99272 4.41252C7.92289 3.91648 8.43569 3.54391 8.88588 3.7636L11.9216 5.245C12.2951 5.4273 12.7393 5.201 12.8113 4.79163L13.3972 1.46497C13.4841 0.971631 14.0869 0.775758 14.4472 1.12381L16.8765 3.47078C17.1754 3.7596 17.6678 3.68162 17.8628 3.31456L19.448 0.33176Z"
-            fill="#000000"
+            fill="currentColor"
           />
         </svg>
 
-        <span className="text-center">
-          Connect to <span className="font-extrabold underline underline-offset-2">Robinhood Chain & Ethereum</span>: Trade tokenized assets & memecoins with autonomous samurai agents
+        <span className="text-center font-mono">
+          Connect to <span className="font-extrabold text-white underline underline-offset-2">Robinhood Chain & Ethereum</span>: Institutional AI Agent Autonomous Treasury
         </span>
 
-        <span className="hidden sm:inline-flex items-center gap-0.5 font-bold text-xs uppercase tracking-wider bg-black/10 px-2 py-0.5 rounded-full ml-1 group-hover:bg-black group-hover:text-white transition-colors">
+        <span className="hidden sm:inline-flex items-center gap-0.5 font-bold text-xs uppercase tracking-wider bg-zinc-800 text-zinc-200 px-2 py-0.5 rounded-full ml-1 group-hover:bg-white group-hover:text-black transition-colors font-mono">
           Explore <ChevronRight size={14} />
         </span>
       </div>
 
       <button
         onClick={() => setIsVisible(false)}
-        className="p-1 rounded hover:bg-black/10 transition-colors ml-2 shrink-0"
+        className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors ml-2 shrink-0"
         title="Dismiss announcement"
       >
         <X size={15} />

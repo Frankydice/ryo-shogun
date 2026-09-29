@@ -29,7 +29,7 @@ const DEFAULT_SUB_ACCOUNTS: UserSubAccount[] = [
     id: 'acc_tokyo_hq',
     name: 'Tokyo HQ',
     emailOrWallet: '0x71C8...82F9',
-    avatarColor: 'purple',
+    avatarColor: 'obsidian',
     startingBalanceUsd: 15000,
     preferredCommander: 'The Ronin (浪人)',
     createdAt: new Date().toISOString(),
@@ -262,11 +262,11 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-purple-500/20 selection:text-purple-900">
-      {/* 1. Olas Electric Lime Top Announcement Strip */}
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-black selection:text-white">
+      {/* 1. Sleek Announcement Bar */}
       <TopBanner onOpenConnect={() => setIsAccountModalOpen(true)} />
 
-      {/* 2. Olas Sticky White Navbar */}
+      {/* 2. Sticky Navbar */}
       <Header
         activeTab={activeTab}
         onTabChange={handleTabChange}
@@ -282,7 +282,7 @@ export const App: React.FC = () => {
       />
 
       <main className="flex-1 w-full flex flex-col">
-        {/* 3. Olas Hero Section ("Co-own AI Alpha") + Floating Model Card */}
+        {/* 3. Hero Section ("Co-own AI Alpha") + Floating Model Card */}
         <HeroBanner
           state={state}
           onConveneCouncil={() => handleConvene()}
@@ -373,15 +373,15 @@ export const App: React.FC = () => {
         </div>
       </main>
 
-      {/* 7. Olas-Style Clean Footer */}
+      {/* 7. Clean Minimalist Monochrome Footer */}
       <footer className="border-t border-slate-200 bg-slate-50 py-8 px-4 sm:px-8 text-xs font-mono text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <span className="font-extrabold text-slate-900">RYO Shogun (将軍)</span>
             <span className="text-slate-300">•</span>
-            <span>Olas Agent Economy Architecture</span>
+            <span>Autonomous Treasury Architecture</span>
             <span className="text-slate-300">•</span>
-            <span className="text-purple-700 font-bold">100% Factual Live Feeds</span>
+            <span className="text-black font-bold">100% Factual Live Feeds</span>
           </div>
 
           <a

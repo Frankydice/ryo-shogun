@@ -23,7 +23,7 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           agentName: 'MACRO AGENT',
           archetype: 'The Ronin (浪人)',
           stance: isVetoed ? 'Defensive' : 'Bullish',
-          stanceColor: isVetoed ? 'text-rose-700 border-rose-200 bg-rose-50' : 'text-purple-700 border-purple-200 bg-purple-50',
+          stanceColor: isVetoed ? 'text-rose-700 border-rose-200 bg-rose-50' : 'text-zinc-900 border-zinc-300 bg-zinc-100',
           confidence: isVetoed ? 95 : Math.round((edict?.confidence_score || 0.84) * 100),
           evidence: [
             'Global crypto Fear & Greed index confirmed in Greed territory (73/100)',
@@ -103,7 +103,7 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           agentName: 'PORTFOLIO ARCHITECT',
           archetype: 'The Daimyo (大名)',
           stance: 'Balanced',
-          stanceColor: 'text-purple-700 border-purple-200 bg-purple-50',
+          stanceColor: 'text-zinc-900 border-zinc-300 bg-zinc-100',
           confidence: 91,
           evidence: [
             'Current portfolio exposure at safe 65% capacity',
@@ -120,15 +120,15 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
   const current = getTabContent();
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col gap-5">
+    <div className="bg-white rounded-3xl p-5 sm:p-7 border border-zinc-200 shadow-sm flex flex-col gap-5">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 pb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-zinc-100 text-black flex items-center justify-center shrink-0">
             <Users size={20} />
           </div>
           <div>
-            <h2 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-base sm:text-lg font-extrabold text-black tracking-tight font-display">
               Agentic Analyst Panel · 特務分析
             </h2>
             <p className="text-xs text-slate-500 font-mono">
@@ -147,8 +147,8 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
                 onClick={() => setActiveTab(tab)}
                 className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
                   isActive
-                    ? 'bg-purple-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/70'
+                    ? 'bg-black text-white shadow-sm'
+                    : 'bg-zinc-100 text-zinc-600 hover:text-black hover:bg-zinc-200'
                 }`}
               >
                 {tab}
@@ -161,17 +161,17 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
       {/* Content Area */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         {/* Left: Analyst Profile & Stance (5 cols) */}
-        <div className="lg:col-span-5 rounded-2xl p-5 bg-slate-50 border border-slate-200/80 flex flex-col justify-between">
+        <div className="lg:col-span-5 rounded-2xl p-5 bg-zinc-50 border border-zinc-200 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
               <span>SPECIALIST MODULE</span>
               <span>{current.timestamp}</span>
             </div>
 
-            <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
+            <h3 className="text-lg font-extrabold text-black tracking-tight font-display">
               {current.agentName}
             </h3>
-            <span className="text-xs font-mono font-semibold text-purple-700 block mb-4">
+            <span className="text-xs font-mono font-medium text-zinc-500 block mb-4">
               Assigned to: {current.archetype}
             </span>
 
@@ -187,20 +187,20 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
             <div className="space-y-1.5 mb-4">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="text-slate-500">Conviction:</span>
-                <span className="font-bold text-slate-900">{current.confidence}%</span>
+                <span className="font-bold text-black">{current.confidence}%</span>
               </div>
-              <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-zinc-200 rounded-full h-2 overflow-hidden">
                 <div
-                  className="bg-purple-600 h-full rounded-full transition-all duration-300"
+                  className="bg-black h-full rounded-full transition-all duration-300"
                   style={{ width: `${current.confidence}%` }}
                 />
               </div>
             </div>
           </div>
 
-          <div className="pt-3 border-t border-slate-200/80 text-xs font-mono text-slate-600 flex items-center justify-between">
+          <div className="pt-3 border-t border-zinc-200 text-xs font-mono text-slate-600 flex items-center justify-between">
             <span>Status: Active</span>
-            <span className="text-purple-700 font-semibold">{current.recentSignal}</span>
+            <span className="text-black font-bold">{current.recentSignal}</span>
           </div>
         </div>
 
@@ -214,25 +214,25 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
               {current.evidence.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-xs sm:text-sm text-slate-700"
+                  className="flex items-start gap-2.5 p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm text-zinc-800"
                 >
-                  <CheckCircle2 size={16} className="text-purple-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 size={16} className="text-black shrink-0 mt-0.5" />
                   <span className="leading-relaxed">{item}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-purple-50/70 border border-purple-200/80 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold text-purple-700 uppercase block">
+              <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase block">
                 Council Directive
               </span>
-              <span className="font-extrabold text-sm text-slate-900">
+              <span className="font-extrabold text-sm text-black font-display">
                 {current.recommendation}
               </span>
             </div>
-            <ArrowUpRight size={18} className="text-purple-700 shrink-0" />
+            <ArrowUpRight size={18} className="text-black shrink-0" />
           </div>
         </div>
       </div>

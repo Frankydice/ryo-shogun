@@ -7,10 +7,10 @@ export const FeatureHighlights: React.FC = () => {
       id: 'provenance',
       title: 'Deterministic Oracles',
       badge: 'Live Feeds',
-      badgeColor: 'border-purple-200 bg-purple-50 text-purple-700',
+      badgeColor: 'border-zinc-300 bg-zinc-100 text-zinc-900',
       description: 'Strict honest data provenance. Every price, volume, and sentiment score is verified against live public endpoints.',
-      icon: <Database size={16} className="text-purple-600" />,
-      iconBg: 'bg-purple-100 border-purple-200'
+      icon: <Database size={16} className="text-black" />,
+      iconBg: 'bg-zinc-100 border-zinc-200'
     },
     {
       id: 'latency',
@@ -34,10 +34,10 @@ export const FeatureHighlights: React.FC = () => {
       id: 'kaizen',
       title: 'Continuous Kaizen Engine',
       badge: 'Thesis vs Luck',
-      badgeColor: 'border-purple-200 bg-purple-50 text-purple-700',
+      badgeColor: 'border-zinc-300 bg-zinc-100 text-zinc-900',
       description: 'Every closed position triggers a forensic audit that dynamically updates Council execution rules.',
-      icon: <Sparkles size={16} className="text-purple-600" />,
-      iconBg: 'bg-purple-100 border-purple-200'
+      icon: <Sparkles size={16} className="text-black" />,
+      iconBg: 'bg-zinc-100 border-zinc-200'
     }
   ];
 
@@ -46,7 +46,7 @@ export const FeatureHighlights: React.FC = () => {
       {guarantees.map((g) => (
         <div
           key={g.id}
-          className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm flex flex-col justify-between gap-3 hover:border-purple-300 hover:shadow-md transition-all"
+          className="bg-white rounded-2xl p-5 border border-zinc-200 shadow-sm flex flex-col justify-between gap-3 hover:border-black hover:shadow-md transition-all"
         >
           <div className="flex items-center justify-between">
             <div className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${g.iconBg}`}>

@@ -26,7 +26,7 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2.5">
-            <span className="p-1.5 rounded-xl bg-purple-100 text-purple-700">
+            <span className="p-1.5 rounded-xl bg-zinc-100 text-zinc-900">
               <Activity size={18} />
             </span>
             <div>
@@ -56,7 +56,7 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
             <span
               className={`px-2.5 py-1 rounded-full border text-[10px] font-bold flex items-center gap-1 ${
                 isLive
-                  ? 'border-purple-300 bg-purple-100 text-purple-800'
+                  ? 'border-zinc-300 bg-zinc-100 text-zinc-900'
                   : 'border-emerald-300 bg-emerald-100 text-emerald-800'
               }`}
             >
@@ -90,15 +90,15 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
             <div className="grid grid-cols-3 gap-2 text-center pt-1">
               <div className="bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm">
                 <span className="text-[10px] text-slate-400 block font-semibold">The Ronin</span>
-                <span className="text-purple-700 font-bold text-xs mt-0.5 block">READY (12ms)</span>
+                <span className="text-zinc-900 font-bold text-xs mt-0.5 block">READY (12ms)</span>
               </div>
               <div className="bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm">
                 <span className="text-[10px] text-slate-400 block font-semibold">The Shinobi</span>
-                <span className="text-teal-700 font-bold text-xs mt-0.5 block">READY (15ms)</span>
+                <span className="text-zinc-800 font-bold text-xs mt-0.5 block">READY (15ms)</span>
               </div>
               <div className="bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm">
                 <span className="text-[10px] text-slate-400 block font-semibold">The Daimyo</span>
-                <span className="text-emerald-700 font-bold text-xs mt-0.5 block">READY (9ms)</span>
+                <span className="text-zinc-800 font-bold text-xs mt-0.5 block">READY (9ms)</span>
               </div>
             </div>
           </div>
@@ -106,7 +106,7 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
 
         <button
           onClick={onClose}
-          className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold text-xs shadow-sm transition"
+          className="w-full py-2.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-mono font-bold text-xs shadow-sm transition"
         >
           Close Status Monitor
         </button>

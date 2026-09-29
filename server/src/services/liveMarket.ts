@@ -134,7 +134,7 @@ export class LiveMarketService {
       eth_gas_gwei: ethGas,
       global_volume_24h_usd: globalVol,
       summary,
-      trending_narratives: ['Autonomous AI Agents', 'Olas Agent Economies', 'DeFi Restaking & Perps', 'Layer-2 Liquidity Inflows']
+      trending_narratives: ['Autonomous AI Agents', 'Autonomous Liquidity Networks', 'DeFi Restaking & Perps', 'Layer-2 Liquidity Inflows']
     };
 
     this.cachedOverview = { data, timestamp: now };

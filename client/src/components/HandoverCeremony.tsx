@@ -46,8 +46,8 @@ export const HandoverCeremony: React.FC<HandoverCeremonyProps> = ({ edict }) => 
     <section className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
-          <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
+          <div className="w-2.5 h-2.5 rounded-full bg-black animate-pulse" />
+          <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-black">
             Council of Three · 評定三家
           </h2>
           <span className="text-slate-300">•</span>
@@ -55,8 +55,8 @@ export const HandoverCeremony: React.FC<HandoverCeremonyProps> = ({ edict }) => 
         </div>
 
         {edict?.handover_rationale && (
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50 px-3 py-1 text-xs font-mono text-purple-700 font-medium">
-            <Sparkles size={12} className="shrink-0 text-purple-600" />
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1 text-xs font-mono text-zinc-900 font-medium">
+            <Sparkles size={12} className="shrink-0 text-black" />
             <span className="truncate max-w-[210px] sm:max-w-md">{edict.handover_rationale}</span>
           </div>
         )}
@@ -72,13 +72,13 @@ export const HandoverCeremony: React.FC<HandoverCeremonyProps> = ({ edict }) => 
               key={arch.id}
               className={`relative rounded-3xl border transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between ${
                 isActive
-                  ? 'bg-purple-50/40 border-2 border-purple-600 shadow-lg md:scale-[1.02] z-10'
-                  : 'bg-white border-slate-200/90 shadow-sm opacity-85 hover:opacity-100 hover:border-purple-300'
+                  ? 'bg-zinc-50 border-2 border-black shadow-lg md:scale-[1.02] z-10'
+                  : 'bg-white border-zinc-200 shadow-sm opacity-85 hover:opacity-100 hover:border-zinc-400'
               }`}
             >
               {/* Active Command Seal Badge */}
               {isActive && (
-                <div className="absolute -top-3 right-6 flex items-center gap-1 px-3 py-1 rounded-full bg-purple-600 text-white text-[10px] font-mono font-extrabold uppercase tracking-widest shadow-md">
+                <div className="absolute -top-3 right-6 flex items-center gap-1 px-3 py-1 rounded-full bg-black text-white text-[10px] font-mono font-extrabold uppercase tracking-widest shadow-md">
                   <Crown size={12} />
                   <span>SEAL OF COMMAND</span>
                 </div>
@@ -87,18 +87,18 @@ export const HandoverCeremony: React.FC<HandoverCeremonyProps> = ({ edict }) => 
               <div>
                 {/* Header */}
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-purple-700">
+                  <div className="w-12 h-12 rounded-2xl bg-white border border-zinc-200 shadow-sm flex items-center justify-center text-black">
                     <Icon size={22} />
                   </div>
-                  <span className="text-2xl font-jp font-bold text-slate-300">
+                  <span className="text-2xl font-jp font-bold text-zinc-300">
                     {arch.kanji}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
+                <h3 className="text-lg font-extrabold text-black tracking-tight font-display">
                   {arch.title}
                 </h3>
-                <span className="text-xs font-mono font-semibold text-purple-700 block mb-3">
+                <span className="text-xs font-mono font-medium text-zinc-500 block mb-3">
                   {arch.roleSubtitle}
                 </span>
 

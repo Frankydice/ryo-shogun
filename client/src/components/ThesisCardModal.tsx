@@ -27,7 +27,7 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
     `📊 Risk:Reward: 1:${edict.risk_reward_ratio || '2.3'} | Conviction: ${(edict.confidence_score * 100).toFixed(0)}%\n` +
     `🛡️ Daimyo Safety: ${edict.daimyo_veto_exercised ? 'VETOED' : 'APPROVED'}\n\n` +
     `Proof of Thesis: "${edict.thesis_summary}"\n\n` +
-    `#RYOHackathon #AgenticSocialFi #OlasNetwork #Tokyo2026`
+    `#RYOHackathon #AgenticSocialFi #Tokyo2026`
   );
 
   const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
@@ -69,7 +69,7 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
+            <span className="p-1.5 rounded-lg bg-zinc-100 text-zinc-900">
               <Sparkles size={16} />
             </span>
             <span className="font-mono font-bold text-xs sm:text-sm text-slate-900 uppercase tracking-wider">
@@ -84,15 +84,15 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
         {/* Capture Target Card */}
         <div
           ref={cardRef}
-          className="rounded-2xl border border-purple-200 bg-gradient-to-br from-white via-purple-50/40 to-slate-50 p-5 sm:p-6 shadow-md relative overflow-hidden"
+          className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 sm:p-6 shadow-md relative overflow-hidden"
         >
           <div className="relative z-10 flex flex-col gap-4">
             <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
               <div className="flex items-center gap-2">
                 <span className="text-xl font-extrabold font-display text-slate-900">
-                  RYO <span className="text-purple-600">SHOGUN</span>
+                  RYO <span className="text-black font-black">SHOGUN</span>
                 </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-purple-200 text-purple-700 bg-purple-100 font-bold">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-zinc-300 text-zinc-900 bg-zinc-100 font-bold">
                   AUTONOMOUS THESIS
                 </span>
               </div>
@@ -104,7 +104,7 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
             <div>
               <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
                 <span>Commander: <strong className="text-slate-800">{edict.active_commander}</strong></span>
-                <span className="font-bold text-purple-700">{edict.verdict}</span>
+                <span className="font-bold text-black">{edict.verdict}</span>
               </div>
               <h3 className="text-2xl font-mono font-black text-slate-900 tracking-tight">
                 {edict.target_symbol}USDT
@@ -126,7 +126,7 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
               </div>
               <div>
                 <span className="text-slate-400 block text-[10px]">CONVICTION</span>
-                <span className="font-bold text-purple-700">{((edict.confidence_score || 0.88) * 100).toFixed(0)}%</span>
+                <span className="font-bold text-black">{((edict.confidence_score || 0.88) * 100).toFixed(0)}%</span>
               </div>
             </div>
           </div>

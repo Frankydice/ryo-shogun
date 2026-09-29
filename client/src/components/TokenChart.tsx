@@ -77,26 +77,26 @@ export const TokenChart: React.FC<TokenChartProps> = ({
   const maxVol = Math.max(...(candles.map((c) => c.volume) || [100]));
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-sm flex flex-col gap-4 relative overflow-hidden">
+    <div className="bg-white rounded-3xl p-5 sm:p-6 border border-zinc-200 shadow-sm flex flex-col gap-4 relative overflow-hidden">
       {/* Top Header: Symbol Info & Timeframe Selectors */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-100 pb-4">
         {/* Token Info */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-purple-100 border border-purple-200 flex items-center justify-center font-bold text-purple-700 font-mono text-base shadow-sm shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-zinc-100 border border-zinc-200 flex items-center justify-center font-bold text-black font-mono text-base shadow-sm shrink-0">
             {rawSymbol.slice(0, 3)}
           </div>
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono font-extrabold text-xl text-slate-900">
+              <span className="font-mono font-extrabold text-xl text-black">
                 {displaySymbol}
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-purple-200 text-purple-700 bg-purple-50 font-bold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-zinc-300 text-zinc-900 bg-zinc-100 font-bold">
                 SPOT
               </span>
             </div>
             <div className="flex items-center gap-2 mt-0.5 text-xs font-mono">
-              <span className="font-extrabold text-slate-900">
+              <span className="font-extrabold text-black">
                 ${currentPrice >= 1000 ? currentPrice.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : currentPrice.toFixed(currentPrice < 1 ? 4 : 2)}
               </span>
               <span className={`font-bold flex items-center gap-0.5 ${changePct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
@@ -111,15 +111,15 @@ export const TokenChart: React.FC<TokenChartProps> = ({
 
         {/* Timeframe Controls & Playbook Code CTA */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl">
+          <div className="flex items-center bg-zinc-100 p-1 rounded-xl">
             {(['15m', '1h', '4h', '1D'] as const).map((tf) => (
               <button
                 key={tf}
                 onClick={() => setTimeframe(tf)}
                 className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all ${
                   timeframe === tf
-                    ? 'bg-white text-purple-700 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-900'
+                    ? 'bg-black text-white shadow-sm'
+                    : 'text-zinc-600 hover:text-black'
                 }`}
               >
                 {tf}
@@ -130,16 +130,16 @@ export const TokenChart: React.FC<TokenChartProps> = ({
           <button
             onClick={loadMarketData}
             disabled={isLoading}
-            className="p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 transition"
+            className="p-2 rounded-xl border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 transition"
             title="Refresh Live K-lines"
           >
-            <RefreshCw size={14} className={isLoading ? 'animate-spin text-purple-600' : ''} />
+            <RefreshCw size={14} className={isLoading ? 'animate-spin text-black' : ''} />
           </button>
 
           {onOpenPlaybook && (
             <button
               onClick={onOpenPlaybook}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 hover:text-purple-700 hover:border-purple-300 text-xs font-mono text-slate-700 font-semibold transition-all shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 hover:text-black hover:border-zinc-400 text-xs font-mono text-zinc-800 font-semibold transition-all shadow-sm"
             >
               <Code size={14} />
               <span>Playbook</span>
@@ -225,11 +225,11 @@ export const TokenChart: React.FC<TokenChartProps> = ({
             </g>
           )}
 
-          {/* Council Entry Target Line (Purple Solid) */}
+          {/* Council Entry Target Line (Black Solid) */}
           {entryY >= 0 && entryY <= chartH && (
             <g>
-              <line x1="0" y1={entryY} x2={chartW} y2={entryY} stroke="#7E22CE" strokeWidth="1.8" />
-              <text x={chartW - 6} y={entryY - 4} textAnchor="end" fill="#7E22CE" fontSize="10" fontFamily="monospace" fontWeight="bold">
+              <line x1="0" y1={entryY} x2={chartW} y2={entryY} stroke="#000000" strokeWidth="1.8" />
+              <text x={chartW - 6} y={entryY - 4} textAnchor="end" fill="#000000" fontSize="10" fontFamily="monospace" fontWeight="bold">
                 ENTRY: ${entryPrice}
               </text>
             </g>
@@ -247,7 +247,7 @@ export const TokenChart: React.FC<TokenChartProps> = ({
         </svg>
 
         {/* Time Axis Ticks */}
-        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-2 border-t border-slate-200">
+        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-2 border-t border-zinc-200">
           <span>{candles[0]?.time || '00:00'}</span>
           <span>{candles[Math.floor(candles.length / 3)]?.time || '08:00'}</span>
           <span>{candles[Math.floor((candles.length * 2) / 3)]?.time || '16:00'}</span>
@@ -257,26 +257,26 @@ export const TokenChart: React.FC<TokenChartProps> = ({
 
       {/* Quick Stats Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-mono">
+        <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs font-mono">
           <span className="text-slate-400 block text-[10px] uppercase">24h High / Low</span>
           <span className="font-bold text-slate-800">
             ${ticker?.high24h?.toFixed(2) || '7.73'} / ${ticker?.low24h?.toFixed(2) || '7.26'}
           </span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-mono">
+        <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs font-mono">
           <span className="text-slate-400 block text-[10px] uppercase">24h Quote Volume</span>
           <span className="font-bold text-slate-800">{ticker?.volumeUsd || '$4.1M'}</span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-mono">
+        <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs font-mono">
           <span className="text-slate-400 block text-[10px] uppercase">DEX Pool Liquidity</span>
           <span className="font-bold text-slate-800">{ticker?.liquidityUsd || '$1.8M'}</span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-mono">
+        <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs font-mono">
           <span className="text-slate-400 block text-[10px] uppercase">Risk / Reward (R:R)</span>
-          <span className="font-bold text-purple-700">{edict?.risk_reward_ratio || 2.43}x</span>
+          <span className="font-bold text-black">{edict?.risk_reward_ratio || 2.43}x</span>
         </div>
       </div>
     </div>

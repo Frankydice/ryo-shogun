@@ -8,30 +8,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        olas: {
-          purple: '#7E22CE',
-          'purple-light': '#9333EA',
-          'purple-dark': '#581C87',
-          lime: '#CCFF00',
-          teal: '#69D1CE',
-          sky: '#95A7EF',
-          magenta: '#EA8FEF',
-          dark: '#0F172A',
-          slate: '#1E293B',
-          muted: '#64748B',
-          light: '#F8FAFC',
-          border: '#E2E8F0',
-        },
         shogun: {
           bg: '#FFFFFF',
           surface: '#F8FAFC',
           card: '#FFFFFF',
-          border: '#E2E8F0',
-          accent: '#7E22CE',
+          border: '#E4E4E7',
+          accent: '#000000',
+          black: '#000000',
+          zinc: '#18181B',
+          charcoal: '#09090B',
           gold: '#D97706',
           crimson: '#EF4444',
-          muted: '#64748B',
-          ink: '#0F172A'
+          muted: '#71717A',
+          ink: '#09090B'
         }
       },
       fontFamily: {
