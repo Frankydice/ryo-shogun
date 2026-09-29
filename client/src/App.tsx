@@ -200,20 +200,16 @@ export const App: React.FC = () => {
         </div>
 
         {/* 8. Dual Column: The Debate Chamber & Active Trades */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Debate Chamber & Kaizen Forensic Ledger */}
-          <div className="lg:col-span-7 flex flex-col gap-6" id="audit-section">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="audit-section">
+          {/* Left Column: Debate Chamber (7 cols) */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
             <CouncilChamber
               opinions={state?.opinions || []}
               edict={state?.edict || null}
             />
-
-            <div id="kaizen-section">
-              <KaizenLedger postMortems={state?.postMortems || []} />
-            </div>
           </div>
 
-          {/* Right Column: Dojo Treasury & Paper Ledger */}
+          {/* Right Column: Dojo Treasury & Paper Ledger (5 cols) */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <ActiveTrades
               portfolio={state?.portfolio || null}
@@ -223,7 +219,12 @@ export const App: React.FC = () => {
           </div>
         </div>
 
-        {/* 9. Bottom Feature Highlights (4 Value Pillars from Screenshot) */}
+        {/* 9. Dedicated Full-Width Kaizen Forensic Ledger */}
+        <div id="kaizen-section">
+          <KaizenLedger postMortems={state?.postMortems || []} />
+        </div>
+
+        {/* 10. Institutional Protocol Guarantees & System Telemetry */}
         <div className="pt-2">
           <FeatureHighlights />
         </div>

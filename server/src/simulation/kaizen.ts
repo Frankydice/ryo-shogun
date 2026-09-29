@@ -4,7 +4,7 @@ export class KaizenAuditor {
   private postMortems: KaizenPostMortem[] = [];
 
   constructor() {
-    // Seed an initial post-mortem to demonstrate the system immediately
+    // Seed initial post-mortems to demonstrate Thesis vs Luck and Veto audits
     this.postMortems.push({
       id: 'kaizen_seed_001',
       trade_id: 'trade_seed_001',
@@ -15,6 +15,18 @@ export class KaizenAuditor {
       analysis: 'The Shinobi accurately spotted stealth accumulation at $4.10 support. Target of $4.85 hit without testing stop-loss.',
       dojo_rule_adjustment: 'Maintain 1.5x ATR buffer on high-yield rotation tokens.',
       reviewed_at: new Date(Date.now() - 3600000).toISOString()
+    });
+
+    this.postMortems.push({
+      id: 'kaizen_seed_002',
+      trade_id: 'trade_seed_002',
+      symbol: 'MEME_RUG',
+      outcome: 'WIN',
+      realized_pnl_usd: 0.00,
+      thesis_evaluation: 'THESIS_CONFIRMED',
+      analysis: 'The Daimyo successfully executed an autonomous safety veto before capital commitment. Zero drawdown sustained.',
+      dojo_rule_adjustment: 'Mandate minimum $1M locked DEX liquidity threshold for all unverified token contracts.',
+      reviewed_at: new Date(Date.now() - 7200000).toISOString()
     });
   }
 
