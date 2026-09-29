@@ -4,6 +4,7 @@ import { RyoMcpClient } from '../server/src/mcp/client.js';
 import { ShogunCouncil } from '../server/src/agents/council.js';
 import { KaizenAuditor } from '../server/src/simulation/kaizen.js';
 import { PaperTradingEngine } from '../server/src/simulation/paperTrading.js';
+import { liveMarketService } from '../server/src/services/liveMarket.js';
 
 const app = express();
 app.use(cors());
@@ -55,6 +56,57 @@ app.get('/api/state', async (_req: Request, res: Response) => {
     postMortems,
     mcpStatus: mcpClient.getStatus()
   });
+});
+
+app.get('/api/market/overview', async (_req: Request, res: Response) => {
+  try {
+    const overview = await liveMarketService.getLiveMarketOverview();
+    res.json(overview);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/market/tickers', async (_req: Request, res: Response) => {
+  try {
+    const rawTickers = await liveMarketService.getLiveTickers();
+    const badges: Record<string, string> = {
+      BTC: 'Major',
+      ETH: 'Major',
+      SOL: 'L1',
+      INJ: 'DeFi',
+      PENDLE: 'Yield',
+      AAVE: 'Lending'
+    };
+
+    const formatted = Object.values(rawTickers).map((t) => ({
+      symbol: `${t.symbol}USDT`,
+      badge: badges[t.symbol] || 'Token',
+      price: t.price,
+      change24h: t.change24h,
+      high24h: t.high24h,
+      low24h: t.low24h,
+      volumeUsd: t.formattedVolume,
+      liquidityUsd: `$${((t.volumeUsd * 0.45) / 1e6).toFixed(1)}M`,
+      sparkline: 'M0,15 Q20,10 40,8 T80,4'
+    }));
+
+    res.json(formatted);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/market/klines', async (req: Request, res: Response) => {
+  try {
+    const symbol = (req.query.symbol as string) || 'INJ_USDT';
+    const interval = (req.query.interval as string) || '1h';
+    const limit = parseInt((req.query.limit as string) || '24', 10);
+    const candles = await liveMarketService.getLiveCandles(symbol, interval, limit);
+    res.json(candles);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/api/council/convene', async (req: Request, res: Response) => {

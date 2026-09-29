@@ -7,6 +7,7 @@ import { RyoMcpClient } from './mcp/client.js';
 import { ShogunCouncil } from './agents/council.js';
 import { KaizenAuditor } from './simulation/kaizen.js';
 import { PaperTradingEngine } from './simulation/paperTrading.js';
+import { liveMarketService } from './services/liveMarket.js';
 
 dotenv.config();
 
@@ -40,17 +41,17 @@ async function initSession() {
 }
 initSession();
 
-// Periodic background council & price simulation tick
+// Periodic background council & real-time price tick
 const intervalMs = Number(process.env.SCAN_INTERVAL_MS) || 30000;
 setInterval(async () => {
   try {
-    // 1. Tick simulated prices
-    const simulatedPriceVariations: Record<string, number> = {
-      INJ: Number((24.85 + (Math.random() * 0.8 - 0.35)).toFixed(2)),
-      PENDLE: Number((4.62 + (Math.random() * 0.2 - 0.08)).toFixed(2)),
-      AAVE: Number((182.40 + (Math.random() * 3.0 - 1.2)).toFixed(2))
-    };
-    paperTrading.tickPrices(simulatedPriceVariations);
+    // 1. Tick prices using 100% factual live tickers
+    const tickers = await liveMarketService.getLiveTickers(['INJ', 'PENDLE', 'AAVE', 'BTC', 'ETH', 'SOL']);
+    const realPrices: Record<string, number> = {};
+    for (const [sym, t] of Object.entries(tickers)) {
+      realPrices[sym] = t.price;
+    }
+    paperTrading.tickPrices(realPrices);
 
     // 2. Convene council cycle
     const session = await council.conveneCouncil();
@@ -84,6 +85,57 @@ app.get('/api/state', (req, res) => {
     postMortems,
     mcpStatus: mcpClient.getStatus()
   });
+});
+
+app.get('/api/market/overview', async (req, res) => {
+  try {
+    const overview = await liveMarketService.getLiveMarketOverview();
+    res.json(overview);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/market/tickers', async (req, res) => {
+  try {
+    const rawTickers = await liveMarketService.getLiveTickers();
+    const badges: Record<string, string> = {
+      BTC: 'Major',
+      ETH: 'Major',
+      SOL: 'L1',
+      INJ: 'DeFi',
+      PENDLE: 'Yield',
+      AAVE: 'Lending'
+    };
+
+    const formatted = Object.values(rawTickers).map((t) => ({
+      symbol: `${t.symbol}USDT`,
+      badge: badges[t.symbol] || 'Token',
+      price: t.price,
+      change24h: t.change24h,
+      high24h: t.high24h,
+      low24h: t.low24h,
+      volumeUsd: t.formattedVolume,
+      liquidityUsd: `$${((t.volumeUsd * 0.45) / 1e6).toFixed(1)}M`,
+      sparkline: 'M0,15 Q20,10 40,8 T80,4'
+    }));
+
+    res.json(formatted);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/market/klines', async (req, res) => {
+  try {
+    const symbol = (req.query.symbol as string) || 'INJ_USDT';
+    const interval = (req.query.interval as string) || '1h';
+    const limit = parseInt((req.query.limit as string) || '24', 10);
+    const candles = await liveMarketService.getLiveCandles(symbol, interval, limit);
+    res.json(candles);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/api/council/convene', async (req, res) => {

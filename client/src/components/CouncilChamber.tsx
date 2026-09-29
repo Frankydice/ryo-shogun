@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquareCode, CheckCircle2, AlertOctagon, Clock, Terminal, ChevronDown, ChevronUp, Cpu } from 'lucide-react';
+import { MessageSquareCode, CheckCircle2, AlertOctagon, Clock, Terminal, ChevronDown, ChevronUp, Cpu, ShieldCheck } from 'lucide-react';
 import { CouncilMemberOpinion, ShogunEdict } from '../types/index.js';
 
 interface CouncilChamberProps {
@@ -11,33 +11,35 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
   const [showFullLogs, setShowFullLogs] = useState(false);
 
   return (
-    <section className="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
+    <section className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col gap-5" id="debate-section">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 sm:pb-4">
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          <span className="p-1.5 sm:p-2 rounded-xl bg-shogun-accent/10 border border-shogun-accent/30 text-shogun-accent">
-            <MessageSquareCode size={18} />
-          </span>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-purple-100 border border-purple-200 text-purple-700 flex items-center justify-center shrink-0">
+            <MessageSquareCode size={20} />
+          </div>
           <div>
-            <h2 className="text-sm sm:text-base font-display font-bold text-white">
+            <h2 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">
               The Debate Chamber · 評定討論
             </h2>
-            <p className="text-[11px] sm:text-xs text-shogun-muted font-mono">Verifiable multi-agent cause & effect audit trail</p>
+            <p className="text-xs text-slate-500 font-mono">
+              Verifiable multi-agent cause & effect audit trail
+            </p>
           </div>
         </div>
 
         <button
           onClick={() => setShowFullLogs(!showFullLogs)}
-          className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-white/80 hover:text-white transition px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 ml-auto sm:ml-0"
+          className="flex items-center gap-1.5 text-xs font-mono text-slate-600 hover:text-purple-700 transition px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-purple-50 border border-slate-200 ml-auto sm:ml-0"
         >
-          <Terminal size={12} className="text-shogun-accent" />
-          <span>{showFullLogs ? 'Hide Audit Trace' : 'Inspect Raw MCP'}</span>
-          {showFullLogs ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          <Terminal size={13} className="text-purple-600" />
+          <span>{showFullLogs ? 'Hide Audit Trace' : 'Inspect Raw MCP Trace'}</span>
+          {showFullLogs ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
       </div>
 
-      {/* Individual Council Stance Cards */}
-      <div className="grid grid-cols-1 gap-3 sm:gap-3.5">
+      {/* Individual Council Stance Cards (Olas Mech Card Style) */}
+      <div className="grid grid-cols-1 gap-4">
         {opinions.map((op, idx) => {
           const isAccelerate = op.stance === 'ACCELERATE';
           const isVeto = op.stance === 'VETO_HOLD';
@@ -45,25 +47,27 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
           return (
             <div
               key={idx}
-              className={`rounded-xl sm:rounded-2xl border transition-all p-3.5 sm:p-5 flex flex-col gap-2.5 sm:gap-3 ${
+              className={`rounded-2xl border p-4 sm:p-5 flex flex-col gap-3 transition-all ${
                 isVeto
-                  ? 'border-shogun-crimson/30 bg-[#16080a]/60'
+                  ? 'border-rose-200 bg-rose-50/50'
                   : isAccelerate
-                  ? 'border-shogun-accent/25 bg-[#08150f]/60'
-                  : 'border-shogun-gold/25 bg-[#141208]/60'
+                  ? 'border-emerald-200 bg-emerald-50/40'
+                  : 'border-amber-200 bg-amber-50/40'
               }`}
             >
               {/* Member Title & Stance Header */}
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5">
-                  <span className="font-display font-extrabold text-base text-white">{op.role}</span>
+                  <span className="font-extrabold text-slate-900 text-base font-display">
+                    {op.role}
+                  </span>
                   <span
-                    className={`inline-flex items-center gap-1 text-[11px] font-mono font-extrabold px-2.5 py-0.5 rounded-md border ${
+                    className={`inline-flex items-center gap-1 text-[11px] font-mono font-extrabold px-2.5 py-0.5 rounded-full border ${
                       isAccelerate
-                        ? 'border-shogun-accent/50 bg-shogun-accent/20 text-shogun-accent'
+                        ? 'border-emerald-300 bg-emerald-100 text-emerald-800'
                         : isVeto
-                        ? 'border-shogun-crimson/50 bg-shogun-crimson/20 text-shogun-crimson'
-                        : 'border-shogun-gold/50 bg-shogun-gold/20 text-shogun-gold'
+                        ? 'border-rose-300 bg-rose-100 text-rose-800'
+                        : 'border-amber-300 bg-amber-100 text-amber-800'
                     }`}
                   >
                     {isAccelerate ? <CheckCircle2 size={12} /> : isVeto ? <AlertOctagon size={12} /> : <Clock size={12} />}
@@ -73,60 +77,77 @@ export const CouncilChamber: React.FC<CouncilChamberProps> = ({ opinions, edict 
 
                 {/* Conviction Gauge Bar */}
                 <div className="flex items-center gap-2 font-mono text-xs">
-                  <span className="text-shogun-muted">Conviction:</span>
-                  <div className="w-24 h-2 rounded-full bg-black/50 border border-white/10 overflow-hidden">
+                  <span className="text-slate-400">Conviction:</span>
+                  <div className="w-24 h-2 rounded-full bg-slate-200 overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
-                        isAccelerate ? 'bg-shogun-accent' : isVeto ? 'bg-shogun-crimson' : 'bg-shogun-gold'
+                        isAccelerate ? 'bg-emerald-500' : isVeto ? 'bg-rose-500' : 'bg-amber-500'
                       }`}
                       style={{ width: `${op.conviction * 100}%` }}
                     />
                   </div>
-                  <span className="font-bold text-white">{(op.conviction * 100).toFixed(0)}%</span>
+                  <span className="font-bold text-slate-800">{(op.conviction * 100).toFixed(0)}%</span>
                 </div>
               </div>
 
               {/* Rationale Quote */}
-              <div className="bg-black/40 border border-white/[0.06] rounded-xl p-3.5 backdrop-blur-sm">
-                <p className="text-xs sm:text-sm text-shogun-ink/90 leading-relaxed font-sans italic">
+              <div className="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-sm">
+                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
                   "{op.reasoning}"
                 </p>
               </div>
 
               {/* Tools Queried & Provenance */}
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] font-mono text-shogun-muted">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] font-mono text-slate-500">
                 <div className="flex items-center gap-1.5">
-                  <Cpu size={12} className="text-shogun-accent" />
+                  <Cpu size={12} className="text-purple-600" />
                   <span>Queried:</span>
-                  {op.toolsCalled.map((tool) => (
-                    <span key={tool} className="text-shogun-accent bg-black/40 px-2 py-0.5 rounded border border-white/5">
-                      mcp::{tool}()
-                    </span>
-                  ))}
+                  <div className="flex flex-wrap gap-1">
+                    {op.toolsCalled.map((tool, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-semibold"
+                      >
+                        {tool}()
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                <span className="text-[10px] text-white/40">Verified via RYO JSON-RPC</span>
+                {op.suggestedAction && (
+                  <div className="flex items-center gap-2 font-semibold text-slate-700">
+                    <span>Target: ${op.suggestedAction.entry}</span>
+                    <span className="text-slate-300">•</span>
+                    <span>TP: ${op.suggestedAction.tp}</span>
+                    <span className="text-slate-300">•</span>
+                    <span className="text-purple-700">R:R: {op.suggestedAction.rr}x</span>
+                  </div>
+                )}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Raw Reasoning Trail Log Terminal */}
-      {showFullLogs && edict?.full_reasoning_trail && (
-        <div className="rounded-2xl border border-white/10 bg-black/80 p-5 font-mono text-xs text-shogun-muted flex flex-col gap-2 max-h-72 overflow-y-auto">
-          <div className="flex items-center justify-between text-shogun-accent font-bold pb-2 border-b border-white/10">
+      {/* Expandable Raw Audit Logs */}
+      {showFullLogs && edict && (
+        <div className="rounded-2xl p-4 bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2 animate-in fade-in duration-200">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-purple-400 font-bold">
             <span className="flex items-center gap-1.5">
-              <Terminal size={14} />
-              <span>[AUDIT_LOG] IMMUTABLE REASONING STREAM</span>
+              <ShieldCheck size={14} />
+              Immutable Shogun Decision Trail (SHA-256 Provenance)
             </span>
-            <span className="text-[10px] text-white/50">{edict.timestamp}</span>
+            <span className="text-[10px] text-slate-500">{edict.timestamp}</span>
           </div>
-          {edict.full_reasoning_trail.map((line, i) => (
-            <p key={i} className="text-white/80 leading-relaxed whitespace-pre-wrap font-mono">
-              {line}
-            </p>
-          ))}
+
+          <div className="space-y-1.5 overflow-x-auto">
+            {edict.full_reasoning_trail.map((line, lIdx) => (
+              <div key={lIdx} className="leading-relaxed text-slate-300">
+                <span className="text-purple-400 mr-2">{'>'}</span>
+                {line}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </section>

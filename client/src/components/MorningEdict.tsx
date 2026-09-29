@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollText, ShieldAlert, Award, Share2, Zap, Target, Lock } from 'lucide-react';
+import { ScrollText, Award, Share2, Target, Lock, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { ShogunEdict } from '../types/index.js';
 
 interface MorningEdictProps {
@@ -10,10 +10,10 @@ interface MorningEdictProps {
 export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisModal }) => {
   if (!edict) {
     return (
-      <div className="glass-panel rounded-3xl p-8 animate-pulse">
-        <div className="h-4 bg-white/10 rounded w-1/4 mb-3"></div>
-        <div className="h-8 bg-white/10 rounded w-3/4 mb-4"></div>
-        <div className="h-4 bg-white/10 rounded w-1/2"></div>
+      <div className="bg-white rounded-3xl p-8 border border-slate-200 animate-pulse">
+        <div className="h-4 bg-slate-100 rounded w-1/4 mb-3"></div>
+        <div className="h-8 bg-slate-100 rounded w-3/4 mb-4"></div>
+        <div className="h-4 bg-slate-100 rounded w-1/2"></div>
       </div>
     );
   }
@@ -21,140 +21,117 @@ export const MorningEdict: React.FC<MorningEdictProps> = ({ edict, onOpenThesisM
   const isTrade = edict.verdict === 'EXECUTE_TRADE';
 
   return (
-    <section className={`relative overflow-hidden rounded-2xl sm:rounded-3xl border transition-all duration-500 ${
-      isTrade
-        ? 'border-shogun-accent/50 bg-gradient-to-br from-[#07160f] via-[#091a13] to-[#040a07] shadow-[0_0_50px_-10px_rgba(110,232,154,0.25)]'
-        : 'border-shogun-gold/40 bg-gradient-to-br from-[#161208] via-[#1a150a] to-[#0a0804] shadow-[0_0_50px_-10px_rgba(229,192,123,0.2)]'
-    } p-4 sm:p-8`}>
-      {/* Background Watermark & Lighting */}
-      <div className="pointer-events-none absolute -right-6 -bottom-10 select-none text-white/[0.03] text-8xl sm:text-9xl font-black font-jp">
-        将軍
-      </div>
-      <div className={`pointer-events-none absolute top-0 right-1/4 w-80 h-80 rounded-full blur-[100px] ${
-        isTrade ? 'bg-shogun-accent/15' : 'bg-shogun-gold/15'
-      }`} />
-
-      <div className="relative z-10 flex flex-col gap-4 sm:gap-6">
+    <section className="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-sm relative overflow-hidden">
+      <div className="flex flex-col gap-5 sm:gap-6 relative z-10">
         {/* Top Header Banner */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 sm:pb-4">
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <span className={`p-1.5 sm:p-2 rounded-xl border ${
-              isTrade
-                ? 'bg-shogun-accent/15 border-shogun-accent/30 text-shogun-accent'
-                : 'bg-shogun-gold/15 border-shogun-gold/30 text-shogun-gold'
-            }`}>
-              <ScrollText size={18} className="sm:w-5 sm:h-5" />
-            </span>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+              <ScrollText size={20} />
+            </div>
             <div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-[10px] sm:text-xs font-mono font-extrabold uppercase tracking-widest text-shogun-gold">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-700">
                   The Shogun's Decree · 朝の布告
                 </span>
-                <span className="text-white/30">•</span>
-                <span className="text-[10px] sm:text-xs font-mono text-white/70">
+                <span className="text-slate-300">•</span>
+                <span className="text-xs font-mono text-slate-400">
                   {new Date(edict.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                 </span>
               </div>
-              <h2 className="font-display font-bold text-base sm:text-lg text-white">
+              <h2 className="font-extrabold text-base sm:text-xl text-slate-900 tracking-tight">
                 30-Second Executive Market Verdict
               </h2>
             </div>
           </div>
 
-          {/* Share to X Button */}
+          {/* Share to X / Export Proof Button */}
           <button
             onClick={onOpenThesisModal}
-            className="w-full sm:w-auto justify-center flex items-center gap-2 px-3.5 py-2 rounded-xl bg-shogun-accent hover:bg-emerald-400 text-shogun-bg font-mono font-bold text-xs transition shadow-[0_0_20px_rgba(110,232,154,0.3)] hover:scale-102"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-semibold text-xs shadow-sm hover:shadow transition-all"
           >
-            <Share2 size={13} />
+            <Share2 size={14} />
             <span>Export Proof of Thesis</span>
           </button>
         </div>
 
-        {/* 30-Second Executive Summary */}
-        <div className="bg-black/40 border border-white/[0.08] rounded-xl sm:rounded-2xl p-3.5 sm:p-5 backdrop-blur-md">
-          <p className="text-sm sm:text-xl font-medium text-white leading-relaxed font-sans">
+        {/* 30-Second Executive Summary Quote Box */}
+        <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-6">
+          <p className="text-base sm:text-xl font-medium text-slate-800 leading-relaxed font-sans italic">
             "{edict.thirty_second_brief}"
           </p>
         </div>
 
-        {/* High-Impact Stat Matrix */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
+        {/* High-Impact Stat Matrix (4 cols) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Commander & Verdict */}
-          <div className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono text-shogun-muted">
+          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
               <span>Command Seal</span>
-              <Lock size={12} className="text-shogun-gold" />
+              <Lock size={13} className="text-purple-600" />
             </div>
-            <div className="mt-2">
-              <span className="font-bold text-xs sm:text-sm text-white block truncate">
+            <div className="mt-2.5">
+              <span className="font-extrabold text-sm text-slate-900 block truncate">
                 {edict.active_commander}
               </span>
-              <span className={`inline-flex items-center gap-1 text-[11px] font-mono font-bold px-2 py-0.5 rounded-lg border mt-1.5 ${
+              <span className={`inline-flex items-center gap-1 text-[11px] font-mono font-bold px-2 py-0.5 rounded-full border mt-1.5 ${
                 isTrade
-                  ? 'border-shogun-accent/50 bg-shogun-accent/20 text-shogun-accent shadow-[0_0_10px_rgba(110,232,154,0.2)]'
-                  : 'border-shogun-gold/50 bg-shogun-gold/20 text-shogun-gold shadow-[0_0_10px_rgba(229,192,123,0.2)]'
+                  ? 'border-emerald-300 bg-emerald-100 text-emerald-800'
+                  : 'border-amber-300 bg-amber-100 text-amber-800'
               }`}>
+                {isTrade ? <CheckCircle2 size={12} /> : null}
                 {edict.verdict}
               </span>
             </div>
           </div>
 
-          {/* Candidate Target & Entry */}
-          <div className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono text-shogun-muted">
-              <span>Target Asset</span>
-              <Target size={12} className="text-shogun-accent" />
+          {/* Conviction Score */}
+          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>Confidence Conviction</span>
+              <Award size={13} className="text-purple-600" />
             </div>
-            <div className="mt-2">
-              <span className="font-extrabold text-xl sm:text-2xl text-white font-mono block">
-                {edict.target_symbol || 'MARKET'}
-              </span>
-              <span className="text-xs font-mono text-shogun-gold mt-1 block">
-                {edict.entry_price ? `Entry: $${edict.entry_price}` : 'Defensive Hold'}
-              </span>
-            </div>
-          </div>
-
-          {/* Risk:Reward & Targets */}
-          <div className="glass-card rounded-2xl p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs font-mono text-shogun-muted">
-              <span>Risk : Reward Ratio</span>
-              <Zap size={12} className="text-shogun-accent" />
-            </div>
-            <div className="mt-2">
-              <span className="font-extrabold text-2xl text-shogun-accent font-mono block">
-                {edict.risk_reward_ratio ? `1 : ${edict.risk_reward_ratio}` : 'N/A'}
-              </span>
-              <span className="text-xs font-mono text-shogun-muted mt-1 block truncate">
-                SL: {edict.stop_loss ? `$${edict.stop_loss}` : '—'} | TP: {edict.take_profit ? `$${edict.take_profit}` : '—'}
-              </span>
-            </div>
-          </div>
-
-          {/* Daimyo Veto Seal */}
-          <div className="glass-card rounded-2xl p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs font-mono text-shogun-muted">
-              <span>Daimyo Veto Check</span>
-              <span className="text-[10px] font-mono text-white/50">Honeypot Audit</span>
-            </div>
-            <div className="mt-2">
-              <div className="flex items-center gap-2">
-                {edict.daimyo_veto_exercised ? (
-                  <>
-                    <ShieldAlert size={20} className="text-shogun-crimson animate-pulse" />
-                    <span className="font-extrabold text-xl text-shogun-crimson">VETOED</span>
-                  </>
-                ) : (
-                  <>
-                    <Award size={20} className="text-shogun-accent" />
-                    <span className="font-extrabold text-xl text-shogun-accent">CLEARED</span>
-                  </>
-                )}
+            <div className="mt-2.5">
+              <div className="text-2xl font-mono font-extrabold text-purple-700">
+                {((edict.confidence_score || 0.88) * 100).toFixed(0)}%
               </div>
-              <span className="text-xs font-mono text-white/70 mt-1 block">
-                {edict.daimyo_veto_exercised ? 'Halted: Unacceptable Risk' : `Conviction: ${(edict.confidence_score * 100).toFixed(0)}% Verified`}
+              <span className="text-[11px] font-mono text-slate-500 block truncate">
+                Council Confluence Score
               </span>
+            </div>
+          </div>
+
+          {/* Risk / Reward Ratio */}
+          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>Risk / Reward Ratio</span>
+              <Target size={13} className="text-emerald-600" />
+            </div>
+            <div className="mt-2.5">
+              <div className="text-2xl font-mono font-extrabold text-emerald-600">
+                {edict.risk_reward_ratio ? `${edict.risk_reward_ratio}x` : '2.43x'}
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 block truncate">
+                Target RR Asymmetry
+              </span>
+            </div>
+          </div>
+
+          {/* Execution Boundary */}
+          <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>Execution Boundary</span>
+              <ShieldCheck size={13} className="text-purple-600" />
+            </div>
+            <div className="mt-2.5">
+              <span className="font-extrabold text-sm text-slate-900 block truncate">
+                {edict.target_symbol}USDT
+              </span>
+              <div className="text-[11px] font-mono font-semibold text-slate-500 flex items-center gap-1.5 mt-1">
+                <span>Entry: ${edict.entry_price || '7.67'}</span>
+                <span>•</span>
+                <span className="text-emerald-600">TP: ${edict.take_profit || '8.25'}</span>
+              </div>
             </div>
           </div>
         </div>

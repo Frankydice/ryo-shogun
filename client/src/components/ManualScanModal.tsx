@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Terminal, ArrowRight } from 'lucide-react';
+import { X, Terminal } from 'lucide-react';
 
 interface ManualScanModalProps {
   isOpen: boolean;
@@ -18,7 +18,7 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
 
   if (!isOpen) return null;
 
-  const quickCandidates = ['INJ', 'PENDLE', 'AAVE', 'MEME_RUG', 'SUI'];
+  const quickCandidates = ['BTC', 'ETH', 'SOL', 'INJ', 'PENDLE', 'AAVE', 'MEME_RUG'];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,44 +34,42 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-3 sm:p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto no-scrollbar rounded-2xl sm:rounded-3xl border border-white/15 bg-[#0a110d]/95 p-4 sm:p-6 shadow-2xl flex flex-col gap-4 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto no-scrollbar rounded-3xl border border-slate-200 bg-white p-5 sm:p-7 shadow-2xl flex flex-col gap-4">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <span className="p-1 rounded bg-shogun-accent/10 text-shogun-accent">
+            <span className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
               <Terminal size={16} />
             </span>
-            <span className="font-mono font-bold text-sm text-white uppercase tracking-wider">
+            <span className="font-mono font-bold text-sm text-slate-900 uppercase tracking-wider">
               Summon Council on Token
             </span>
           </div>
-          <button onClick={onClose} className="p-1 text-shogun-muted hover:text-white transition">
+          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-700 transition">
             <X size={18} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
           <div>
-            <label className="text-xs font-mono text-white block mb-1.5">
+            <label className="text-xs font-mono font-bold text-slate-700 block mb-1.5">
               Target Token Ticker Symbol:
             </label>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="e.g. INJ, PENDLE, AAVE, MEME_RUG..."
-                value={tokenInput}
-                onChange={(e) => setTokenInput(e.target.value)}
-                autoFocus
-                className="w-full rounded-xl border border-white/15 bg-black/60 px-3.5 py-2.5 text-xs text-white placeholder:text-shogun-muted font-mono focus:border-shogun-accent focus:outline-none uppercase"
-              />
-            </div>
+            <input
+              type="text"
+              placeholder="e.g. INJ, PENDLE, AAVE, SOL, BTC..."
+              value={tokenInput}
+              onChange={(e) => setTokenInput(e.target.value)}
+              autoFocus
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 font-mono focus:border-purple-600 focus:bg-white focus:outline-none uppercase transition"
+            />
           </div>
 
           {/* Quick Select Tokens */}
           <div>
-            <span className="text-[11px] font-mono text-shogun-muted block mb-1.5">Quick Presets:</span>
+            <span className="text-[11px] font-mono text-slate-400 block mb-1.5">Quick Presets:</span>
             <div className="flex flex-wrap gap-1.5">
               {quickCandidates.map((sym) => (
                 <button
@@ -80,8 +78,8 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
                   onClick={() => handleQuickSelect(sym)}
                   className={`text-xs font-mono px-2.5 py-1 rounded-lg border transition ${
                     sym === 'MEME_RUG'
-                      ? 'border-shogun-crimson/40 bg-shogun-crimson/10 text-shogun-crimson hover:bg-shogun-crimson/20'
-                      : 'border-white/10 bg-white/5 text-shogun-muted hover:text-white hover:border-white/20'
+                      ? 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100'
+                      : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-purple-50 hover:text-purple-700 hover:border-purple-300'
                   }`}
                 >
                   {sym} {sym === 'MEME_RUG' && '(Test Veto)'}
@@ -90,21 +88,20 @@ export const ManualScanModal: React.FC<ManualScanModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-2">
+          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-3 py-2 rounded-xl text-xs font-mono text-shogun-muted hover:text-white transition"
+              className="px-3.5 py-2 rounded-xl text-xs font-mono text-slate-500 hover:bg-slate-100 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={isLoading || !tokenInput.trim()}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-shogun-accent hover:bg-emerald-400 text-shogun-bg font-mono font-bold text-xs transition disabled:opacity-50"
+              disabled={isLoading}
+              className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold text-xs shadow-sm transition disabled:opacity-50"
             >
-              <span>Convene Shogun</span>
-              <ArrowRight size={13} />
+              {isLoading ? 'Convening...' : 'Evaluate Token'}
             </button>
           </div>
         </form>

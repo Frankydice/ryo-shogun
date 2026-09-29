@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, CheckCircle, ShieldCheck, Activity } from 'lucide-react';
+import { X, CheckCircle, Activity } from 'lucide-react';
 import { ShogunState } from '../types/index.js';
 
 interface SystemStatusModalProps {
@@ -21,24 +21,24 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
   const endpoint = state?.mcpStatus?.endpoint || 'https://app-ryochan.com/api/mcp';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-3 sm:p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto no-scrollbar rounded-2xl sm:rounded-3xl border border-white/15 bg-[#0a110d]/95 p-4 sm:p-6 shadow-2xl flex flex-col gap-4 sm:gap-5 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto no-scrollbar rounded-3xl border border-slate-200 bg-white p-5 sm:p-7 shadow-2xl flex flex-col gap-5">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2.5">
-            <span className="p-1.5 rounded-xl bg-shogun-accent/15 text-shogun-accent border border-shogun-accent/30">
-              <Activity size={16} />
+            <span className="p-1.5 rounded-xl bg-purple-100 text-purple-700">
+              <Activity size={18} />
             </span>
             <div>
-              <span className="font-mono font-extrabold text-sm text-white uppercase tracking-wider block">
+              <span className="font-mono font-bold text-sm text-slate-900 uppercase tracking-wider block">
                 RYO Shogun System Status
               </span>
-              <span className="text-[10px] font-mono text-shogun-muted">
+              <span className="text-[10px] font-mono text-slate-500">
                 Real-Time Autonomous Infrastructure & Provenance
               </span>
             </div>
           </div>
-          <button onClick={onClose} className="p-1 text-shogun-muted hover:text-white transition">
+          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-700 transition">
             <X size={18} />
           </button>
         </div>
@@ -46,38 +46,38 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
         {/* Status Rows */}
         <div className="flex flex-col gap-3 font-mono text-xs">
           {/* MCP Endpoint */}
-          <div className="glass-card rounded-2xl p-3.5 flex items-center justify-between">
+          <div className="rounded-2xl p-4 bg-slate-50 border border-slate-200/80 flex items-center justify-between">
             <div>
-              <span className="text-shogun-muted text-[10px] uppercase block">RYO MCP Gateway</span>
-              <span className="font-bold text-white text-xs mt-0.5 block truncate max-w-[280px]">
+              <span className="text-slate-400 text-[10px] uppercase block">RYO MCP Gateway</span>
+              <span className="font-bold text-slate-800 text-xs mt-0.5 block truncate max-w-[280px]">
                 {endpoint}
               </span>
             </div>
             <span
-              className={`px-2.5 py-1 rounded-lg border text-[11px] font-bold flex items-center gap-1 ${
+              className={`px-2.5 py-1 rounded-full border text-[10px] font-bold flex items-center gap-1 ${
                 isLive
-                  ? 'border-shogun-accent/40 bg-shogun-accent/15 text-shogun-accent'
-                  : 'border-shogun-gold/40 bg-shogun-gold/15 text-shogun-gold'
+                  ? 'border-purple-300 bg-purple-100 text-purple-800'
+                  : 'border-emerald-300 bg-emerald-100 text-emerald-800'
               }`}
             >
               <CheckCircle size={12} />
-              {isLive ? 'LIVE' : 'SIMULATOR'}
+              {isLive ? 'CREDENTIALED' : 'LIVE ORACLE'}
             </span>
           </div>
 
           {/* Circuit Breaker Status */}
-          <div className="glass-card rounded-2xl p-3.5 flex items-center justify-between">
+          <div className="rounded-2xl p-4 bg-slate-50 border border-slate-200/80 flex items-center justify-between">
             <div>
-              <span className="text-shogun-muted text-[10px] uppercase block">Safety Circuit Breaker</span>
-              <span className="font-bold text-white text-xs mt-0.5 block">
+              <span className="text-slate-400 text-[10px] uppercase block">Safety Circuit Breaker</span>
+              <span className="font-bold text-slate-800 text-xs mt-0.5 block">
                 {circuitTripped ? 'TRIPPED (All automated executions halted)' : 'ARMED (Max slippage 2.5%, honeypot guard on)'}
               </span>
             </div>
             <span
-              className={`px-2.5 py-1 rounded-lg border text-[11px] font-bold ${
+              className={`px-2.5 py-1 rounded-full border text-[10px] font-bold ${
                 circuitTripped
-                  ? 'border-shogun-crimson/50 bg-shogun-crimson/15 text-shogun-crimson'
-                  : 'border-shogun-accent/40 bg-shogun-accent/15 text-shogun-accent'
+                  ? 'border-rose-300 bg-rose-100 text-rose-800'
+                  : 'border-emerald-300 bg-emerald-100 text-emerald-800'
               }`}
             >
               {circuitTripped ? 'LOCKED' : 'ACTIVE'}
@@ -85,38 +85,31 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
           </div>
 
           {/* Three Samurai Health */}
-          <div className="glass-card rounded-2xl p-3.5 flex flex-col gap-2">
-            <span className="text-shogun-muted text-[10px] uppercase block">Samurai Council Health</span>
+          <div className="rounded-2xl p-4 bg-slate-50 border border-slate-200/80 flex flex-col gap-2">
+            <span className="text-slate-400 text-[10px] uppercase block">Samurai Council Health</span>
             <div className="grid grid-cols-3 gap-2 text-center pt-1">
-              <div className="bg-black/40 border border-white/5 p-2 rounded-xl">
-                <span className="text-[10px] text-shogun-muted block">The Ronin</span>
-                <span className="text-shogun-accent font-bold text-xs mt-0.5 block">READY (12ms)</span>
+              <div className="bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm">
+                <span className="text-[10px] text-slate-400 block font-semibold">The Ronin</span>
+                <span className="text-purple-700 font-bold text-xs mt-0.5 block">READY (12ms)</span>
               </div>
-              <div className="bg-black/40 border border-white/5 p-2 rounded-xl">
-                <span className="text-[10px] text-shogun-muted block">The Shinobi</span>
-                <span className="text-teal-300 font-bold text-xs mt-0.5 block">READY (15ms)</span>
+              <div className="bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm">
+                <span className="text-[10px] text-slate-400 block font-semibold">The Shinobi</span>
+                <span className="text-teal-700 font-bold text-xs mt-0.5 block">READY (15ms)</span>
               </div>
-              <div className="bg-black/40 border border-white/5 p-2 rounded-xl">
-                <span className="text-[10px] text-shogun-muted block">The Daimyo</span>
-                <span className="text-shogun-gold font-bold text-xs mt-0.5 block">GUARD (9ms)</span>
+              <div className="bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm">
+                <span className="text-[10px] text-slate-400 block font-semibold">The Daimyo</span>
+                <span className="text-emerald-700 font-bold text-xs mt-0.5 block">READY (9ms)</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="pt-2 flex items-center justify-between border-t border-white/[0.08] text-[10px] font-mono text-shogun-muted">
-          <span className="flex items-center gap-1 text-shogun-accent">
-            <ShieldCheck size={12} />
-            <span>Honest Data Provenance Verified</span>
-          </span>
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-shogun-accent hover:bg-emerald-400 text-shogun-bg font-bold font-mono text-xs transition"
-          >
-            Close Status
-          </button>
-        </div>
+        <button
+          onClick={onClose}
+          className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold text-xs shadow-sm transition"
+        >
+          Close Status Monitor
+        </button>
       </div>
     </div>
   );

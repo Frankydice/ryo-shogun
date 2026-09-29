@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Sparkles, ShieldCheck, Scale, CheckCircle2 } from 'lucide-react';
+import { BookOpen, Scale, CheckCircle2 } from 'lucide-react';
 import { KaizenPostMortem } from '../types/index.js';
 
 interface KaizenLedgerProps {
@@ -11,130 +11,123 @@ export const KaizenLedger: React.FC<KaizenLedgerProps> = ({ postMortems }) => {
   const winRate = postMortems.length > 0 ? Math.round((winCount / postMortems.length) * 100) : 100;
 
   return (
-    <section className="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-5 relative overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute -top-20 -right-20 w-80 h-80 rounded-full bg-purple-900/15 blur-[90px]" />
-
+    <section className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col gap-5 relative overflow-hidden" id="kaizen-section">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 sm:pb-4">
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          <span className="p-1.5 sm:p-2 rounded-xl bg-purple-500/15 text-purple-300 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-            <BookOpen size={18} />
-          </span>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+            <BookOpen size={20} />
+          </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm sm:text-base font-display font-bold text-white">
+              <h2 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">
                 Kaizen Forensic Ledger · 改善記録
               </h2>
-              <span className="text-[9px] sm:text-[10px] font-mono px-2 py-0.5 rounded-full border border-purple-500/40 bg-purple-500/10 text-purple-300 font-bold uppercase">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-purple-200 bg-purple-50 text-purple-700 font-bold uppercase">
                 Self-Audit
               </span>
             </div>
-            <p className="text-[11px] sm:text-xs text-shogun-muted font-mono mt-0.5">
+            <p className="text-xs text-slate-500 font-mono mt-0.5">
               Automated post-mortem audits: Thesis Verification vs. Market Luck
             </p>
           </div>
         </div>
 
-        <span className="text-[10px] sm:text-xs font-mono px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl border border-purple-500/30 bg-purple-950/40 text-purple-300 flex items-center gap-1.5">
-          <Scale size={12} />
+        <span className="text-xs font-mono px-3 py-1 rounded-full border border-purple-200 bg-purple-50 text-purple-700 flex items-center gap-1.5 font-semibold">
+          <Scale size={13} />
           <span>Continuous Self-Correction Loop</span>
         </span>
       </div>
 
-      {/* Aggregate Forensic Metrics Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 bg-black/40 border border-white/[0.06] rounded-2xl p-2.5 sm:p-3.5 text-xs font-mono">
+      {/* Aggregate Forensic Metrics Strip (4 cols) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 border border-slate-200/80 rounded-2xl p-4 text-xs font-mono">
         <div>
-          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Total Audits</span>
-          <span className="font-bold text-xs sm:text-sm text-white mt-0.5 block">
+          <span className="text-[10px] text-slate-400 uppercase block">Total Audits</span>
+          <span className="font-extrabold text-sm text-slate-900 mt-0.5 block">
             {postMortems.length} Cases Documented
           </span>
         </div>
 
-        <div className="border-l border-white/10 pl-2 sm:pl-3">
-          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Thesis Validation</span>
-          <span className="font-bold text-xs sm:text-sm text-shogun-accent mt-0.5 flex items-center gap-1">
-            <CheckCircle2 size={13} className="shrink-0" />
+        <div className="border-l border-slate-200 pl-3">
+          <span className="text-[10px] text-slate-400 uppercase block">Thesis Validation</span>
+          <span className="font-extrabold text-sm text-emerald-600 mt-0.5 flex items-center gap-1">
+            <CheckCircle2 size={14} className="shrink-0" />
             <span>{winRate}% Confirmed</span>
           </span>
         </div>
 
-        <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-1.5 sm:pt-0 sm:pl-3">
-          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Dojo Rules Active</span>
-          <span className="font-bold text-xs sm:text-sm text-purple-300 mt-0.5 block">
-            {postMortems.length} Adaptive Policies
+        <div className="border-t sm:border-t-0 sm:border-l sm:border-slate-200 pt-2 sm:pt-0 sm:pl-3">
+          <span className="text-[10px] text-slate-400 uppercase block">Adaptive Policies</span>
+          <span className="font-extrabold text-sm text-purple-700 mt-0.5 block">
+            {postMortems.length} Enforced Rules
           </span>
         </div>
 
-        <div className="border-t sm:border-t-0 border-l border-white/10 pt-1.5 sm:pt-0 pl-2 sm:pl-3">
-          <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Accountability</span>
-          <span className="font-bold text-xs sm:text-sm text-shogun-gold mt-0.5 block truncate">
-            Thesis vs Luck
+        <div className="border-t sm:border-t-0 border-l border-slate-200 pt-2 sm:pt-0 pl-3">
+          <span className="text-[10px] text-slate-400 uppercase block">Accountability</span>
+          <span className="font-extrabold text-sm text-amber-700 mt-0.5 block truncate">
+            Thesis vs Luck Model
           </span>
         </div>
       </div>
 
-      {/* Post Mortem Cards (2-Column Grid in Full-Width) */}
+      {/* Post Mortem Cards */}
       {postMortems.length === 0 ? (
-        <div className="border border-dashed border-white/10 rounded-2xl p-8 text-center text-xs font-mono text-shogun-muted bg-black/20">
+        <div className="border border-dashed border-slate-200 rounded-2xl p-8 text-center text-xs font-mono text-slate-400 bg-slate-50">
           No post-mortems conducted yet. Close an active trade in the Dojo Treasury to trigger the automated Kaizen forensic review.
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {postMortems.map((km) => {
             const isWin = km.outcome === 'WIN';
 
             return (
               <div
                 key={km.id}
-                className="glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between gap-3 sm:gap-3.5 transition-all duration-300 hover:border-purple-500/40 hover:-translate-y-0.5 relative overflow-hidden"
+                className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm flex flex-col justify-between gap-3.5 hover:border-purple-300 hover:shadow-md transition-all"
               >
                 <div>
                   {/* Header row */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.05] pb-2.5">
-                    <div className="flex items-center gap-2.5">
-                      <span className="font-mono font-extrabold text-base text-white">{km.symbol}</span>
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-extrabold text-base text-slate-900">{km.symbol}</span>
                       <span
-                        className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded-lg border ${
+                        className={`text-xs font-mono font-bold px-2 py-0.5 rounded-full border ${
                           isWin
-                            ? 'bg-shogun-accent/15 text-shogun-accent border-shogun-accent/30 shadow-[0_0_10px_rgba(110,232,154,0.15)]'
-                            : 'bg-shogun-crimson/15 text-shogun-crimson border-shogun-crimson/30 shadow-[0_0_10px_rgba(255,77,77,0.15)]'
+                            ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                            : 'bg-rose-100 text-rose-800 border-rose-200'
                         }`}
                       >
-                        {km.outcome} ({km.realized_pnl_usd >= 0 ? `+$${km.realized_pnl_usd.toFixed(2)}` : `-$${Math.abs(km.realized_pnl_usd).toFixed(2)}`})
-                      </span>
-                      <span className="text-xs font-mono text-shogun-muted border-l border-white/10 pl-2">
-                        {km.thesis_evaluation.replace(/_/g, ' ')}
+                        {km.outcome} (+${(km.realized_pnl_usd || 0).toFixed(2)})
                       </span>
                     </div>
 
-                    <span className="text-[11px] font-mono text-shogun-muted">
-                      {new Date(km.reviewed_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <span className="text-[11px] font-mono text-slate-400">
+                      Trade ID: {km.trade_id.slice(-7)}
                     </span>
                   </div>
 
-                  {/* Analysis Body */}
-                  <p className="text-xs sm:text-sm text-shogun-ink/90 leading-relaxed font-sans mt-3">
-                    {km.analysis}
-                  </p>
-                </div>
+                  {/* Verification verdict */}
+                  <div className="my-3 flex items-center gap-2 text-xs font-mono">
+                    <span className="text-slate-400">Audit Verdict:</span>
+                    <span className="font-bold text-slate-800">
+                      {km.thesis_evaluation === 'THESIS_CONFIRMED' ? 'Thesis Verified' : km.thesis_evaluation}
+                    </span>
+                  </div>
 
-                {/* Dojo Rule Adjustment Box */}
-                <div className="flex items-start gap-2.5 bg-black/50 border border-purple-500/25 rounded-xl p-3">
-                  <Sparkles size={16} className="text-purple-400 shrink-0 mt-0.5" />
-                  <div className="text-xs font-mono">
-                    <span className="text-purple-300 font-bold block mb-0.5">Dojo Rule Adjustment:</span>
-                    <span className="text-white/90 leading-relaxed">{km.dojo_rule_adjustment}</span>
+                  {/* Lesson Learned */}
+                  <div className="bg-slate-50 rounded-xl p-3 border border-slate-200/70 text-xs text-slate-700 leading-relaxed font-sans">
+                    <span className="font-mono font-bold text-slate-900 block mb-1">
+                      KAIZEN LESSON:
+                    </span>
+                    "{km.analysis}"
                   </div>
                 </div>
 
-                {/* Verification Stamp */}
-                <div className="flex items-center justify-between text-[10px] font-mono text-shogun-muted pt-1 border-t border-white/[0.05]">
-                  <span className="flex items-center gap-1 text-purple-300">
-                    <ShieldCheck size={11} />
-                    <span>Post-Mortem Seal Verified</span>
-                  </span>
-                  <span>Audit ID: #{km.id.slice(0, 15)}</span>
+                {/* Footer Hash & Sanctions */}
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                  <span className="truncate">Hash: {km.id}</span>
+                  <span className="text-purple-700 font-semibold">{km.dojo_rule_adjustment}</span>
                 </div>
               </div>
             );

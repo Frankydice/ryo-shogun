@@ -8,33 +8,64 @@ export default {
   theme: {
     extend: {
       colors: {
+        olas: {
+          purple: '#7E22CE',
+          'purple-light': '#9333EA',
+          'purple-dark': '#581C87',
+          lime: '#CCFF00',
+          teal: '#69D1CE',
+          sky: '#95A7EF',
+          magenta: '#EA8FEF',
+          dark: '#0F172A',
+          slate: '#1E293B',
+          muted: '#64748B',
+          light: '#F8FAFC',
+          border: '#E2E8F0',
+        },
         shogun: {
-          bg: '#050806',
-          surface: '#0d1310',
-          card: '#121a16',
-          border: 'rgba(255, 255, 255, 0.08)',
-          accent: '#6EE89A',
-          gold: '#E5C07B',
-          crimson: '#FF4D4D',
-          muted: '#8A9991',
-          ink: '#E8F5EE'
+          bg: '#FFFFFF',
+          surface: '#F8FAFC',
+          card: '#FFFFFF',
+          border: '#E2E8F0',
+          accent: '#7E22CE',
+          gold: '#D97706',
+          crimson: '#EF4444',
+          muted: '#64748B',
+          ink: '#0F172A'
         }
       },
       fontFamily: {
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
         jp: ['Noto Sans JP', 'sans-serif'],
         display: ['Space Grotesk', 'Inter', 'sans-serif']
       },
       animation: {
         'pulse-glow': 'pulseGlow 2.5s ease-in-out infinite',
+        'scroll': 'scroll 35s linear infinite',
+        'float': 'float 4s ease-in-out infinite',
+        'scroll-fade': 'scrollFade 1.6s ease-in-out infinite',
       },
       keyframes: {
         pulseGlow: {
           '0%, 100%': { opacity: '0.8', transform: 'scale(1)' },
           '50%': { opacity: '1', transform: 'scale(1.02)' },
+        },
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        scrollFade: {
+          '0%, 100%': { opacity: '0.3', transform: 'translateY(0)' },
+          '50%': { opacity: '1', transform: 'translateY(4px)' },
         }
       }
     },
   },
   plugins: [],
 }
+

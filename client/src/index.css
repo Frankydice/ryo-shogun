@@ -3,85 +3,110 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
   margin: 0;
-  background-color: #040705;
-  color: #E8F5EE;
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #FFFFFF;
+  color: #0F172A;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(110, 232, 154, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 100% 20%, rgba(229, 192, 123, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 0% 80%, rgba(110, 232, 154, 0.04) 0%, transparent 40%);
+    radial-gradient(circle at 50% 0%, rgba(126, 34, 206, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 100% 30%, rgba(105, 209, 206, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 0% 70%, rgba(147, 51, 234, 0.03) 0%, transparent 50%);
   background-attachment: fixed;
 }
 
-/* Cybernetic Grid Overlay */
-.bg-grid-pattern {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+/* Subtle Tech Dot Pattern */
+.bg-dot-pattern {
+  background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
-/* Custom Scrollbars */
+/* Olas Corner-Bracket Container */
+.olas-corner-box {
+  position: relative;
+  display: inline-block;
+}
+.olas-corner-box::before,
+.olas-corner-box::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: #C084FC;
+  pointer-events: none;
+}
+.olas-corner-box::before {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid #C084FC;
+  border-left: 1.5px solid #C084FC;
+}
+.olas-corner-box::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid #C084FC;
+  border-right: 1.5px solid #C084FC;
+}
+
+/* Custom Clean Scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #060a08;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #18261e;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #283d31;
+  background: #94A3B8;
 }
 
-/* Glassmorphism Classes */
+/* Olas Card Classes */
 .glass-panel {
-  background: rgba(10, 16, 13, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
 }
 
 .glass-card {
-  background: rgba(14, 23, 19, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: #C084FC;
+  box-shadow: 0 10px 15px -3px rgba(126, 34, 206, 0.08), 0 4px 6px -4px rgba(126, 34, 206, 0.04);
 }
 
 /* Ambient glow utilities */
 .glow-accent {
-  box-shadow: 0 0 35px -5px rgba(110, 232, 154, 0.3);
+  box-shadow: 0 0 25px -4px rgba(126, 34, 206, 0.15);
+}
+.glow-lime {
+  box-shadow: 0 0 25px -4px rgba(204, 255, 0, 0.35);
 }
 .glow-gold {
-  box-shadow: 0 0 35px -5px rgba(229, 192, 123, 0.3);
+  box-shadow: 0 0 25px -4px rgba(217, 119, 6, 0.15);
 }
 .glow-crimson {
-  box-shadow: 0 0 35px -5px rgba(255, 77, 77, 0.3);
+  box-shadow: 0 0 25px -4px rgba(239, 68, 68, 0.15);
 }
 
-/* Glowing text */
-.text-glow-accent {
-  text-shadow: 0 0 20px rgba(110, 232, 154, 0.5);
-}
-.text-glow-gold {
-  text-shadow: 0 0 20px rgba(229, 192, 123, 0.5);
+/* Text glow */
+.text-glow-purple {
+  text-shadow: 0 0 15px rgba(126, 34, 206, 0.3);
 }
 
-/* Hide scrollbar for Chrome, Safari, Edge and Opera while retaining smooth scrolling */
+/* Hide scrollbar while retaining touch scrolling */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

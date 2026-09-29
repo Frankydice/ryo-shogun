@@ -21,13 +21,13 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
   if (!isOpen || !edict) return null;
 
   const tweetText = encodeURIComponent(
-    `⚡ The Shogun Council has spoken on @ryodigital @app_ryochan!\n\n` +
+    `⚡ The Shogun Council has spoken!\n\n` +
     `🎌 Commander: ${edict.active_commander}\n` +
     `🎯 Target: ${edict.target_symbol || 'MARKET'} | Verdict: ${edict.verdict}\n` +
     `📊 Risk:Reward: 1:${edict.risk_reward_ratio || '2.3'} | Conviction: ${(edict.confidence_score * 100).toFixed(0)}%\n` +
     `🛡️ Daimyo Safety: ${edict.daimyo_veto_exercised ? 'VETOED' : 'APPROVED'}\n\n` +
     `Proof of Thesis: "${edict.thesis_summary}"\n\n` +
-    `#RYOHackathon #AgenticSocialFi #DeFAI #Tokyo2026`
+    `#RYOHackathon #AgenticSocialFi #OlasNetwork #Tokyo2026`
   );
 
   const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
@@ -64,126 +64,102 @@ export const ThesisCardModal: React.FC<ThesisCardModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-3 sm:p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto no-scrollbar rounded-2xl sm:rounded-3xl border border-white/15 bg-[#0a110d]/95 p-4 sm:p-6 shadow-2xl flex flex-col gap-4 sm:gap-5 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto no-scrollbar rounded-3xl border border-slate-200 bg-white p-5 sm:p-7 shadow-2xl flex flex-col gap-5">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <span className="p-1 rounded bg-shogun-accent/10 text-shogun-accent">
+            <span className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
               <Sparkles size={16} />
             </span>
-            <span className="font-mono font-bold text-xs sm:text-sm text-white uppercase tracking-wider">
+            <span className="font-mono font-bold text-xs sm:text-sm text-slate-900 uppercase tracking-wider">
               Export Proof of Thesis · 布告証明
             </span>
           </div>
-          <button onClick={onClose} className="p-1 text-shogun-muted hover:text-white transition">
+          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-700 transition">
             <X size={18} />
           </button>
         </div>
 
-        {/* The Aesthetic Card (Capture Target) */}
+        {/* Capture Target Card */}
         <div
           ref={cardRef}
-          className="rounded-xl sm:rounded-2xl border border-shogun-accent/30 bg-gradient-to-br from-[#07110c] via-[#0b1712] to-[#050806] p-4 sm:p-6 shadow-2xl relative overflow-hidden"
+          className="rounded-2xl border border-purple-200 bg-gradient-to-br from-white via-purple-50/40 to-slate-50 p-5 sm:p-6 shadow-md relative overflow-hidden"
         >
-          {/* Watermark */}
-          <div className="absolute -right-4 -bottom-6 pointer-events-none select-none text-white/[0.04] text-9xl font-black font-jp">
-            将軍
-          </div>
-
           <div className="relative z-10 flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
               <div className="flex items-center gap-2">
-                <span className="text-xl font-bold font-display text-white">
-                  RYO <span className="text-shogun-accent">SHOGUN</span>
+                <span className="text-xl font-extrabold font-display text-slate-900">
+                  RYO <span className="text-purple-600">SHOGUN</span>
                 </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-shogun-gold/40 text-shogun-gold bg-shogun-gold/10">
-                  PROOF OF THESIS
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-purple-200 text-purple-700 bg-purple-100 font-bold">
+                  AUTONOMOUS THESIS
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-shogun-muted">
+              <span className="text-[10px] font-mono text-slate-400">
                 {new Date(edict.timestamp).toLocaleDateString()}
               </span>
             </div>
 
-            {/* Target & Verdict */}
-            <div className="flex items-baseline justify-between">
-              <div>
-                <span className="text-[10px] font-mono text-shogun-muted uppercase block">Target Token</span>
-                <span className="text-2xl font-bold text-white font-mono">{edict.target_symbol || 'MARKET'}</span>
+            <div>
+              <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+                <span>Commander: <strong className="text-slate-800">{edict.active_commander}</strong></span>
+                <span className="font-bold text-purple-700">{edict.verdict}</span>
               </div>
-
-              <div className="text-right">
-                <span className="text-[10px] font-mono text-shogun-muted uppercase block">Command Verdict</span>
-                <span className="text-sm font-bold font-mono px-2.5 py-1 rounded bg-shogun-accent/20 text-shogun-accent border border-shogun-accent/30">
-                  {edict.verdict}
-                </span>
-              </div>
+              <h3 className="text-2xl font-mono font-black text-slate-900 tracking-tight">
+                {edict.target_symbol}USDT
+              </h3>
             </div>
 
-            {/* Metrics Grid */}
-            <div className="grid grid-cols-3 gap-2 bg-black/40 border border-white/5 rounded-xl p-3 text-center">
-              <div>
-                <span className="text-[10px] font-mono text-shogun-muted block">Entry</span>
-                <span className="text-xs font-bold text-white font-mono">
-                  {edict.entry_price ? `$${edict.entry_price}` : '—'}
-                </span>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono text-shogun-muted block">Risk / Reward</span>
-                <span className="text-xs font-bold text-shogun-accent font-mono">
-                  {edict.risk_reward_ratio ? `1 : ${edict.risk_reward_ratio}` : 'N/A'}
-                </span>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono text-shogun-muted block">Conviction</span>
-                <span className="text-xs font-bold text-shogun-gold font-mono">
-                  {(edict.confidence_score * 100).toFixed(0)}%
-                </span>
-              </div>
-            </div>
-
-            {/* Thesis Rationale */}
-            <p className="text-xs font-sans text-white/90 leading-relaxed italic bg-black/30 p-3 rounded-lg border-l-2 border-shogun-gold">
+            <div className="bg-white rounded-xl p-3.5 border border-slate-200 text-xs sm:text-sm text-slate-700 font-sans italic">
               "{edict.thesis_summary}"
-            </p>
+            </div>
 
-            {/* Card Footer */}
-            <div className="flex items-center justify-between pt-2 border-t border-white/5 text-[10px] font-mono text-shogun-muted">
-              <span>Commander: {edict.active_commander}</span>
-              <span className="text-shogun-accent">RYO-CHAN Hackathon 2026</span>
+            <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-200/80 text-xs font-mono">
+              <div>
+                <span className="text-slate-400 block text-[10px]">ENTRY</span>
+                <span className="font-bold text-slate-800">${edict.entry_price || '—'}</span>
+              </div>
+              <div>
+                <span className="text-slate-400 block text-[10px]">TAKE PROFIT</span>
+                <span className="font-bold text-emerald-600">${edict.take_profit || '—'}</span>
+              </div>
+              <div>
+                <span className="text-slate-400 block text-[10px]">CONVICTION</span>
+                <span className="font-bold text-purple-700">{((edict.confidence_score || 0.88) * 100).toFixed(0)}%</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <a
+            href={tweetUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-mono font-bold flex items-center justify-center gap-2 transition shadow-sm"
+          >
+            <Twitter size={15} />
+            <span>Post to X</span>
+          </a>
+
           <button
             onClick={handleCopyText}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-mono text-white transition"
+            className="py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-100 text-xs font-mono font-semibold text-slate-700 flex items-center justify-center gap-1.5 transition"
           >
-            {copied ? <Check size={14} className="text-shogun-accent" /> : <Copy size={14} />}
-            <span>{copied ? 'Copied!' : 'Copy Summary'}</span>
+            {copied ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+            <span>{copied ? 'Copied!' : 'Copy Text'}</span>
           </button>
 
           <button
             onClick={handleDownloadImage}
             disabled={downloading}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-mono text-white transition"
+            className="py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-100 text-xs font-mono font-semibold text-slate-700 flex items-center justify-center gap-1.5 transition disabled:opacity-50"
           >
             <Download size={14} />
-            <span>{downloading ? 'Rendering...' : 'Save PNG Card'}</span>
+            <span>{downloading ? 'Exporting...' : 'PNG'}</span>
           </button>
-
-          <a
-            href={tweetUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-shogun-accent hover:bg-emerald-400 text-shogun-bg font-mono font-bold text-xs transition shadow-[0_0_15px_rgba(110,232,154,0.3)]"
-          >
-            <Twitter size={14} />
-            <span>Post to X (Win Award)</span>
-          </a>
         </div>
       </div>
     </div>

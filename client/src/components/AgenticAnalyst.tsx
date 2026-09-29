@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Users, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { ShogunState } from '../types/index.js';
 
 interface AgenticAnalystProps {
@@ -10,15 +10,12 @@ type AnalystTab = 'Macro' | 'Technical' | 'Sentiment' | 'Volatility' | 'Risk' | 
 
 export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
   const [activeTab, setActiveTab] = useState<AnalystTab>('Macro');
-
   const tabs: AnalystTab[] = ['Macro', 'Technical', 'Sentiment', 'Volatility', 'Risk', 'Portfolio'];
 
-  // Current council opinions & edict
   const edict = state?.edict;
   const isVetoed = Boolean(edict?.daimyo_veto_exercised);
-  const activeCommander = edict?.active_commander || 'The Ronin (浪人)';
+  const targetSymbol = edict?.target_symbol || 'INJ';
 
-  // Determine agent card content based on tab
   const getTabContent = () => {
     switch (activeTab) {
       case 'Macro':
@@ -26,14 +23,14 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           agentName: 'MACRO AGENT',
           archetype: 'The Ronin (浪人)',
           stance: isVetoed ? 'Defensive' : 'Bullish',
-          stanceColor: isVetoed ? 'text-shogun-crimson border-shogun-crimson/40 bg-shogun-crimson/15' : 'text-shogun-accent border-shogun-accent/40 bg-shogun-accent/15',
+          stanceColor: isVetoed ? 'text-rose-700 border-rose-200 bg-rose-50' : 'text-purple-700 border-purple-200 bg-purple-50',
           confidence: isVetoed ? 95 : Math.round((edict?.confidence_score || 0.84) * 100),
           evidence: [
-            'Rate-cut expectation increased across global liquid indexes',
-            'Risk appetite improving; on-chain DEX velocity expanding',
-            'RYO MCP on-chain momentum confirmed across key pairs'
+            'Global crypto Fear & Greed index confirmed in Greed territory (73/100)',
+            'Global 24h market volume expanding to $198B with broad DEX participation',
+            'Sub-2 Gwei gas on Ethereum mainnet enabling friction-free settlement'
           ],
-          recommendation: isVetoed ? 'Defensive Hold / Cash Preservation' : 'Long Bias / Momentum Expansion',
+          recommendation: isVetoed ? 'Defensive Hold / Capital Preservation' : 'Accelerate / Momentum Breakout',
           recentSignal: isVetoed ? 'Signal: VETO_HOLD' : 'Signal: Bullish Breakout',
           timestamp: '08:32 JST'
         };
@@ -42,14 +39,14 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           agentName: 'TECHNICAL SCALPER',
           archetype: 'The Shinobi (忍)',
           stance: 'Accumulation',
-          stanceColor: 'text-teal-300 border-teal-400/40 bg-teal-950/30',
+          stanceColor: 'text-teal-700 border-teal-200 bg-teal-50',
           confidence: 82,
           evidence: [
-            '200 EMA support retested with declining sell volume',
-            'Bullish divergence confirmed on 4H RSI oscillator',
-            'Liquidity cluster sweep executed at $128.40 entry zone'
+            `200 EMA support verified on ${targetSymbol} with decreasing sell volume`,
+            'Bullish divergence confirmed on 4H RSI oscillator across spot klines',
+            `Gate.io spot orderbook spread tighter than 0.05% with deep bid support`
           ],
-          recommendation: 'Scale-in with structured Stop-Loss at $126.10',
+          recommendation: `Scale-in with structured Stop-Loss at $${edict?.stop_loss || '7.45'}`,
           recentSignal: 'Signal: Accumulation Stalking',
           timestamp: '08:34 JST'
         };
@@ -58,14 +55,14 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           agentName: 'SENTIMENT RADAR',
           archetype: 'The Ronin (浪人)',
           stance: 'Strong Bullish',
-          stanceColor: 'text-emerald-400 border-emerald-500/40 bg-emerald-950/30',
+          stanceColor: 'text-emerald-700 border-emerald-200 bg-emerald-50',
           confidence: 79,
           evidence: [
-            'Social sentiment score +28% vs 7-day baseline',
-            'Smart money wallet inflows outnumber outflows 3.2 : 1',
-            'Negative funding rate squeeze potential high'
+            'Smart money DEX inflows outnumber outflows 3.2 : 1 over 24h',
+            'Social sentiment score +28% vs 7-day baseline for autonomous agents',
+            'Derivatives funding rate neutral, indicating spot-driven real demand'
           ],
-          recommendation: 'Target Take-Profit at $133.20 (+3.7%)',
+          recommendation: `Target Take-Profit at $${edict?.take_profit || '8.25'}`,
           recentSignal: 'Signal: Bullish Sentiment Inflow',
           timestamp: '08:30 JST'
         };
@@ -74,14 +71,14 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           agentName: 'VOLATILITY SENTINEL',
           archetype: 'The Shinobi (忍)',
           stance: 'Contraction',
-          stanceColor: 'text-shogun-gold border-shogun-gold/40 bg-shogun-gold/15',
+          stanceColor: 'text-amber-700 border-amber-200 bg-amber-50',
           confidence: 88,
           evidence: [
-            'Bollinger Band bandwidth at 30-day low (compression)',
-            'Implied volatility discount vs realized volatility',
-            'Expansion impending within next 1–4 hours'
+            'Bollinger Band bandwidth at 30-day low (volatility compression)',
+            'Implied volatility discount vs realized on-chain volatility',
+            'Expansion breakout impending within next 1–4 hours'
           ],
-          recommendation: 'Prepare for directional expansion breakout',
+          recommendation: 'Prepare for directional expansion velocity',
           recentSignal: 'Signal: Volatility Squeeze Alert',
           timestamp: '08:28 JST'
         };
@@ -90,32 +87,32 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
           agentName: 'RISK GUARDIAN',
           archetype: 'The Daimyo (大名)',
           stance: isVetoed ? 'VETO ACTIVE' : 'CLEARED',
-          stanceColor: isVetoed ? 'text-shogun-crimson border-shogun-crimson/50 bg-shogun-crimson/20' : 'text-shogun-accent border-shogun-accent/50 bg-shogun-accent/20',
+          stanceColor: isVetoed ? 'text-rose-700 border-rose-200 bg-rose-50' : 'text-emerald-700 border-emerald-200 bg-emerald-50',
           confidence: 96,
           evidence: [
-            'Smart contract honeypot & mint function audit passed',
-            'Liquidity pool locked with multi-sig verification',
-            'Circuit breaker threshold set to max 2.5% portfolio slippage'
+            'Smart contract honeypot & mint function audit passed with 0 flags',
+            'Liquidity pool locked with multi-sig contract verification',
+            'Circuit breaker threshold enforced at max 2.5% portfolio slippage'
           ],
           recommendation: isVetoed ? 'HALT ALL TRADES' : 'Risk Cleared for Execution',
-          recentSignal: isVetoed ? 'Signal: VETOED' : 'Signal: Safe to Deploy',
-          timestamp: '08:35 JST'
+          recentSignal: isVetoed ? 'Signal: VETO_HOLD' : 'Signal: Safe To Trade',
+          timestamp: '08:31 JST'
         };
       case 'Portfolio':
         return {
-          agentName: 'TREASURY ALLOCATOR',
-          archetype: 'Council Arbiter',
+          agentName: 'PORTFOLIO ARCHITECT',
+          archetype: 'The Daimyo (大名)',
           stance: 'Balanced',
-          stanceColor: 'text-purple-300 border-purple-400/40 bg-purple-950/30',
-          confidence: 90,
+          stanceColor: 'text-purple-700 border-purple-200 bg-purple-50',
+          confidence: 91,
           evidence: [
-            'Current portfolio exposure at optimal 68% range',
-            'Max single-asset exposure capped at 15% of equity',
-            'Cash reserve buffer of $4,800 intact for drawdowns'
+            'Current portfolio exposure at safe 65% capacity',
+            'Realized PnL at +$340.50 with 100% win rate across executed trades',
+            'Uncorrelated asset distribution across Layer 1s and DeFi protocols'
           ],
-          recommendation: 'Maintain position sizing at 5% risk allocation',
-          recentSignal: 'Signal: Normal Allocation',
-          timestamp: '08:36 JST'
+          recommendation: 'Maintain position sizing at 15% max per trade',
+          recentSignal: 'Signal: Allocation Stable',
+          timestamp: '08:35 JST'
         };
     }
   };
@@ -123,38 +120,35 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
   const current = getTabContent();
 
   return (
-    <div className="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col justify-between relative overflow-hidden">
+    <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col gap-5">
       {/* Header */}
-      <div>
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
-          <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-shogun-accent/15 text-shogun-accent">
-              <Users size={16} />
-            </span>
-            <span className="font-mono font-extrabold text-xs uppercase tracking-widest text-white">
-              Agentic Analyst
-            </span>
-            <span className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.2 rounded-full border border-shogun-accent/40 bg-shogun-accent/10 text-shogun-accent">
-              <span className="w-1.5 h-1.5 rounded-full bg-shogun-accent animate-ping" />
-              LIVE
-            </span>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+            <Users size={20} />
           </div>
-
-          <ChevronRight size={16} className="text-shogun-muted" />
+          <div>
+            <h2 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">
+              Agentic Analyst Panel · 特務分析
+            </h2>
+            <p className="text-xs text-slate-500 font-mono">
+              Autonomous sub-specialist analysis modules
+            </p>
+          </div>
         </div>
 
-        {/* Tab Row (Horizontal Scroll on Mobile) */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 mb-3.5 -mx-1 px-1 flex-nowrap">
+        {/* Tab Strip */}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
           {tabs.map((tab) => {
             const isActive = activeTab === tab;
             return (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`shrink-0 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-mono rounded-lg transition-all ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
                   isActive
-                    ? 'bg-shogun-accent/15 text-shogun-accent font-bold border border-shogun-accent/40 shadow-[0_0_10px_rgba(110,232,154,0.15)]'
-                    : 'text-shogun-muted hover:text-white hover:bg-white/[0.04] bg-black/20'
+                    ? 'bg-purple-600 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/70'
                 }`}
               >
                 {tab}
@@ -162,70 +156,85 @@ export const AgenticAnalyst: React.FC<AgenticAnalystProps> = ({ state }) => {
             );
           })}
         </div>
-
-        {/* Active Agent Card */}
-        <div className="glass-card rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex flex-col gap-3 sm:gap-3.5 border border-white/[0.08]">
-          {/* Agent Header & Stance */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-shogun-accent/15 border border-shogun-accent/30 flex items-center justify-center text-shogun-accent font-bold font-mono text-xs">
-                将
-              </div>
-              <div>
-                <span className="font-mono font-bold text-xs text-white block">
-                  {current.agentName}
-                </span>
-                <span className="text-[10px] font-mono text-shogun-muted">
-                  {activeCommander}
-                </span>
-              </div>
-            </div>
-
-            <span
-              className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded-lg border ${current.stanceColor}`}
-            >
-              {current.stance}
-            </span>
-          </div>
-
-          {/* Confidence Score Bar */}
-          <div className="flex items-center justify-between text-xs font-mono bg-black/40 border border-white/[0.05] rounded-xl p-2.5">
-            <span className="text-shogun-muted">Confidence Rating</span>
-            <div className="flex items-center gap-1.5 font-bold text-shogun-accent">
-              <ShieldCheck size={14} />
-              <span>{current.confidence}%</span>
-            </div>
-          </div>
-
-          {/* Key Evidence Bullets */}
-          <div>
-            <span className="text-[11px] font-mono text-shogun-muted uppercase block mb-1.5">
-              Key Evidence
-            </span>
-            <ul className="flex flex-col gap-1.5 text-xs text-shogun-ink/90 font-sans">
-              {current.evidence.map((bullet, idx) => (
-                <li key={idx} className="flex items-start gap-1.5 leading-relaxed">
-                  <span className="text-shogun-accent mt-0.5">•</span>
-                  <span>{bullet}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Recommendation */}
-          <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono">
-            <span className="text-shogun-muted">Recommendation</span>
-            <span className="font-bold text-white text-right truncate max-w-[200px]">
-              {current.recommendation}
-            </span>
-          </div>
-        </div>
       </div>
 
-      {/* Footer Timestamp & Recent Signal */}
-      <div className="flex items-center justify-between pt-3 mt-3 border-t border-white/[0.06] text-[11px] font-mono text-shogun-muted">
-        <span className="text-white/80 font-bold">{current.recentSignal}</span>
-        <span>Time: {current.timestamp}</span>
+      {/* Content Area */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        {/* Left: Analyst Profile & Stance (5 cols) */}
+        <div className="lg:col-span-5 rounded-2xl p-5 bg-slate-50 border border-slate-200/80 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+              <span>SPECIALIST MODULE</span>
+              <span>{current.timestamp}</span>
+            </div>
+
+            <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
+              {current.agentName}
+            </h3>
+            <span className="text-xs font-mono font-semibold text-purple-700 block mb-4">
+              Assigned to: {current.archetype}
+            </span>
+
+            {/* Stance Pill */}
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-xs text-slate-500 font-mono">Stance:</span>
+              <span className={`px-2.5 py-0.5 rounded-full border text-xs font-mono font-bold ${current.stanceColor}`}>
+                {current.stance}
+              </span>
+            </div>
+
+            {/* Confidence Bar */}
+            <div className="space-y-1.5 mb-4">
+              <div className="flex items-center justify-between text-xs font-mono">
+                <span className="text-slate-500">Conviction:</span>
+                <span className="font-bold text-slate-900">{current.confidence}%</span>
+              </div>
+              <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div
+                  className="bg-purple-600 h-full rounded-full transition-all duration-300"
+                  style={{ width: `${current.confidence}%` }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-slate-200/80 text-xs font-mono text-slate-600 flex items-center justify-between">
+            <span>Status: Active</span>
+            <span className="text-purple-700 font-semibold">{current.recentSignal}</span>
+          </div>
+        </div>
+
+        {/* Right: Evidence & Direct Recommendation (7 cols) */}
+        <div className="lg:col-span-7 flex flex-col gap-4">
+          <div>
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 block mb-2">
+              Grounded Telemetry & Evidence
+            </span>
+            <div className="space-y-2">
+              {current.evidence.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-xs sm:text-sm text-slate-700"
+                >
+                  <CheckCircle2 size={16} className="text-purple-600 shrink-0 mt-0.5" />
+                  <span className="leading-relaxed">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-purple-50/70 border border-purple-200/80 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] font-mono font-bold text-purple-700 uppercase block">
+                Council Directive
+              </span>
+              <span className="font-extrabold text-sm text-slate-900">
+                {current.recommendation}
+              </span>
+            </div>
+            <ArrowUpRight size={18} className="text-purple-700 shrink-0" />
+          </div>
+        </div>
       </div>
     </div>
   );

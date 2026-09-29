@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Github, ExternalLink } from 'lucide-react';
+import { TopBanner } from './components/TopBanner.js';
 import { Header } from './components/Header.js';
 import { HeroBanner } from './components/HeroBanner.js';
+import { EcosystemMarquee } from './components/EcosystemMarquee.js';
+import { AgentEconomyFlywheel } from './components/AgentEconomyFlywheel.js';
 import { MetricsOverview } from './components/MetricsOverview.js';
 import { MarketIntelligence } from './components/MarketIntelligence.js';
 import { TokenChart } from './components/TokenChart.js';
@@ -19,13 +22,14 @@ import { SystemStatusModal } from './components/SystemStatusModal.js';
 import { AccountModal } from './components/AccountModal.js';
 import { ShogunState, UserSubAccount } from './types/index.js';
 import { initialShogunState } from './data/initialState.js';
+import { clientLiveMarket, LiveMacroIndicators } from './services/liveMarket.js';
 
 const DEFAULT_SUB_ACCOUNTS: UserSubAccount[] = [
   {
     id: 'acc_tokyo_hq',
     name: 'Tokyo HQ',
     emailOrWallet: '0x71C8...82F9',
-    avatarColor: 'emerald',
+    avatarColor: 'purple',
     startingBalanceUsd: 15000,
     preferredCommander: 'The Ronin (浪人)',
     createdAt: new Date().toISOString(),
@@ -35,7 +39,7 @@ const DEFAULT_SUB_ACCOUNTS: UserSubAccount[] = [
     id: 'acc_ronin_scout',
     name: 'Ronin Alpha Desk',
     emailOrWallet: 'alpha.desk@ryoshogun.dao',
-    avatarColor: 'gold',
+    avatarColor: 'emerald',
     startingBalanceUsd: 50000,
     preferredCommander: 'The Ronin (浪人)',
     createdAt: new Date().toISOString(),
@@ -45,7 +49,7 @@ const DEFAULT_SUB_ACCOUNTS: UserSubAccount[] = [
     id: 'acc_daimyo_safe',
     name: 'Daimyo Vault',
     emailOrWallet: '0x32A1...941B',
-    avatarColor: 'purple',
+    avatarColor: 'cyan',
     startingBalanceUsd: 100000,
     preferredCommander: 'The Daimyo (大名)',
     createdAt: new Date().toISOString(),
@@ -55,10 +59,11 @@ const DEFAULT_SUB_ACCOUNTS: UserSubAccount[] = [
 
 export const App: React.FC = () => {
   const [state, setState] = useState<ShogunState | null>(initialShogunState);
+  const [macro, setMacro] = useState<LiveMacroIndicators | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isClosingTrade, setIsClosingTrade] = useState(false);
 
-  // Sub-accounts & Identity state
+  // Sub-accounts state
   const [accounts, setAccounts] = useState<UserSubAccount[]>(() => {
     try {
       const saved = localStorage.getItem('ryo_shogun_sub_accounts');
@@ -89,7 +94,6 @@ export const App: React.FC = () => {
     } catch (e) {}
   }, [accounts]);
 
-  // Sync active account id
   useEffect(() => {
     try {
       localStorage.setItem('ryo_shogun_active_account_id', activeAccountId);
@@ -136,7 +140,7 @@ export const App: React.FC = () => {
   // Active view states
   const [activeTab, setActiveTab] = useState('dashboard');
   const [circuitTripped, setCircuitTripped] = useState(false);
-  const [activeSymbol, setActiveSymbol] = useState('NVDAUSDT');
+  const [activeSymbol, setActiveSymbol] = useState('INJUSDT');
 
   // Modals
   const [isThesisModalOpen, setIsThesisModalOpen] = useState(false);
@@ -155,13 +159,26 @@ export const App: React.FC = () => {
         }
       }
     } catch (err) {
-      console.error('Failed to fetch state:', err);
+      console.warn('Backend /api/state unavailable, using verified local oracle:', (err as Error).message);
+    }
+  };
+
+  const fetchMacro = async () => {
+    try {
+      const data = await clientLiveMarket.getMacroIndicators();
+      setMacro(data);
+    } catch (err) {
+      console.warn('Failed to fetch macro indicators:', err);
     }
   };
 
   useEffect(() => {
     fetchState();
-    const interval = setInterval(fetchState, 10000);
+    fetchMacro();
+    const interval = setInterval(() => {
+      fetchState();
+      fetchMacro();
+    }, 15000);
     return () => clearInterval(interval);
   }, []);
 
@@ -245,124 +262,137 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-shogun-bg text-shogun-ink flex flex-col font-display selection:bg-shogun-accent/30 selection:text-white">
-      {/* 1. Cleaner & More Organized Top Navigation and Status Bar */}
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-purple-500/20 selection:text-purple-900">
+      {/* 1. Olas Electric Lime Top Announcement Strip */}
+      <TopBanner onOpenConnect={() => setIsAccountModalOpen(true)} />
+
+      {/* 2. Olas Sticky White Navbar */}
       <Header
-        state={state}
         activeTab={activeTab}
-        setActiveTab={handleTabChange}
+        onTabChange={handleTabChange}
         circuitTripped={circuitTripped}
-        onToggleCircuit={() => setCircuitTripped((prev) => !prev)}
-        onRefresh={() => handleConvene()}
-        onOpenMcpModal={() => setIsMcpModalOpen(true)}
-        onOpenScanModal={() => setIsScanModalOpen(true)}
-        isLoading={isLoading}
+        onOpenMcpConfig={() => setIsMcpModalOpen(true)}
+        onOpenSystemStatus={() => setIsStatusModalOpen(true)}
+        accounts={accounts}
         activeAccount={activeAccount}
         onOpenAccountModal={() => setIsAccountModalOpen(true)}
+        onSelectAccount={handleSelectAccount}
+        onConveneCouncil={() => handleConvene()}
+        isConvening={isLoading}
       />
 
-      <main className="flex-1 max-w-[1440px] mx-auto w-full px-3 py-4 sm:px-6 sm:py-6 flex flex-col gap-4 sm:gap-6">
-        {/* 2. Spacious & Readable Hero Section with Clear Hierarchy */}
+      <main className="flex-1 w-full flex flex-col">
+        {/* 3. Olas Hero Section ("Co-own AI Alpha") + Floating Model Card */}
         <HeroBanner
           state={state}
-          onOpenStatusModal={() => setIsStatusModalOpen(true)}
-        />
-
-        {/* 3. Executive Metrics Grid (6 Cards with Sparklines) */}
-        <MetricsOverview
-          state={state}
-          onReviewApprovals={() => setIsThesisModalOpen(true)}
-        />
-
-        {/* 4. Live Market Intelligence & Active Event Catalyst Simulator */}
-        <MarketIntelligence
-          selectedSymbol={activeSymbol}
-          onSelectToken={handleSelectToken}
-          onInjectCatalyst={handleInjectCatalyst}
+          onConveneCouncil={() => handleConvene()}
           isLoading={isLoading}
         />
 
-        {/* 5. Deep Candlestick Trading Chart & Agentic Analyst (Dual Column) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
-          {/* Left: Candlestick & Volume Execution Chart (8 cols) */}
-          <div className="lg:col-span-8 flex flex-col">
-            <TokenChart
-              edict={state?.edict || null}
-              activeSymbol={activeSymbol}
-              onOpenPlaybook={() => setIsThesisModalOpen(true)}
-            />
-          </div>
+        {/* 4. Ecosystem & Live Oracles Infinite Marquee */}
+        <EcosystemMarquee />
 
-          {/* Right: Agentic Analyst Panel (4 cols) */}
-          <div className="lg:col-span-4 flex flex-col">
-            <AgenticAnalyst state={state} />
-          </div>
-        </div>
+        {/* 5. Autonomous Agent Economy Flywheel & 4 Factual Live Telemetry Cards */}
+        <AgentEconomyFlywheel
+          state={state}
+          macro={macro}
+          onOpenAudit={() => handleTabChange('audit')}
+        />
 
-        {/* 6. The 30-Second Morning Edict (Verdict Command Center) */}
-        <div id="safety-section">
-          <MorningEdict
-            edict={state?.edict || null}
-            onOpenThesisModal={() => setIsThesisModalOpen(true)}
+        {/* 6. Dashboard Body Container */}
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 flex flex-col gap-8 sm:gap-12">
+          {/* Executive Metrics Overview Cards */}
+          <MetricsOverview
+            state={state}
+            onReviewApprovals={() => setIsThesisModalOpen(true)}
           />
-        </div>
 
-        {/* 7. Handover Ceremony (The Three Samurai Archetypes) */}
-        <div id="debate-section">
-          <HandoverCeremony edict={state?.edict || null} />
-        </div>
+          {/* Live Market Intelligence & Catalyst Shock Injector */}
+          <MarketIntelligence
+            selectedSymbol={activeSymbol}
+            onSelectToken={handleSelectToken}
+            onInjectCatalyst={handleInjectCatalyst}
+            isLoading={isLoading}
+          />
 
-        {/* 8. Dual Column: The Debate Chamber & Active Trades */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start" id="audit-section">
-          {/* Left Column: Debate Chamber (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-6">
-            <CouncilChamber
-              opinions={state?.opinions || []}
+          {/* Deep Candlestick Chart & Specialist Agentic Analyst */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Candlestick & Order Levels Canvas (8 cols) */}
+            <div className="lg:col-span-8 flex flex-col">
+              <TokenChart
+                edict={state?.edict || null}
+                activeSymbol={activeSymbol}
+                onOpenPlaybook={() => setIsThesisModalOpen(true)}
+              />
+            </div>
+
+            {/* Specialist Analyst Panel (4 cols) */}
+            <div className="lg:col-span-4 flex flex-col">
+              <AgenticAnalyst state={state} />
+            </div>
+          </div>
+
+          {/* 30-Second Morning Edict Command Center */}
+          <div id="safety-section">
+            <MorningEdict
               edict={state?.edict || null}
+              onOpenThesisModal={() => setIsThesisModalOpen(true)}
             />
           </div>
 
-          {/* Right Column: Dojo Treasury & Paper Ledger (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-6">
-            <ActiveTrades
-              portfolio={state?.portfolio || null}
-              onCloseTrade={handleCloseTrade}
-              isClosing={isClosingTrade}
-            />
+          {/* Handover Ceremony (The Council of Three Samurai) */}
+          <div id="debate-section">
+            <HandoverCeremony edict={state?.edict || null} />
           </div>
-        </div>
 
-        {/* 9. Dedicated Full-Width Kaizen Forensic Ledger */}
-        <div id="kaizen-section">
-          <KaizenLedger postMortems={state?.postMortems || []} />
-        </div>
+          {/* Dual Column: Debate Chamber & Dojo Treasury */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="audit-section">
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              <CouncilChamber
+                opinions={state?.opinions || []}
+                edict={state?.edict || null}
+              />
+            </div>
 
-        {/* 10. Institutional Protocol Guarantees & System Telemetry */}
-        <div className="pt-1 sm:pt-2">
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              <ActiveTrades
+                portfolio={state?.portfolio || null}
+                onCloseTrade={handleCloseTrade}
+                isClosing={isClosingTrade}
+              />
+            </div>
+          </div>
+
+          {/* Kaizen Forensic Ledger */}
+          <div id="kaizen-section">
+            <KaizenLedger postMortems={state?.postMortems || []} />
+          </div>
+
+          {/* Institutional Protocol Guarantees */}
           <FeatureHighlights />
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-shogun-border bg-shogun-surface/60 py-4 sm:py-5 px-4 sm:px-6 text-xs font-mono text-shogun-muted">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
-            <span>RYO Shogun (将軍)</span>
-            <span className="text-white/20">•</span>
-            <span>RYO-CHAN Hackathon 2026</span>
-            <span className="text-white/20">•</span>
-            <span className="text-shogun-gold font-bold">Track 1 & Track 2</span>
+      {/* 7. Olas-Style Clean Footer */}
+      <footer className="border-t border-slate-200 bg-slate-50 py-8 px-4 sm:px-8 text-xs font-mono text-slate-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+            <span className="font-extrabold text-slate-900">RYO Shogun (将軍)</span>
+            <span className="text-slate-300">•</span>
+            <span>Olas Agent Economy Architecture</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-purple-700 font-bold">100% Factual Live Feeds</span>
           </div>
 
           <a
             href="https://github.com/Frankydice/ryo-shogun"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-shogun-accent/30 bg-shogun-accent/10 hover:bg-shogun-accent/20 text-shogun-accent transition shadow-[0_0_12px_rgba(110,232,154,0.15)] group text-xs"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-800 transition shadow-sm font-semibold"
           >
-            <Github size={14} className="group-hover:scale-110 transition-transform" />
-            <span className="font-bold">Frankydice/ryo-shogun</span>
-            <ExternalLink size={12} className="opacity-80" />
+            <Github size={15} />
+            <span>Frankydice/ryo-shogun</span>
+            <ExternalLink size={12} className="text-slate-400" />
           </a>
         </div>
       </footer>

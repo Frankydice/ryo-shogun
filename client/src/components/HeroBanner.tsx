@@ -1,87 +1,153 @@
 import React from 'react';
-import { Zap } from 'lucide-react';
+import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { ShogunState } from '../types/index.js';
 
 interface HeroBannerProps {
   state: ShogunState | null;
-  onOpenStatusModal?: () => void;
+  onConveneCouncil: () => void;
+  isLoading: boolean;
 }
 
-export const HeroBanner: React.FC<HeroBannerProps> = ({ state, onOpenStatusModal }) => {
-  const regime = state?.marketOverview?.regime || 'fear_distribution';
-  const fearGreed = state?.marketOverview?.fear_greed || 32;
-  const btcDom = state?.marketOverview?.btc_dominance || 58.9;
-  const gas = state?.marketOverview?.eth_gas_gwei || 9;
+export const HeroBanner: React.FC<HeroBannerProps> = ({
+  state,
+  onConveneCouncil,
+  isLoading
+}) => {
+  const activeCommander = state?.edict?.active_commander || 'The Ronin (浪人)';
+  const verdict = state?.edict?.verdict || 'EXECUTE_TRADE';
+  const targetSymbol = state?.edict?.target_symbol || 'INJ';
+  const confidence = ((state?.edict?.confidence_score || 0.88) * 100).toFixed(0);
+
+  const handleScrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-gradient-to-b from-[#09150e]/80 via-[#060c09]/90 to-black/80 p-4 sm:p-8 backdrop-blur-2xl">
-      {/* Ambient background glow orbs & Japanese atmosphere */}
-      <div className="pointer-events-none absolute -top-24 left-1/4 h-80 w-[450px] rounded-full bg-shogun-accent/15 blur-[100px]" />
-      <div className="pointer-events-none absolute -bottom-20 right-1/4 h-72 w-96 rounded-full bg-emerald-900/20 blur-[100px]" />
+    <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-slate-50/50 to-white">
+      {/* Background Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div className="relative z-10 flex flex-col gap-4 sm:gap-5">
-        {/* Top Tag & View System Status button */}
-        <div className="flex flex-wrap items-center justify-between gap-2.5">
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-shogun-accent/40 bg-shogun-accent/10 px-3 py-1 text-[10px] sm:text-xs font-mono text-shogun-accent shadow-[0_0_15px_rgba(110,232,154,0.15)]">
-            <span className="w-1.5 h-1.5 rounded-full bg-shogun-accent animate-ping" />
-            <span className="font-bold tracking-wide uppercase">RYO-CHAN HACKATHON 2026</span>
-            <span className="text-white/30 hidden xs:inline">•</span>
-            <span className="text-white/80 font-normal hidden xs:inline">Agentic SocialFi Challenge</span>
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column: Headline, Description & CTAs (7 cols) */}
+          <div className="lg:col-span-8 text-center lg:text-left">
+            {/* Top Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-700 text-xs font-semibold mb-6">
+              <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
+              <span>Next-Gen Autonomous Agent Protocol</span>
+              <span className="text-purple-300">•</span>
+              <span className="font-mono">RYO Shogun v2.1</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6">
+              Co-own Autonomous <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600">
+                AI Alpha
+              </span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-slate-600 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
+              RYO Shogun coordinates three autonomous samurai agents to scout, debate, and execute institutional DeFi strategies with strict on-chain risk governance and zero fabricated telemetry.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+              <button
+                onClick={onConveneCouncil}
+                disabled={isLoading}
+                className="bg-purple-600 hover:bg-purple-700 text-white font-medium text-base px-8 py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50 group"
+              >
+                <span>Convene Samurai Council</span>
+                <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </button>
+
+              <button
+                onClick={() => handleScrollToSection('market-intelligence')}
+                className="bg-white hover:bg-slate-50 text-slate-800 font-medium text-base px-8 py-3.5 rounded-xl border border-slate-200 shadow-sm transition-all"
+              >
+                Explore Live Markets
+              </button>
+            </div>
           </div>
 
+          {/* Right Column: Floating Agent Model Card (styled after Olas-Predict-R1-14B) (4 cols) */}
+          <div className="lg:col-span-4 flex justify-center">
+            <div className="relative group animate-float">
+              {/* Olas-style Model Card Container */}
+              <div
+                className="w-[280px] sm:w-[320px] rounded-3xl p-5 sm:p-6 shadow-xl transition-all duration-300 bg-white border border-slate-200"
+                style={{
+                  boxShadow: '0 20px 25px -5px rgba(126, 34, 206, 0.08), 0 8px 10px -6px rgba(126, 34, 206, 0.04)'
+                }}
+              >
+                {/* Header tag */}
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-400 mb-4 font-mono">
+                  <span>ACTIVE AGENT CORE</span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">
+                    LIVE
+                  </span>
+                </div>
+
+                {/* Glowing Avatar Seal */}
+                <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-purple-400 flex items-center justify-center text-white font-bold text-3xl font-jp shadow-lg shadow-purple-500/25 my-4">
+                  将
+                </div>
+
+                <div className="text-center">
+                  <div className="text-lg font-extrabold text-slate-900 tracking-tight">
+                    Shogun-Council-v2.1
+                  </div>
+                  <div className="text-xs font-medium text-purple-700 font-mono mt-0.5">
+                    Autonomous Multi-Agent Forecaster
+                  </div>
+                </div>
+
+                {/* Live Model Stats Box */}
+                <div className="mt-5 pt-4 border-t border-slate-100 space-y-2.5 text-xs font-mono">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Commander Seal:</span>
+                    <span className="font-bold text-slate-800">{activeCommander.split(' ')[0]}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Conviction:</span>
+                    <span className="font-bold text-purple-700">{confidence}%</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Target Asset:</span>
+                    <span className="font-bold text-emerald-600">{targetSymbol}USDT</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Execution Status:</span>
+                    <span className="font-bold text-slate-800">{verdict}</span>
+                  </div>
+                </div>
+
+                {/* Card Sub-Caption (Olas style) */}
+                <div className="mt-5 text-center text-xs text-slate-500 font-medium">
+                  Autonomous debate turns live market data into verified on-chain execution.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Scroll Indicator Chevrons */}
+        <div className="flex justify-center mt-12 sm:mt-16">
           <button
-            onClick={onOpenStatusModal}
-            className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl border border-shogun-accent/40 bg-shogun-accent/10 text-shogun-accent hover:bg-shogun-accent/20 transition-all shadow-[0_0_12px_rgba(110,232,154,0.15)]"
+            onClick={() => handleScrollToSection('market-intelligence')}
+            className="flex flex-col items-center gap-1 text-slate-400 hover:text-purple-600 transition-colors cursor-pointer group"
           >
-            <span>View System Status</span>
-            <span>&rarr;</span>
+            <span className="text-[11px] font-mono tracking-wider uppercase font-semibold text-slate-400 group-hover:text-purple-600">
+              Live Terminal
+            </span>
+            <div className="flex flex-col items-center -space-y-1.5 animate-bounce">
+              <ChevronDown size={18} className="text-purple-500" />
+              <ChevronDown size={18} className="text-purple-400" />
+            </div>
           </button>
         </div>
-
-        {/* Hero Title & Value Proposition */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pt-1 sm:pt-2">
-          <div className="max-w-2xl">
-            <h1 className="font-display text-xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Regime-Adaptive <span className="text-transparent bg-clip-text bg-gradient-to-r from-shogun-accent via-emerald-300 to-shogun-gold text-glow-accent">Trading Intelligence</span>
-            </h1>
-            <p className="mt-2 text-xs sm:text-base text-shogun-ink/80 leading-relaxed font-sans">
-              Three autonomous samurai archetypes orchestrating RYO-CHAN's research MCP tools. We turn raw on-chain market evidence into verifiable, veto-guarded execution trails in 30 seconds.
-            </p>
-          </div>
-
-          {/* Real-time Ticker Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-black/50 border border-white/10 rounded-2xl p-2.5 sm:p-3 text-xs font-mono w-full md:w-auto shrink-0 min-w-0">
-            <div>
-              <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Regime</span>
-              <span className="font-bold text-[11px] sm:text-xs text-shogun-gold mt-0.5 block uppercase truncate">
-                {regime.replace(/_/g, ' ')}
-              </span>
-            </div>
-
-            <div className="border-l border-white/10 pl-2">
-              <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">Fear / Greed</span>
-              <span className="font-bold text-[11px] sm:text-xs text-white mt-0.5 block">
-                {fearGreed} <span className="text-[9px] sm:text-[10px] text-shogun-gold font-normal">/ 100</span>
-              </span>
-            </div>
-
-            <div className="border-t sm:border-t-0 sm:border-l sm:border-white/10 pt-1.5 sm:pt-0 sm:pl-2">
-              <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">BTC Dom</span>
-              <span className="font-bold text-[11px] sm:text-xs text-white mt-0.5 block">
-                {btcDom}%
-              </span>
-            </div>
-
-            <div className="border-t sm:border-t-0 border-l border-white/10 pt-1.5 sm:pt-0 pl-2">
-              <span className="text-[9px] sm:text-[10px] text-shogun-muted uppercase block">ETH Gas</span>
-              <span className="font-bold text-[11px] sm:text-xs text-shogun-accent mt-0.5 flex items-center gap-0.5">
-                <Zap size={11} />
-                {gas} Gwei
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
   );
 };
