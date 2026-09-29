@@ -17,9 +17,10 @@ import { McpConfigModal } from './components/McpConfigModal.js';
 import { ManualScanModal } from './components/ManualScanModal.js';
 import { SystemStatusModal } from './components/SystemStatusModal.js';
 import { ShogunState } from './types/index.js';
+import { initialShogunState } from './data/initialState.js';
 
 export const App: React.FC = () => {
-  const [state, setState] = useState<ShogunState | null>(null);
+  const [state, setState] = useState<ShogunState | null>(initialShogunState);
   const [isLoading, setIsLoading] = useState(false);
   const [isClosingTrade, setIsClosingTrade] = useState(false);
 
