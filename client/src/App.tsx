@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Github, ExternalLink } from 'lucide-react';
 import { Header } from './components/Header.js';
 import { HeroBanner } from './components/HeroBanner.js';
 import { MetricsOverview } from './components/MetricsOverview.js';
@@ -232,9 +233,23 @@ export const App: React.FC = () => {
 
       {/* Footer */}
       <footer className="border-t border-shogun-border bg-shogun-surface/60 py-5 px-6 text-center text-xs font-mono text-shogun-muted">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>RYO Shogun (将軍) · Built for RYO-CHAN Hackathon 2026</span>
-          <span className="text-shogun-accent">Grand Prize Target: Tokyo HQ · Dual Track Submissions</span>
+        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span>RYO Shogun (将軍) · Built for RYO-CHAN Hackathon 2026</span>
+            <span className="text-white/20">•</span>
+            <span className="text-shogun-gold font-bold">Track 1 & Track 2</span>
+          </div>
+
+          <a
+            href="https://github.com/Frankydice/ryo-shogun"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-shogun-accent/30 bg-shogun-accent/10 hover:bg-shogun-accent/20 text-shogun-accent transition shadow-[0_0_12px_rgba(110,232,154,0.15)] group"
+          >
+            <Github size={14} className="group-hover:scale-110 transition-transform" />
+            <span className="font-bold">Frankydice/ryo-shogun</span>
+            <ExternalLink size={12} className="opacity-80" />
+          </a>
         </div>
       </footer>
 
