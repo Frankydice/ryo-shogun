@@ -97,3 +97,15 @@ export interface ShogunState {
     mode: string;
   };
 }
+
+export interface UserSubAccount {
+  id: string;
+  name: string;
+  emailOrWallet?: string;
+  avatarColor: 'emerald' | 'gold' | 'purple' | 'cyan' | 'crimson';
+  startingBalanceUsd: number;
+  preferredCommander: CommanderRole;
+  createdAt: string;
+  isCurrent: boolean;
+}
+

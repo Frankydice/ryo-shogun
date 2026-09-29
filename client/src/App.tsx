@@ -16,13 +16,122 @@ import { ThesisCardModal } from './components/ThesisCardModal.js';
 import { McpConfigModal } from './components/McpConfigModal.js';
 import { ManualScanModal } from './components/ManualScanModal.js';
 import { SystemStatusModal } from './components/SystemStatusModal.js';
-import { ShogunState } from './types/index.js';
+import { AccountModal } from './components/AccountModal.js';
+import { ShogunState, UserSubAccount } from './types/index.js';
 import { initialShogunState } from './data/initialState.js';
+
+const DEFAULT_SUB_ACCOUNTS: UserSubAccount[] = [
+  {
+    id: 'acc_tokyo_hq',
+    name: 'Tokyo HQ',
+    emailOrWallet: '0x71C8...82F9',
+    avatarColor: 'emerald',
+    startingBalanceUsd: 15000,
+    preferredCommander: 'The Ronin (浪人)',
+    createdAt: new Date().toISOString(),
+    isCurrent: true
+  },
+  {
+    id: 'acc_ronin_scout',
+    name: 'Ronin Alpha Desk',
+    emailOrWallet: 'alpha.desk@ryoshogun.dao',
+    avatarColor: 'gold',
+    startingBalanceUsd: 50000,
+    preferredCommander: 'The Ronin (浪人)',
+    createdAt: new Date().toISOString(),
+    isCurrent: false
+  },
+  {
+    id: 'acc_daimyo_safe',
+    name: 'Daimyo Vault',
+    emailOrWallet: '0x32A1...941B',
+    avatarColor: 'purple',
+    startingBalanceUsd: 100000,
+    preferredCommander: 'The Daimyo (大名)',
+    createdAt: new Date().toISOString(),
+    isCurrent: false
+  }
+];
 
 export const App: React.FC = () => {
   const [state, setState] = useState<ShogunState | null>(initialShogunState);
   const [isLoading, setIsLoading] = useState(false);
   const [isClosingTrade, setIsClosingTrade] = useState(false);
+
+  // Sub-accounts & Identity state
+  const [accounts, setAccounts] = useState<UserSubAccount[]>(() => {
+    try {
+      const saved = localStorage.getItem('ryo_shogun_sub_accounts');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn('Failed to parse saved sub accounts:', e);
+    }
+    return DEFAULT_SUB_ACCOUNTS;
+  });
+
+  const [activeAccountId, setActiveAccountId] = useState<string>(() => {
+    try {
+      const savedId = localStorage.getItem('ryo_shogun_active_account_id');
+      if (savedId) return savedId;
+    } catch (e) {}
+    return 'acc_tokyo_hq';
+  });
+
+  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+
+  // Sync accounts to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('ryo_shogun_sub_accounts', JSON.stringify(accounts));
+    } catch (e) {}
+  }, [accounts]);
+
+  // Sync active account id
+  useEffect(() => {
+    try {
+      localStorage.setItem('ryo_shogun_active_account_id', activeAccountId);
+    } catch (e) {}
+  }, [activeAccountId]);
+
+  const activeAccount = accounts.find((a) => a.id === activeAccountId) || accounts[0] || DEFAULT_SUB_ACCOUNTS[0];
+
+  const handleSelectAccount = (acc: UserSubAccount) => {
+    setActiveAccountId(acc.id);
+    setAccounts((prev) =>
+      prev.map((a) => ({
+        ...a,
+        isCurrent: a.id === acc.id
+      }))
+    );
+  };
+
+  const handleCreateAccount = (newAcc: Omit<UserSubAccount, 'id' | 'createdAt' | 'isCurrent'>) => {
+    const created: UserSubAccount = {
+      ...newAcc,
+      id: `acc_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      createdAt: new Date().toISOString(),
+      isCurrent: true
+    };
+    setAccounts((prev) => [
+      created,
+      ...prev.map((a) => ({ ...a, isCurrent: false }))
+    ]);
+    setActiveAccountId(created.id);
+  };
+
+  const handleDeleteAccount = (id: string) => {
+    if (accounts.length <= 1) return;
+    setAccounts((prev) => {
+      const filtered = prev.filter((a) => a.id !== id);
+      if (activeAccountId === id && filtered.length > 0) {
+        setActiveAccountId(filtered[0].id);
+      }
+      return filtered;
+    });
+  };
 
   // Active view states
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -148,6 +257,8 @@ export const App: React.FC = () => {
         onOpenMcpModal={() => setIsMcpModalOpen(true)}
         onOpenScanModal={() => setIsScanModalOpen(true)}
         isLoading={isLoading}
+        activeAccount={activeAccount}
+        onOpenAccountModal={() => setIsAccountModalOpen(true)}
       />
 
       <main className="flex-1 max-w-[1440px] mx-auto w-full px-4 py-6 sm:px-6 flex flex-col gap-6">
@@ -280,6 +391,16 @@ export const App: React.FC = () => {
         onClose={() => setIsStatusModalOpen(false)}
         state={state}
         circuitTripped={circuitTripped}
+      />
+
+      <AccountModal
+        isOpen={isAccountModalOpen}
+        onClose={() => setIsAccountModalOpen(false)}
+        accounts={accounts}
+        activeAccount={activeAccount}
+        onSelectAccount={handleSelectAccount}
+        onCreateAccount={handleCreateAccount}
+        onDeleteAccount={handleDeleteAccount}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Key, RefreshCw, Terminal, Clock, ShieldAlert, ShieldCheck, User, ChevronDown } from 'lucide-react';
-import { ShogunState } from '../types/index.js';
+import { Key, RefreshCw, Terminal, Clock, ShieldAlert, ShieldCheck, ChevronDown } from 'lucide-react';
+import { ShogunState, UserSubAccount } from '../types/index.js';
 
 interface HeaderProps {
   state: ShogunState | null;
@@ -12,6 +12,8 @@ interface HeaderProps {
   onOpenMcpModal: () => void;
   onOpenScanModal: () => void;
   isLoading: boolean;
+  activeAccount: UserSubAccount;
+  onOpenAccountModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -23,7 +25,9 @@ export const Header: React.FC<HeaderProps> = ({
   onRefresh,
   onOpenMcpModal,
   onOpenScanModal,
-  isLoading
+  isLoading,
+  activeAccount,
+  onOpenAccountModal
 }) => {
   const [jstTime, setJstTime] = useState('');
   const isLive = state?.mcpStatus?.hasKey;
@@ -61,6 +65,15 @@ export const Header: React.FC<HeaderProps> = ({
   const aumFormatted = state?.portfolio?.equityUsd
     ? `$${state.portfolio.equityUsd.toLocaleString()}`
     : '$15,000';
+
+  const colorStyles: Record<UserSubAccount['avatarColor'], { bg: string; border: string; text: string }> = {
+    emerald: { bg: 'bg-emerald-500/20', border: 'border-emerald-500/40', text: 'text-shogun-accent' },
+    gold: { bg: 'bg-amber-500/20', border: 'border-amber-500/40', text: 'text-shogun-gold' },
+    purple: { bg: 'bg-purple-500/20', border: 'border-purple-500/40', text: 'text-purple-300' },
+    cyan: { bg: 'bg-cyan-500/20', border: 'border-cyan-500/40', text: 'text-cyan-300' },
+    crimson: { bg: 'bg-red-500/20', border: 'border-red-500/40', text: 'text-shogun-crimson' }
+  };
+  const activeStyle = colorStyles[activeAccount?.avatarColor || 'emerald'] || colorStyles.emerald;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#040806]/90 backdrop-blur-xl px-4 py-2.5 sm:px-6">
@@ -162,17 +175,27 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
 
-          {/* Sub-Account Selector */}
-          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-white/10 bg-black/40 text-xs font-mono">
-            <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/80">
-              <User size={12} />
+          {/* Sub-Account Selector Button */}
+          <button
+            onClick={onOpenAccountModal}
+            className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-white/10 bg-black/40 hover:bg-white/[0.06] hover:border-shogun-accent/50 text-xs font-mono transition-all group cursor-pointer shadow-sm"
+            title="Switch or create sub-accounts"
+          >
+            <div
+              className={`w-6 h-6 rounded-lg border flex items-center justify-center font-bold text-[10px] ${activeStyle.bg} ${activeStyle.border} ${activeStyle.text}`}
+            >
+              {activeAccount?.name ? activeAccount.name.slice(0, 2).toUpperCase() : 'HQ'}
             </div>
             <div className="text-left">
-              <span className="text-[9px] text-shogun-muted uppercase block leading-none">Sub-Account</span>
-              <span className="font-bold text-white block leading-tight">Tokyo HQ</span>
+              <span className="text-[9px] text-shogun-muted uppercase block leading-none group-hover:text-shogun-accent transition-colors">
+                Sub-Account
+              </span>
+              <span className="font-bold text-white block leading-tight truncate max-w-[85px] sm:max-w-[120px]">
+                {activeAccount?.name || 'Tokyo HQ'}
+              </span>
             </div>
-            <ChevronDown size={12} className="text-shogun-muted ml-0.5" />
-          </div>
+            <ChevronDown size={12} className="text-shogun-muted group-hover:text-white transition-colors ml-0.5" />
+          </button>
 
           {/* Quick MCP / Scanner Tools */}
           <div className="flex items-center gap-1.5 pl-1 border-l border-white/10">
