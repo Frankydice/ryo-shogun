@@ -58,8 +58,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                 disabled={isLoading}
                 className="bg-black hover:bg-zinc-800 text-white font-mono font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl border border-black shadow-md hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50 group"
               >
-                <span>Convene Samurai Council</span>
-                <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <span>{isLoading ? 'Convening Council...' : 'Convene Samurai Council'}</span>
+                <ArrowUpRight size={18} className={`transition-transform ${isLoading ? 'animate-pulse' : 'group-hover:translate-x-0.5 group-hover:-translate-y-0.5'}`} />
               </button>
 
               <button

@@ -196,8 +196,12 @@ export const Header: React.FC<HeaderProps> = ({
               className="bg-black hover:bg-zinc-800 text-white font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg border border-black shadow-sm hover:shadow transition-all flex items-center gap-1.5 disabled:opacity-50"
             >
               <Radio size={14} className={isConvening ? 'animate-spin' : ''} />
-              <span className="hidden sm:inline font-mono font-bold">Convene Council</span>
-              <span className="sm:hidden font-mono font-bold">Convene</span>
+              <span className="hidden sm:inline font-mono font-bold">
+                {isConvening ? 'Convening...' : 'Convene Council'}
+              </span>
+              <span className="sm:hidden font-mono font-bold">
+                {isConvening ? '...' : 'Convene'}
+              </span>
             </button>
 
             {/* Mobile Menu Button */}
