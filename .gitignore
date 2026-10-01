@@ -5,3 +5,6 @@ dist/
 .DS_Store
 __pycache__/
 *.pyc
+*.mp4
+*.mp3
+scratch_frames/
